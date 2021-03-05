@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 18:05:57 by moerradi          #+#    #+#             */
-/*   Updated: 2021/02/26 17:45:08 by abiari           ###   ########.fr       */
+/*   Updated: 2021/03/05 14:24:54 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 void	ft_putstr_fd(char *s, int fd)
 {
-	int	len;
 	if (s)
 	{
-		len = ft_strlen(s);
-		write(fd, s, len);
+		write(fd, s, (int)ft_strlen(s));
 	}
 }
