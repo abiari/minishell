@@ -3,40 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moerradi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/09 17:43:09 by moerradi          #+#    #+#             */
-/*   Updated: 2019/10/09 17:51:36 by moerradi         ###   ########.fr       */
+/*   Created: 2019/10/10 12:22:19 by abiari            #+#    #+#             */
+/*   Updated: 2019/10/14 07:57:56 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memmove(void *dst, const void *src, size_t len)
+void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	const unsigned char	*tempsrc;
-	unsigned char		*tempdst;
-	size_t				i;
+	unsigned char *ptsrc;
+	unsigned char *ptdest;
 
-	if (src == dst)
-		return (dst);
-	tempsrc = (unsigned char*)src;
-	tempdst = (unsigned char*)dst;
-	if (src == NULL && dst == NULL)
-		return (NULL);
-	i = 1;
-	if (dst > src)
+	ptsrc = (unsigned char *)src;
+	ptdest = (unsigned char *)dest;
+	if (dest == NULL && (void*)src == NULL)
 	{
-		while (i <= len)
+		return (0);
+	}
+	if (ptsrc < ptdest)
+	{
+		while (n > 0)
 		{
-			tempdst[len - i] = tempsrc[len - i];
-			i++;
+			((unsigned char *)dest)[n - 1] = ((unsigned char *)src)[n - 1];
+			n--;
 		}
 	}
 	else
 	{
-		while (len--)
-			*(tempdst++) = *(tempsrc++);
+		ft_memcpy(dest, src, n);
 	}
-	return (dst);
+	return (dest);
 }

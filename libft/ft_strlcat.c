@@ -3,40 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moerradi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/11 02:27:47 by moerradi          #+#    #+#             */
-/*   Updated: 2019/10/11 21:54:28 by moerradi         ###   ########.fr       */
+/*   Created: 2019/10/16 06:30:38 by abiari            #+#    #+#             */
+/*   Updated: 2019/10/23 18:02:39 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t		ft_strlcat(char *dst, const char *src, size_t size)
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	char		*tempdst;
-	const char	*tempsrc;
+	char		*d;
+	const char	*s;
 	size_t		n;
 	size_t		dlen;
 
-	tempdst = dst;
-	tempsrc = src;
+	d = dst;
+	s = src;
 	n = size;
-	while (n-- && *tempdst)
-		tempdst++;
-	dlen = tempdst - dst;
+	while (n-- != 0 && *d != '\0')
+		d++;
+	dlen = d - dst;
 	n = size - dlen;
 	if (n == 0)
-		return (dlen + ft_strlen(tempsrc));
-	while (*tempsrc)
+		return (dlen + ft_strlen(s));
+	while (*s != '\0')
 	{
 		if (n != 1)
 		{
-			*tempdst++ = *tempsrc;
+			*d++ = *s;
 			n--;
 		}
-		tempsrc++;
+		s++;
 	}
-	*tempdst = '\0';
-	return (dlen + (tempsrc - src));
+	*d = '\0';
+	return (dlen + (s - src));
 }

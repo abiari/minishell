@@ -3,45 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moerradi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/09 21:51:41 by moerradi          #+#    #+#             */
-/*   Updated: 2019/10/09 23:43:50 by moerradi         ###   ########.fr       */
+/*   Created: 2019/10/11 21:05:33 by abiari            #+#    #+#             */
+/*   Updated: 2019/10/22 15:23:05 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int		is_inset(char c, char const *set)
+static	int	findset(char c, char const *set)
 {
-	while (*set)
-	{
-		if (c == *set)
+	int	i;
+
+	i = 0;
+	while (set[i] != '\0')
+		if (set[i++] == c)
 			return (1);
-		set++;
-	}
 	return (0);
 }
 
-char			*ft_strtrim(char const *s1, char const *set)
+char		*ft_strtrim(char const *s1, char const *set)
 {
-	char			*out;
-	unsigned int	start;
-	size_t			len;
+	int		setlen;
+	int		slen;
+	int		srt;
+	int		end;
+	char	*p;
 
-	start = 0;
-	if (!s1)
+	srt = 0;
+	end = 0;
+	if (!s1 || !set)
 		return (NULL);
-	if (!set)
-		return (ft_strdup(s1));
-	len = ft_strlen(s1) - 1;
-	while (is_inset(s1[start], set) && s1[start])
-		start++;
-	while (is_inset(s1[len], set) && len > 0)
-		len--;
-	len++;
-	len -= start;
-	if (!(out = ft_substr(s1, start, len)))
-		return (NULL);
-	return (out);
+	setlen = ft_strlen(set);
+	slen = ft_strlen(s1);
+	while (findset(s1[srt], set))
+		srt++;
+	while (findset(s1[slen - 1 - end], set))
+		end++;
+	if ((srt + end) >= slen)
+	{
+		if (!(p = (char *)malloc(1)))
+			return (NULL);
+		*p = '\0';
+		return (p);
+	}
+	return (ft_substr(s1, srt, slen - end - srt));
 }

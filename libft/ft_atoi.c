@@ -3,38 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moerradi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/09 18:11:44 by moerradi          #+#    #+#             */
-/*   Updated: 2019/10/09 18:52:41 by moerradi         ###   ########.fr       */
+/*   Created: 2019/10/10 14:59:44 by abiari            #+#    #+#             */
+/*   Updated: 2019/10/22 19:23:37 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_atoi(const char *str)
+int			ft_atoi(const char *ptr)
 {
-	long	result;
+	long	res;
 	int		sign;
+	int		i;
 
-	result = 0;
+	res = 0;
 	sign = 1;
-	while (*str == ' ' || (*str >= 9 && *str <= 13))
-		str++;
-	if (*str == '-')
+	i = 0;
+	while ((ptr[i] >= 9 && ptr[i] <= 13) || ptr[i] == ' ')
+		i++;
+	if (ptr[i] == '+' || ptr[i] == '-')
 	{
-		sign = -1;
-		str++;
+		if (ptr[i] == '-')
+			sign = -1;
+		i++;
 	}
-	else if (*str == '+')
-		str++;
-	while (*str >= '0' && *str <= '9')
+	while (ptr[i] && ptr[i] >= '0' && ptr[i] <= '9')
 	{
-		if (result > 9223372036854775807 / 10 ||
-			((result == 9223372036854775807 / 10) && (*str - '0' > 7)))
-			return ((sign > 0) ? -1 : 0);
-		else
-			result = result * 10 + *str++ - '0';
+		res = res * 10 + (ptr[i] - '0');
+		i++;
 	}
-	return (sign * result);
+	return (res * sign);
 }

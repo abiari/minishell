@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/10 18:05:57 by moerradi          #+#    #+#             */
-/*   Updated: 2021/03/05 14:24:54 by abiari           ###   ########.fr       */
+/*   Created: 2019/10/13 15:44:00 by abiari            #+#    #+#             */
+/*   Updated: 2019/10/14 15:16:11 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,14 @@
 
 void	ft_putstr_fd(char *s, int fd)
 {
-	if (s)
+	int	i;
+
+	i = 0;
+	if (!s || !fd)
+		return ;
+	while (s[i] != 0)
 	{
-		write(fd, s, (int)ft_strlen(s));
+		ft_putchar_fd(s[i], fd);
+		i++;
 	}
 }

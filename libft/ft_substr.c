@@ -3,47 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moerradi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/09 19:11:11 by moerradi          #+#    #+#             */
-/*   Updated: 2019/10/09 23:54:14 by moerradi         ###   ########.fr       */
+/*   Created: 2019/10/11 18:32:40 by abiari            #+#    #+#             */
+/*   Updated: 2019/10/22 15:17:52 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	size_validate(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	size_t i;
-
-	i = 0;
-	while (i < len && s[i + start])
-		i++;
-	return (i);
-}
-
-char			*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char	*out;
+	char	*p;
 	size_t	i;
-	size_t	size;
 
-	if (!s || (size_t)start > ft_strlen(s))
-	{
-		if (!(out = malloc(sizeof(char) * 1)))
-			return (NULL);
-		*out = '\0';
-		return (out);
-	}
-	size = size_validate(s, start, len);
-	if (!(out = malloc(sizeof(char) * (size + 1))))
-		return (NULL);
 	i = 0;
-	while (i < size)
+	if (!s)
+		return (NULL);
+	if (start > ft_strlen(s))
 	{
-		out[i] = s[start + i];
+		if (!(p = (char *)malloc(1)))
+			return (NULL);
+		p[0] = '\0';
+		return (p);
+	}
+	if (!(p = (char *)malloc(len + 1)))
+		return (NULL);
+	while (s[start + i] != '\0' && i < len)
+	{
+		p[i] = s[start + i];
 		i++;
 	}
-	out[i] = '\0';
-	return (out);
+	p[i] = '\0';
+	return (p);
 }

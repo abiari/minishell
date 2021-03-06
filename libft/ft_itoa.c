@@ -3,47 +3,74 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moerradi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/09 23:54:33 by moerradi          #+#    #+#             */
-/*   Updated: 2019/10/10 18:25:01 by moerradi         ###   ########.fr       */
+/*   Created: 2019/10/14 11:36:40 by abiari            #+#    #+#             */
+/*   Updated: 2019/10/28 08:01:29 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	ft_numlen(int n)
+static	char	*ft_zero(void)
 {
-	size_t len;
+	char	*ret;
 
-	len = 0;
-	while (n)
+	ret = (char *)malloc(2);
+	ret[0] = '0';
+	ret[1] = '\0';
+	return (ret);
+}
+
+static	int		ft_len(unsigned int n)
+{
+	int	i;
+
+	i = 0;
+	while (n > 0)
 	{
+		i++;
 		n /= 10;
-		len++;
 	}
-	return (len);
+	return (i);
+}
+
+static	int		ft_neg(unsigned int *tmp, int n)
+{
+	if (n < 0)
+	{
+		*tmp = -n;
+		return (1);
+	}
+	*tmp = (unsigned int)n;
+	return (0);
 }
 
 char			*ft_itoa(int n)
 {
-	char			*out;
-	size_t			numlen;
-	size_t			i;
-	unsigned int	ntemp;
+	int				len;
+	int				signe;
+	unsigned int	tmp;
+	char			*ret;
 
-	ntemp = (n > 0) ? n : n * -1;
-	i = 0;
-	numlen = (n > 0) ? ft_numlen(n) : ft_numlen(n) + 1;
-	if (!(out = malloc(sizeof(char) * (numlen + 1))))
+	len = 0;
+	signe = 0;
+	tmp = n;
+	if (n == 0)
+		return (ret = ft_zero());
+	else
+		signe = ft_neg(&tmp, n);
+	len = ft_len(tmp);
+	if (!(ret = (char *)malloc(len + signe + 1)))
 		return (NULL);
-	out[0] = (n >= 0) ? '0' : '-';
-	while (ntemp)
+	*(ret + len-- + signe) = '\0';
+	while (tmp > 0)
 	{
-		out[numlen - i - 1] = (ntemp % 10) + '0';
-		ntemp /= 10;
-		i++;
+		*(ret + len + signe) = tmp % 10 + '0';
+		len--;
+		tmp /= 10;
 	}
-	out[numlen] = '\0';
-	return (out);
+	if (signe)
+		*ret = '-';
+	return (ret);
 }
