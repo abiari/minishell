@@ -3,44 +3,81 @@
 /*                                                        :::      ::::::::   */
 /*   msh_cd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gru <gru@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/05 16:08:37 by abiari            #+#    #+#             */
-/*   Updated: 2021/03/05 20:10:16 by gru              ###   ########.fr       */
+/*   Updated: 2021/03/06 18:55:21 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*find_env_var(char *var, char *envp[])
+void	mod_env_var(char *var, char *new_value, t_list *envl)
 {
-	int		i;
-	int		j;
-	char	*match;
+	t_list	*tmp;
 
-	i = 0;
-	j = 0;
-	match = NULL;
-	while (envp[i])
+	tmp = envl;
+	while (tmp->next)
 	{
-		if ((match = ft_strstr(envp[i], var)) != NULL)
+		if (strcmp(var, ((t_envl *)tmp)->key) != NULL)
+		{
+			free(((t_envl *)tmp)->value);
+			((t_envl *)tmp)->value = ft_strdup(new_value);
 			break;
-		i++;
+		}
 	}
-	return (match);
 }
 
-int		msh_cd(char *path, char *envp[])
+void	add_env_var(char *var, char *value, t_list *envl)
+{
+	t_envl	*env;
+
+	if ((env = malloc(sizeof(t_envl))) == NULL)
+	{
+		printf("msh: %s", strerror(errno));
+		return(errno);
+	}
+	env->key = var;
+	env->value = value;
+	env->var = ft_strjoin(env->key, env->value);
+	lst_append(&envl, env);
+}
+
+t_envl	*find_env_var(char *var, t_list *envl)
+{
+	t_list	*tmp;
+
+	tmp = envl;
+	while (tmp->next)
+	{
+		if(strcmp(var, ((t_envl *)tmp)->key) != NULL)
+			return((t_envl *)tmp);
+		tmp = tmp->next;
+	}
+	return(NULL);
+}
+
+int		msh_cd(char *path, t_list *envl)
 {
 	int 	ret;
-	char	*pwd_var;
+	char	*old_path;
 
-	ret = 0;	
+	old_path = NULL;
+	ret = 0;
+	if ((old_path = (t_envl *)find_env_var("PWD", envl)->value) == NULL)
+	{
+		printf("msh: PWD not found in env");
+		return(1);
+	}
 	if ((ret = chdir(path) != -1))
 	{
-		pwd_var = find_env_var("PWD", envp);
+		mod_env_var("PWD", path, envl);
+		add_env_var("OLD_PWD", old_path, envl);
 	}
 	else
+	{
 		ft_putstr_fd(strerror(errno), STDERR_FILENO);
+		return (errno);
+	}
 	return (ret);
 }
