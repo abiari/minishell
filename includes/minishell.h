@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gru <gru@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/03/05 16:08:02 by abiari           ###   ########.fr       */
+/*   Updated: 2021/03/05 19:08:57 by gru              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <signal.h>
 # include <string.h>
 # include <errno.h>
-# include <signal.h>
 # include <sys/wait.h>
 
 typedef struct	s_cmds
