@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:28:27 by abiari            #+#    #+#             */
-/*   Updated: 2021/03/06 18:42:59 by abiari           ###   ########.fr       */
+/*   Updated: 2021/03/07 20:10:28 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ char	*find_env_value(const char *envp)
 	value = ft_strchr(envp, '=') + 1;
 	return (value);
 }
+
 t_list	*envp_to_envl(char *envp[])
 {
 	int	i;
