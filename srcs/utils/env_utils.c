@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:28:27 by abiari            #+#    #+#             */
-/*   Updated: 2021/03/07 20:10:28 by abiari           ###   ########.fr       */
+/*   Updated: 2021/03/08 14:44:09 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ char	*find_env_key(const char *envp)
 	{
 		len++;
 	}
-	char *hell = ft_substr(envp, 0, len);
-	return (hell);
+	// char *hell = ft_substr(envp, 0, len);
+	return (ft_substr(envp, 0, len));
 }
 
 char	*find_env_value(const char *envp)

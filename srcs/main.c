@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:06:25 by abiari            #+#    #+#             */
-/*   Updated: 2021/03/05 15:30:09 by abiari           ###   ########.fr       */
+/*   Updated: 2021/03/08 14:36:29 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 // t_cmds	parse_line(char *line)
 // {
-	
+
 // }
 
 void	msh_loop(int status, char **line)
 {
 	while (status)
 	{
-		ft_putstr_fd("msh$>: ", STDIN_FILENO);
+		ft_putstr_fd("msh$>: ", STDOUT_FILENO);
 		get_next_line(STDIN_FILENO, line);
 	}
 }
