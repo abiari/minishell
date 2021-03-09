@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:28:27 by abiari            #+#    #+#             */
-/*   Updated: 2021/03/08 14:44:09 by abiari           ###   ########.fr       */
+/*   Updated: 2021/03/09 17:56:46 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ char	*find_env_key(const char *envp)
 	{
 		len++;
 	}
-	// char *hell = ft_substr(envp, 0, len);
 	return (ft_substr(envp, 0, len));
 }
 
@@ -50,13 +49,10 @@ t_list	*envp_to_envl(char *envp[])
 			printf("msh: %s", strerror(errno));
 			exit(errno);
 		}
-		env->value = find_env_value(envp[i]);
+		env->value = ft_strdup(find_env_value(envp[i]));
 		env->var = ft_strdup(envp[i]);
 		env->key = find_env_key(envp[i]);
-		if (!envl)
-			envl = ft_lstnew(env);
-		else
-			lst_append(&envl, env);
+		lst_append(&envl, env);
 		i++;
 	}
 	return (envl);
