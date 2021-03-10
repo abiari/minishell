@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/03/09 18:12:28 by abiari           ###   ########.fr       */
+/*   Updated: 2021/03/10 15:49:55 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,7 @@ int		msh_pwd(t_list *envl);
 void	lst_append(t_list **lst, void *content);
 void	mod_env_var(char *var, char *new_value, t_list **envl);
 void	add_env_var(char *var, char *value, t_list **envl);
+void	envl_clear(void *content);
+int		delete_env_var(char *var, t_list *envl);
 t_envl	*find_env_var(char *var, t_list *envl);
 #endif

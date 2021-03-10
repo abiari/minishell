@@ -5,55 +5,92 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/06 14:28:27 by abiari            #+#    #+#             */
-/*   Updated: 2021/03/09 17:56:46 by abiari           ###   ########.fr       */
+/*   Created: 2021/03/07 19:33:40 by abiari            #+#    #+#             */
+/*   Updated: 2021/03/10 15:49:18 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*find_env_key(const char *envp)
+void	mod_env_var(char *var, char *new_value, t_list **envl)
 {
-	int	len;
+	t_list	*tmp;
+	t_envl	*tmp_var;
+	char	*tmp_str;
 
-	len = 0;
-	while (envp[len] && envp[len] != '=')
+	tmp = *envl;
+	tmp_var = (t_envl *)(*envl);
+	while (tmp->next != NULL)
 	{
-		len++;
-	}
-	return (ft_substr(envp, 0, len));
-}
-
-char	*find_env_value(const char *envp)
-{
-	char	*value;
-
-	value = ft_strchr(envp, '=') + 1;
-	return (value);
-}
-
-t_list	*envp_to_envl(char *envp[])
-{
-	int	i;
-	t_list	*envl;
-	t_list	*next_env;
-	t_envl	*env;
-
-	i = 0;
-	envl = NULL;
-	next_env = NULL;
-	while (envp[i] != NULL)
-	{
-		if ((env = malloc(sizeof(t_envl))) == NULL)
+		tmp_var = (t_envl *)tmp->content;
+		if (ft_strcmp(var, tmp_var->key) == 0)
 		{
-			printf("msh: %s", strerror(errno));
-			exit(errno);
+			free(tmp_var->value);
+			tmp_var->value = ft_strdup(new_value);
+			tmp_str = ft_strjoin(tmp_var->key, "=");
+			tmp_var->var = ft_strjoin(tmp_str, tmp_var->value);
+			free(tmp_str);
+			break ;
 		}
-		env->value = ft_strdup(find_env_value(envp[i]));
-		env->var = ft_strdup(envp[i]);
-		env->key = find_env_key(envp[i]);
-		lst_append(&envl, env);
-		i++;
+		tmp = tmp->next;
 	}
-	return (envl);
+}
+
+void	add_env_var(char *var, char *value, t_list **envl)
+{
+	t_envl	*env;
+	char	*tmp_str;
+
+	if ((env = malloc(sizeof(t_envl))) == NULL)
+	{
+		printf("msh: %s", strerror(errno));
+		return ;
+	}
+	env->key = ft_strdup(var);
+	env->value = ft_strdup(value);
+	tmp_str = ft_strjoin(env->key, "=");
+	env->var = ft_strjoin(tmp_str, env->value);
+	free(tmp_str);
+	lst_append(envl, env);
+}
+
+t_envl	*find_env_var(char *var, t_list *envl)
+{
+	t_list	*tmp;
+
+	tmp = envl;
+	while (tmp->next)
+	{
+		if(ft_strcmp(var, ((t_envl *)tmp)->key) == 0)
+			return((t_envl *)tmp);
+		tmp = tmp->next;
+	}
+	return(NULL);
+}
+
+void	envl_clear(void *content)
+{
+	free(((t_envl *)content)->key);
+	free(((t_envl *)content)->value);
+	free(((t_envl *)content)->var);
+	free(content);
+}
+
+int		delete_env_var(char *var, t_list *envl)
+{
+	t_list	*tmp;
+	int		ret;
+
+	ret = 0;
+	tmp = envl;
+	while (tmp != NULL)
+	{
+		if(ft_strcmp(((t_envl *)(tmp->next))->key,var) == 0)
+		{
+			ft_lstdelone(tmp, envl_clear);
+			return (0);
+		}
+		tmp = tmp->next;
+	}
+	return (1);
 }
