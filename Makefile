@@ -6,7 +6,7 @@
 #    By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/19 17:19:26 by abiari            #+#    #+#              #
-#    Updated: 2021/03/09 09:09:10 by abiari           ###   ########.fr        #
+#    Updated: 2021/03/11 12:43:58 by abiari           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ srcs/utils/env_utils.c srcs/utils/env_utils2.c srcs/utils/lst_append.c
 all: $(NAME)
 
 $(NAME):
+	make -C /libft
 	$(CC) $(CFLAGS) $(SRC) libft/libft.a -o msh
 
 clean:

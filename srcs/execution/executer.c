@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 17:35:24 by abiari            #+#    #+#             */
-/*   Updated: 2021/03/05 14:27:19 by abiari           ###   ########.fr       */
+/*   Updated: 2021/03/11 16:47:04 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int fork_pipes(int n, t_command *cmd, char **envp)
 	int		fd[2];
 	pid_t	pid;
 	int ret = 0;
-	
+
 	in = 0;
 	i = 0;
 	while (i < n - 1)
@@ -54,7 +54,10 @@ int fork_pipes(int n, t_command *cmd, char **envp)
 		spawn_proc(in, fd[1], cmd + i, envp);
 		close(fd[1]);
 		if (in != 0)
+		{
+			dup2(in, 0);
 			close(in);
+		}
 		in = fd[0];
 		i++;
 	}
