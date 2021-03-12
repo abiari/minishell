@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/03/11 11:47:44 by abiari           ###   ########.fr       */
+/*   Updated: 2021/03/12 12:25:25 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ t_list	*envp_to_envl(char *envp[]);
 int		msh_cd(char *path, t_list *envl);
 int		msh_pwd(t_list *envl);
 int		msh_unset(char *args[], t_list *envl);
+int		msh_env(t_list **envl);
 void	lst_append(t_list **lst, void *content);
 void	mod_env_var(char *var, char *new_value, t_list **envl);
 void	add_env_var(char *var, char *value, t_list **envl);

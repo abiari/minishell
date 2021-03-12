@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 15:56:18 by abiari            #+#    #+#             */
-/*   Updated: 2021/03/11 17:54:40 by abiari           ###   ########.fr       */
+/*   Updated: 2021/03/12 12:30:03 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int		msh_env(t_list **envl)
 	ret = 0;
 
 	tmp = *envl;
-	while (tmp->next != NULL)
+	while (tmp != NULL)
 	{
-		tmp_cast = ((t_envl *)(*envl)->content);
+		tmp_cast = ((t_envl *)(tmp)->content);
 		printf("%s\n", tmp_cast->var);
 		tmp = tmp->next;
 	}
