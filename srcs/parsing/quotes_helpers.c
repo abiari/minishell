@@ -1,13 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quotes_helpers.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/12 09:43:58 by ael-bagh          #+#    #+#             */
+/*   Updated: 2021/03/13 17:52:29 by ael-bagh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
-typedef struct s_quotes
+int		parse_error(char *err, int ret)
 {
-	int				type;
-	int				opens;
-	int				closes;
-}					t_quotes;
-
-/*returns the index of the quote's closing; if it wasnt closed returns -1*/
+	write(1, err, ft_strlen(err));
+	write(1, "\n", 1);
+	return (ret);
+}
 
 int		quote_ends(int type, int i, char *str)
 {
@@ -26,19 +36,19 @@ int		quote_ends(int type, int i, char *str)
 	return (-1);
 }
 
-/* returns the number of pair quotes (opened AND closed) found; adds each pair of quotes into the quotes list*/
-
 int		quotes_finder(char *str, t_list **lst)
 {
 	int 			i;
 	int				counter;
 	int				type;
+	int				flag;
 	t_quotes		*quotes;
 
 	i = 0;
 	counter = 0;
 	while (str[i])
 	{
+		flag = 0;
 		if (str[i] == '\\')
 			i += 2;
 		if (str[i] == '\'')
@@ -52,6 +62,7 @@ int		quotes_finder(char *str, t_list **lst)
 			lst_append(lst, quotes);
 			type = S_QUOTE;
 			counter++;
+			flag = 1;
 		}
 		if (str[i] == '\"')
 		{
@@ -64,16 +75,15 @@ int		quotes_finder(char *str, t_list **lst)
 			lst_append(lst, quotes);
 			type = D_QUOTE;
 			counter++;
+			flag = 1;
 		}
-		if (quote_ends(type, i + 1, str) != -1)
+		if (flag == 1)
 			i = quote_ends(type, i + 1, str) + 1;
 		else
 			i++;
 	}
 	return (counter);
 }
-
-/* TODO :int is_between_quotes(int i, char *str);*/
 
 int		is_between_quotes(int i , t_list **lst)
 {
@@ -89,35 +99,148 @@ int		is_between_quotes(int i , t_list **lst)
 	return (0);
 }
 
+int		*commas(char *str, t_list **lst)
+{
+	int		i;
+	int		count;
+	int		*commas;
+	t_list	*tmp;
+
+	tmp = *lst;
+	i = -1;
+	count = 0;
+	while (str[++i])
+		if (str[i] == ';' && !is_between_quotes(i, &tmp))
+			count++;
+	if (count == 0)
+		return (NULL);
+	commas = malloc((sizeof(int) * count) + sizeof(int));
+	i = -1;
+	count = 0;
+	while (str[++i])
+	{
+		if (str[i] == ';' && !is_between_quotes(i, &tmp))
+		{
+			commas[count] = i;
+			count++;
+		}
+	}
+	commas[count] = -2;
+	return (commas);
+}
+
+int check_last_cmd(char *cmd, int last_comma)
+{
+	int i;
+
+	i = last_comma;
+	while (cmd[i])
+		i++;
+	if (i == last_comma + 1)
+		return (0);
+	return (1);
+}
+
+char		*fill_command(char *cmd, int index, int *comma)
+{
+	int i;
+	int j;
+	int len;
+	int last;
+	char *tmp;
+
+	last = 0;
+	while(comma[last] != -2)
+		last++;
+	if (index == 0)
+	{
+		len = comma[index];
+		i = 0;
+	}
+	else if (index == last && check_last_cmd(cmd, comma[last - 1]))
+	{
+		len = ft_strlen(cmd) - comma[index - 1] - 1;
+		i = comma[index - 1] + 1;
+	}
+	else
+	{
+		len = comma[index] - comma[index - 1] - 1;
+		i = comma[index - 1] + 1;
+	}
+	tmp = (char *)malloc((len + 1) * sizeof(char));
+	j = 0;
+	while (j < len)
+	{
+		tmp[j] = cmd[i];
+		i++;
+		j++;
+	}
+	tmp[len] = '\0';
+	return (tmp);
+}
+
+int check_first_cmd(char *cmd, int first_comma)
+{
+	int i;
+	int flag;
+
+	flag = 0;
+	i = 0;
+	while (i < first_comma)
+	{
+		if (cmd[i] != ' ')
+			flag = 1;
+		i++;
+	}
+	if (i == 0 || flag == 0)
+		return (-1);
+	return (1);
+}
+
+int		cmd_counter(int *comma, char *cmd)
+{
+	int i;
+
+	i = 0;
+	while(comma[i] != -2)
+		i++;
+	if (check_first_cmd(cmd, comma[0]) == -1)
+		return (parse_error("bash: syntax error near unexpected token `;'", -1));
+	if (check_last_cmd(cmd, comma[i - 1]))
+		i++;
+	return (i);
+}
+
 int main()
 {
 	t_list		*lst;
-	t_list		*tmp;
-	int			i = -1;
+	int			i = 0;
+	int			j = 0;
+	int			*comma;
+	char		**tab;
+	char		*tmp;
+	int			ret;
+	char		*cmd;
+	int			cmds_num;
 
-	int ret;
-	char cmd[100] = "ech\'o\'  allo; echo -n\"UGH\" meh";
-
+	cmd = ft_strdup("ech\'o\'  allo;");
 	lst = NULL;
-	ret = quotes_finder(cmd, &lst);
-	if (ret == -1)
-		printf("allo");
-	tmp = lst;
-	while (cmd[++i])
+	ret = quotes_finder(cmd, &lst);  /* creates a list of quotes || TODO: PROTECT the absence of quotes ||*/
+	comma = commas(cmd, &lst);       /* creates an array of valid comas that aren't quoted */
+	if ((cmds_num = cmd_counter(comma, cmd)) == -1)
+		return (1);
+	tab = (char **)malloc((cmds_num + 1) * sizeof(char *));
+	while (j < cmds_num)
 	{
-		if ((ret = is_between_quotes(i, &lst)) == S_QUOTE)
-			printf("single quote\n");
-		else if ((ret = is_between_quotes(i, &lst)) == D_QUOTE)
-			printf("double quote\n");
-		else
-			printf("no quotes\n");
+		tmp = fill_command(cmd ,j , comma);
+		tab[j] = tmp;
+		j++;
 	}
-	// if (ret != 0)
-	// {
-	// 	while (tmp != NULL)
-	// 	{
-	// 		printf("quote starts at : %d | quote ends at : %d | quote type : %d\n", ((t_quotes *)tmp->content)->opens, ((t_quotes *)tmp->content)->closes, ((t_quotes *)tmp->content)->type);
-	// 		tmp = tmp->next;
-	// 	}
-	// }
+	tab[j] = NULL;
+	i = 0;
+	while (tab[i])
+	{
+		printf("%s\n", tab[i]);
+		i++;
+	}
 }

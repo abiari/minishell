@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/03/11 15:19:29 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/03/13 17:31:36 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,13 @@ typedef struct	s_envl
 	char	*var;
 	char	*key;
 }				t_envl;
+
+typedef struct	s_quotes
+{
+	int		type;
+	int		opens;
+	int		closes;
+}				t_quotes;
 
 int		g_status;
 
