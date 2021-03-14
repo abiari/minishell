@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 09:43:58 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/03/13 17:52:29 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/03/14 15:15:09 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,17 @@ int		cmd_counter(int *comma, char *cmd)
 	return (i);
 }
 
+// static	void	ft_free(char **tab, int n)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (i > n)
+// 		free(tab[i++]);
+// 	free(tab);
+// 	tab = NULL;
+// }
+
 int main()
 {
 	t_list		*lst;
@@ -223,24 +234,38 @@ int main()
 	char		*cmd;
 	int			cmds_num;
 
-	cmd = ft_strdup("ech\'o\'  allo;");
+	cmd = ft_strdup("echo  allo \'hamid\';echo test | cat -e; mehmeh");
+	cmds_num = 0;
 	lst = NULL;
 	ret = quotes_finder(cmd, &lst);  /* creates a list of quotes || TODO: PROTECT the absence of quotes ||*/
-	comma = commas(cmd, &lst);       /* creates an array of valid comas that aren't quoted */
-	if ((cmds_num = cmd_counter(comma, cmd)) == -1)
-		return (1);
-	tab = (char **)malloc((cmds_num + 1) * sizeof(char *));
-	while (j < cmds_num)
+	if ((comma = commas(cmd, &lst)) != NULL)       /* creates an array of valid comas that aren't quoted */
 	{
-		tmp = fill_command(cmd ,j , comma);
-		tab[j] = tmp;
-		j++;
+		if ((cmds_num = cmd_counter(comma, cmd)) == -1)
+			return (1);
+
+		tab = (char **)malloc((cmds_num + 1) * sizeof(char *));
+		while (j < cmds_num)
+		{
+			tmp = fill_command(cmd ,j , comma);
+			tab[j] = ft_strdup(tmp);
+			free(tmp);
+			j++;
+		}
+		tab[j] = NULL;
 	}
-	tab[j] = NULL;
+	else
+	{
+		tab = (char **)malloc((2) * sizeof(char *));
+		tab[0] = ft_strdup(cmd);
+		tab[1] = NULL;
+	}
 	i = 0;
 	while (tab[i])
 	{
 		printf("%s\n", tab[i]);
 		i++;
 	}
+	free(cmd);
+	// ft_free(tab, i);
+	while (1);
 }
