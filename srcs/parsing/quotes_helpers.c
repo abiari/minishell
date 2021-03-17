@@ -6,20 +6,20 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 09:43:58 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/03/14 15:15:09 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/03/17 14:17:31 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int		parse_error(char *err, int ret)
+int				parse_er(char *err, int ret)
 {
 	write(1, err, ft_strlen(err));
 	write(1, "\n", 1);
 	return (ret);
 }
 
-int		quote_ends(int type, int i, char *str)
+int				quote_ends(int type, int i, char *str)
 {
 	char quote;
 
@@ -36,9 +36,9 @@ int		quote_ends(int type, int i, char *str)
 	return (-1);
 }
 
-int		quotes_finder(char *str, t_list **lst)
+int				quotes_finder(char *str, t_list **lst)
 {
-	int 			i;
+	int				i;
 	int				counter;
 	int				type;
 	int				flag;
@@ -85,21 +85,22 @@ int		quotes_finder(char *str, t_list **lst)
 	return (counter);
 }
 
-int		is_between_quotes(int i , t_list **lst)
+int				is_between_quotes(int i, t_list **lst)
 {
 	t_list *tmp;
 
 	tmp = *lst;
 	while (tmp != NULL)
 	{
-		if (i > ((t_quotes *)tmp->content)->opens && i < ((t_quotes *)tmp->content)->closes)
+		if (i > ((t_quotes *)tmp->content)->opens &&
+			i < ((t_quotes *)tmp->content)->closes)
 			return (((t_quotes *)tmp->content)->type);
 		tmp = tmp->next;
 	}
 	return (0);
 }
 
-int		*commas(char *str, t_list **lst)
+int				*commas(char *str, t_list **lst)
 {
 	int		i;
 	int		count;
@@ -110,8 +111,12 @@ int		*commas(char *str, t_list **lst)
 	i = -1;
 	count = 0;
 	while (str[++i])
+	{
+		if (str[i] == '\\' && (i++))
+			continue ;
 		if (str[i] == ';' && !is_between_quotes(i, &tmp))
 			count++;
+	}
 	if (count == 0)
 		return (NULL);
 	commas = malloc((sizeof(int) * count) + sizeof(int));
@@ -119,6 +124,8 @@ int		*commas(char *str, t_list **lst)
 	count = 0;
 	while (str[++i])
 	{
+		if (str[i] == '\\' && (i++))
+			continue ;
 		if (str[i] == ';' && !is_between_quotes(i, &tmp))
 		{
 			commas[count] = i;
@@ -129,28 +136,34 @@ int		*commas(char *str, t_list **lst)
 	return (commas);
 }
 
-int check_last_cmd(char *cmd, int last_comma)
+int				check_last_cmd(char *cmd, int last_comma)
 {
 	int i;
+	int flag;
 
 	i = last_comma;
+	flag = 0;
 	while (cmd[i])
+	{
+		if (cmd[i] != ' ')
+			flag = 1;
 		i++;
-	if (i == last_comma + 1)
+	}
+	if (i == last_comma + 1 || i != last_comma && flag == 0)
 		return (0);
 	return (1);
 }
 
-char		*fill_command(char *cmd, int index, int *comma)
+char			*fill_command(char *cmd, int index, int *comma)
 {
-	int i;
-	int j;
-	int len;
-	int last;
-	char *tmp;
+	int		i;
+	int		j;
+	int		len;
+	int		last;
+	char	*tmp;
 
 	last = 0;
-	while(comma[last] != -2)
+	while (comma[last] != -2)
 		last++;
 	if (index == 0)
 	{
@@ -179,7 +192,7 @@ char		*fill_command(char *cmd, int index, int *comma)
 	return (tmp);
 }
 
-int check_first_cmd(char *cmd, int first_comma)
+int				check_first_cmd(char *cmd, int first_comma)
 {
 	int i;
 	int flag;
@@ -197,75 +210,98 @@ int check_first_cmd(char *cmd, int first_comma)
 	return (1);
 }
 
-int		cmd_counter(int *comma, char *cmd)
+int				cmd_counter(int *comma, char *cmd)
 {
 	int i;
 
 	i = 0;
-	while(comma[i] != -2)
+	while (comma[i] != -2)
 		i++;
 	if (check_first_cmd(cmd, comma[0]) == -1)
-		return (parse_error("bash: syntax error near unexpected token `;'", -1));
+		return (parse_er("bash: syntax error near unexpected token `;'", -1));
 	if (check_last_cmd(cmd, comma[i - 1]))
 		i++;
 	return (i);
 }
 
-// static	void	ft_free(char **tab, int n)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (i > n)
-// 		free(tab[i++]);
-// 	free(tab);
-// 	tab = NULL;
-// }
-
-int main()
+static	void	ft_free(char **tab, int n)
 {
-	t_list		*lst;
-	int			i = 0;
-	int			j = 0;
-	int			*comma;
-	char		**tab;
-	char		*tmp;
-	int			ret;
-	char		*cmd;
-	int			cmds_num;
+	int	i;
 
-	cmd = ft_strdup("echo  allo \'hamid\';echo test | cat -e; mehmeh");
-	cmds_num = 0;
-	lst = NULL;
-	ret = quotes_finder(cmd, &lst);  /* creates a list of quotes || TODO: PROTECT the absence of quotes ||*/
-	if ((comma = commas(cmd, &lst)) != NULL)       /* creates an array of valid comas that aren't quoted */
+	i = 0;
+	while (i < n)
+		free(tab[i++]);
+	free(tab);
+	tab = NULL;
+}
+
+char			**cmds_spliter(int *comma, char *cmd, t_list **quotes)
+{
+	char	**tab;
+	t_list	*tmp;
+	int		i;
+	int		j;
+
+	j = -1;
+	i = 0;
+	tmp = *quotes;
+	if ((comma = commas(cmd, &tmp)) != NULL)
 	{
-		if ((cmds_num = cmd_counter(comma, cmd)) == -1)
-			return (1);
-
-		tab = (char **)malloc((cmds_num + 1) * sizeof(char *));
-		while (j < cmds_num)
-		{
-			tmp = fill_command(cmd ,j , comma);
-			tab[j] = ft_strdup(tmp);
-			free(tmp);
-			j++;
-		}
+		if ((i = cmd_counter(comma, cmd)) == -1)
+			return (NULL);
+		tab = (char **)malloc((i + 1) * sizeof(char *));
+		j = -1;
+		while (++j < i)
+			tab[j] = ft_strdup_dzeb(fill_command(cmd, j, comma));
 		tab[j] = NULL;
 	}
 	else
 	{
 		tab = (char **)malloc((2) * sizeof(char *));
-		tab[0] = ft_strdup(cmd);
+		tab[0] = ft_strdup_dzeb(cmd);
 		tab[1] = NULL;
 	}
-	i = 0;
-	while (tab[i])
+	free(comma);
+	return (tab);
+}
+
+char			**split_cmds(char *cmd)
+{
+	t_list	*tmp;
+	int		*comma;
+	int		ret;
+	char	**tab;
+
+	tmp = NULL;
+	if ((ret = quotes_finder(cmd, &tmp)) == -1)
 	{
-		printf("%s\n", tab[i]);
-		i++;
+		ft_putstr_fd("Multiple lines command\n", 1);
+		return (NULL);
 	}
-	free(cmd);
-	// ft_free(tab, i);
-	while (1);
+	comma = commas(cmd, &tmp);
+	tab = cmds_spliter(comma, cmd, &tmp);
+	free(comma);
+	free(tmp);
+	return (tab);
+}
+
+int				main()
+{
+	int			i;
+	char		**tab;
+	char		*cmd;
+
+	i = 0;
+	cmd = ft_strdup("  allo; echo allo allo; meh meh;      ;");
+	tab = split_cmds(cmd);
+	if (tab)
+	{
+		while (tab[i])
+		{
+			printf("%s\n", tab[i]);
+			i++;
+		}
+	}
+	//free(cmd);
+	ft_free(tab, i);
 }
