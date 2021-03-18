@@ -6,20 +6,20 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 09:43:58 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/03/17 14:17:31 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/03/18 10:55:45 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int				parse_er(char *err, int ret)
+int parse_er(char *err, int ret)
 {
 	write(1, err, ft_strlen(err));
 	write(1, "\n", 1);
 	return (ret);
 }
 
-int				quote_ends(int type, int i, char *str)
+int quote_ends(int type, int i, char *str)
 {
 	char quote;
 
@@ -36,13 +36,13 @@ int				quote_ends(int type, int i, char *str)
 	return (-1);
 }
 
-int				quotes_finder(char *str, t_list **lst)
+int quotes_finder(char *str, t_list **lst)
 {
-	int				i;
-	int				counter;
-	int				type;
-	int				flag;
-	t_quotes		*quotes;
+	int i;
+	int counter;
+	int type;
+	int flag;
+	t_quotes *quotes;
 
 	i = 0;
 	counter = 0;
@@ -85,7 +85,7 @@ int				quotes_finder(char *str, t_list **lst)
 	return (counter);
 }
 
-int				is_between_quotes(int i, t_list **lst)
+int is_between_quotes(int i, t_list **lst)
 {
 	t_list *tmp;
 
@@ -100,12 +100,12 @@ int				is_between_quotes(int i, t_list **lst)
 	return (0);
 }
 
-int				*commas(char *str, t_list **lst)
+int *commas(char *str, t_list **lst)
 {
-	int		i;
-	int		count;
-	int		*commas;
-	t_list	*tmp;
+	int i;
+	int count;
+	int *commas;
+	t_list *tmp;
 
 	tmp = *lst;
 	i = -1;
@@ -113,7 +113,7 @@ int				*commas(char *str, t_list **lst)
 	while (str[++i])
 	{
 		if (str[i] == '\\' && (i++))
-			continue ;
+			continue;
 		if (str[i] == ';' && !is_between_quotes(i, &tmp))
 			count++;
 	}
@@ -125,7 +125,7 @@ int				*commas(char *str, t_list **lst)
 	while (str[++i])
 	{
 		if (str[i] == '\\' && (i++))
-			continue ;
+			continue;
 		if (str[i] == ';' && !is_between_quotes(i, &tmp))
 		{
 			commas[count] = i;
@@ -136,7 +136,7 @@ int				*commas(char *str, t_list **lst)
 	return (commas);
 }
 
-int				check_last_cmd(char *cmd, int last_comma)
+int check_last_cmd(char *cmd, int last_comma)
 {
 	int i;
 	int flag;
@@ -149,18 +149,18 @@ int				check_last_cmd(char *cmd, int last_comma)
 			flag = 1;
 		i++;
 	}
-	if (i == last_comma + 1 || i != last_comma && flag == 0)
+	if (i == last_comma + 1 || (i != last_comma && flag == 0))
 		return (0);
 	return (1);
 }
 
-char			*fill_command(char *cmd, int index, int *comma)
+char *fill_command(char *cmd, int index, int *comma)
 {
-	int		i;
-	int		j;
-	int		len;
-	int		last;
-	char	*tmp;
+	int i;
+	int j;
+	int len;
+	int last;
+	char *tmp;
 
 	last = 0;
 	while (comma[last] != -2)
@@ -192,7 +192,7 @@ char			*fill_command(char *cmd, int index, int *comma)
 	return (tmp);
 }
 
-int				check_first_cmd(char *cmd, int first_comma)
+int check_first_cmd(char *cmd, int first_comma)
 {
 	int i;
 	int flag;
@@ -210,7 +210,7 @@ int				check_first_cmd(char *cmd, int first_comma)
 	return (1);
 }
 
-int				cmd_counter(int *comma, char *cmd)
+int cmd_counter(int *comma, char *cmd)
 {
 	int i;
 
@@ -224,9 +224,9 @@ int				cmd_counter(int *comma, char *cmd)
 	return (i);
 }
 
-static	void	ft_free(char **tab, int n)
+static void ft_free(char **tab, int n)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (i < n)
@@ -235,12 +235,12 @@ static	void	ft_free(char **tab, int n)
 	tab = NULL;
 }
 
-char			**cmds_spliter(int *comma, char *cmd, t_list **quotes)
+char **cmds_spliter(int *comma, char *cmd, t_list **quotes)
 {
-	char	**tab;
-	t_list	*tmp;
-	int		i;
-	int		j;
+	char **tab;
+	t_list *tmp;
+	int i;
+	int j;
 
 	j = -1;
 	i = 0;
@@ -265,12 +265,12 @@ char			**cmds_spliter(int *comma, char *cmd, t_list **quotes)
 	return (tab);
 }
 
-char			**split_cmds(char *cmd)
+char **split_cmds(char *cmd)
 {
-	t_list	*tmp;
-	int		*comma;
-	int		ret;
-	char	**tab;
+	t_list *tmp;
+	int *comma;
+	int ret;
+	char **tab;
 
 	tmp = NULL;
 	if ((ret = quotes_finder(cmd, &tmp)) == -1)
@@ -284,24 +284,49 @@ char			**split_cmds(char *cmd)
 	free(tmp);
 	return (tab);
 }
-
-int				main()
+int only_char(char c, char *str)
 {
-	int			i;
-	char		**tab;
-	char		*cmd;
+	int i;
 
 	i = 0;
-	cmd = ft_strdup("  allo; echo allo allo; meh meh;      ;");
+	while (str[i])
+	{
+		if (str[i] != c)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	check_cmds(char **cmds, char *cmd)
+{
+	int		i;
+	int		*comma;
+	t_list	*tmp;
+
+	tmp = NULL;
+	comma = commas(cmd, &tmp);
+	i = -1;
+	while (cmds[++i])
+		if (i != cmd_counter(comma, cmd) - 1 && only_char(' ', cmds[i]))
+			return (parse_er("bash: syntax error near unexpected token `;'", 1));
+	i = -1;
+	while (cmds[++i])
+		printf("%s\n" ,cmds[i]);
+	return (0);
+}
+
+int	main()
+{
+	int i;
+	char **tab;
+	char *cmd;
+
+	i = 0;
+	cmd = ft_strdup("echo allo allo;echo;   ; allio;       ;");
 	tab = split_cmds(cmd);
 	if (tab)
-	{
-		while (tab[i])
-		{
-			printf("%s\n", tab[i]);
-			i++;
-		}
-	}
+		check_cmds(tab, cmd);
 	//free(cmd);
 	ft_free(tab, i);
 }
