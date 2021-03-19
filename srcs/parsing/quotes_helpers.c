@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 09:43:58 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/03/18 10:55:45 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/03/19 14:39:43 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,19 +114,20 @@ int *commas(char *str, t_list **lst)
 	{
 		if (str[i] == '\\' && (i++))
 			continue;
-		if (str[i] == ';' && !is_between_quotes(i, &tmp))
+		if (str[i] == ';' && is_between_quotes(i, &tmp) == 0)
 			count++;
 	}
 	if (count == 0)
 		return (NULL);
 	commas = malloc((sizeof(int) * count) + sizeof(int));
+	//printf( "%d\n", count);
 	i = -1;
 	count = 0;
 	while (str[++i])
 	{
 		if (str[i] == '\\' && (i++))
 			continue;
-		if (str[i] == ';' && !is_between_quotes(i, &tmp))
+		if (str[i] == ';' && is_between_quotes(i, &tmp) == 0)
 		{
 			commas[count] = i;
 			count++;
@@ -144,12 +145,8 @@ int check_last_cmd(char *cmd, int last_comma)
 	i = last_comma;
 	flag = 0;
 	while (cmd[i])
-	{
-		if (cmd[i] != ' ')
-			flag = 1;
 		i++;
-	}
-	if (i == last_comma + 1 || (i != last_comma && flag == 0))
+	if (i == last_comma + 1)
 		return (0);
 	return (1);
 }
@@ -245,7 +242,7 @@ char **cmds_spliter(int *comma, char *cmd, t_list **quotes)
 	j = -1;
 	i = 0;
 	tmp = *quotes;
-	if ((comma = commas(cmd, &tmp)) != NULL)
+	if (comma != NULL)
 	{
 		if ((i = cmd_counter(comma, cmd)) == -1)
 			return (NULL);
@@ -254,14 +251,14 @@ char **cmds_spliter(int *comma, char *cmd, t_list **quotes)
 		while (++j < i)
 			tab[j] = ft_strdup_dzeb(fill_command(cmd, j, comma));
 		tab[j] = NULL;
+		free(comma);
 	}
 	else
 	{
 		tab = (char **)malloc((2) * sizeof(char *));
-		tab[0] = ft_strdup_dzeb(cmd);
+		tab[0] = ft_strdup(cmd);
 		tab[1] = NULL;
 	}
-	free(comma);
 	return (tab);
 }
 
@@ -273,6 +270,7 @@ char **split_cmds(char *cmd)
 	char **tab;
 
 	tmp = NULL;
+	comma = NULL;
 	if ((ret = quotes_finder(cmd, &tmp)) == -1)
 	{
 		ft_putstr_fd("Multiple lines command\n", 1);
@@ -280,8 +278,10 @@ char **split_cmds(char *cmd)
 	}
 	comma = commas(cmd, &tmp);
 	tab = cmds_spliter(comma, cmd, &tmp);
-	free(comma);
-	free(tmp);
+	// if (comma)
+	// free(comma);
+	// if (tmp)
+	// 	free(tmp);
 	return (tab);
 }
 int only_char(char c, char *str)
@@ -303,16 +303,33 @@ int	check_cmds(char **cmds, char *cmd)
 	int		i;
 	int		*comma;
 	t_list	*tmp;
+	int		last;
+	int		ret;
 
 	tmp = NULL;
-	comma = commas(cmd, &tmp);
-	i = -1;
-	while (cmds[++i])
-		if (i != cmd_counter(comma, cmd) - 1 && only_char(' ', cmds[i]))
-			return (parse_er("bash: syntax error near unexpected token `;'", 1));
-	i = -1;
-	while (cmds[++i])
-		printf("%s\n" ,cmds[i]);
+	last = 0;
+	comma = NULL;
+	ret = quotes_finder(cmd, &tmp);
+	if ((comma = commas(cmd, &tmp)) != NULL)
+	{
+		while (comma[last] != -2)
+			last++;
+		i = -1;
+		while (cmds[++i])
+		{
+			if (i == cmd_counter(comma, cmd) - 1)
+				if (only_char(' ', cmds[i]) && comma[last - 1] == (int)ft_strlen(cmd) - 1)
+					return (parse_er("bash: syntax error near unexpected token `;'", 1));
+			if (i != cmd_counter(comma, cmd) - 1 && only_char(' ', cmds[i]))
+				return (parse_er("bash: syntax error near unexpected token `;'", 1));
+		}
+		i = 0;
+		while (cmds[i])
+		{
+			printf("%s\n", cmds[i]);
+			i++;
+		}
+	}
 	return (0);
 }
 
@@ -323,10 +340,11 @@ int	main()
 	char *cmd;
 
 	i = 0;
-	cmd = ft_strdup("echo allo allo;echo;   ; allio;       ;");
+	tab = NULL;
+	cmd = ft_strdup("echo alloewa  ; chkat3awd; anjerbou comma mabine quotes; ';;;;;;;;;'; hanta sidi khedamnine; njerbou comma we7da mabine double quotes; \";\" ;ewa chbghiti a sidi ; 3reftek chnou bghiti ; njerbou bzf d commas wesst double quotes w comma we7da wess single quotes, \";;;;;;;;;;\"; ';' ; ewa db mzn ;     ;");
+
 	tab = split_cmds(cmd);
 	if (tab)
 		check_cmds(tab, cmd);
-	//free(cmd);
 	ft_free(tab, i);
 }
