@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 09:43:58 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/03/19 14:39:43 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/03/19 14:40:46 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -341,8 +341,7 @@ int	main()
 
 	i = 0;
 	tab = NULL;
-	cmd = ft_strdup("echo alloewa  ; chkat3awd; anjerbou comma mabine quotes; ';;;;;;;;;'; hanta sidi khedamnine; njerbou comma we7da mabine double quotes; \";\" ;ewa chbghiti a sidi ; 3reftek chnou bghiti ; njerbou bzf d commas wesst double quotes w comma we7da wess single quotes, \";;;;;;;;;;\"; ';' ; ewa db mzn ;     ;");
-
+	cmd = ft_strdup("echo alloewa  ; chkat3awd; anjerbou comma mabine quotes; ';;;;;;;;;'; hanta sidi khedamnine; njerbou comma we7da mabine double quotes; \";\" ;ewa chbghiti a sidi ; 3reftek chnou bghiti ; njerbou bzf d commas wesst double quotes w comma we7da wess single quotes, \";;;;;;;;;;\"; ';' ; ewa db mzn ;");
 	tab = split_cmds(cmd);
 	if (tab)
 		check_cmds(tab, cmd);
