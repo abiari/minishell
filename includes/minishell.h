@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/03/13 17:31:36 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/03/20 10:29:47 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 typedef struct	s_cmds
 {
-	char			*cmd;
+	char			**cmd;
 	int				type;
 	struct	s_cmds	*prev;
 	struct	s_cmds	*next;
@@ -46,6 +46,7 @@ typedef struct	s_quotes
 
 int		g_status;
 
+char	**parse_line(char *line);
 char	*find_env_key(const char *envp);
 char	*find_env_value(const char *envp);
 t_list	*envp_to_envl(char *envp[]);
@@ -55,4 +56,18 @@ void	lst_append(t_list **lst, void *content);
 void	mod_env_var(char *var, char *new_value, t_list *envl);
 void	add_env_var(char *var, char *value, t_list *envl);
 t_envl	*find_env_var(char *var, t_list *envl);
+int		parse_er(char *err, int ret);
+int		quote_ends(int type, int i, char *str);
+int		quotes_finder(char *str, t_list **lst);
+int		is_between_quotes(int i, t_list **lst);
+int		*commas(char *str, t_list **lst);
+int		check_last_cmd(char *cmd, int last_comma);
+char	*fill_command(char *cmd, int index, int *comma);
+int		check_first_cmd(char *cmd, int first_comma);
+int		cmd_counter(int *comma, char *cmd);
+void	ft_free(char **tab, int n);
+char	**cmds_spliter(int *comma, char *cmd, t_list **quotes);
+char	**split_cmds(char *cmd);
+int		only_char(char c, char *str);
+int		check_cmds(char **cmds, char *cmd);
 #endif
