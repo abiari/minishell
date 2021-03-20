@@ -3,26 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:06:25 by abiari            #+#    #+#             */
-/*   Updated: 2021/03/05 15:30:09 by abiari           ###   ########.fr       */
+/*   Updated: 2021/03/20 10:31:14 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// t_cmds	parse_line(char *line)
-// {
-	
-// }
-
 void	msh_loop(int status, char **line)
 {
+	char	**cmd;
 	while (status)
 	{
-		ft_putstr_fd("msh$>: ", STDIN_FILENO);
+		ft_putstr_fd("msh$>: ", STDOUT_FILENO);
 		get_next_line(STDIN_FILENO, line);
+		cmd = parse_line(*line);
+		
 	}
 }
 
@@ -33,8 +31,8 @@ int		main(int ac, char *av[], char *env[])
 	(void)ac;
 	(void)av;
 	(void)env;
-	signal(SIGINT, SIG_DFL);
-	signal(EOF, SIG_IGN);
+	// signal(SIGINT, SIG_DFL);
+	// signal(EOF, SIG_IGN);
 	g_status = 1;
 	msh_loop(g_status, &line);
 	return (0);

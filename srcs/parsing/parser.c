@@ -1,6 +1,12 @@
 #include "../../includes/minishell.h"
 
-t_cmds	*parse_line(char *line)
+char	**parse_line(char *line)
 {
-	
+	char	**tab;
+
+	tab = split_cmds(line);
+	if (tab)
+		if (check_cmds(tab, line) == 1)
+			return (NULL);
+	return (tab);
 }

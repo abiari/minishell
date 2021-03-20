@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_helpers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 09:43:58 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/03/19 14:39:43 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/03/20 09:36:14 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ int *commas(char *str, t_list **lst)
 	if (count == 0)
 		return (NULL);
 	commas = malloc((sizeof(int) * count) + sizeof(int));
-	//printf( "%d\n", count);
 	i = -1;
 	count = 0;
 	while (str[++i])
@@ -221,7 +220,7 @@ int cmd_counter(int *comma, char *cmd)
 	return (i);
 }
 
-static void ft_free(char **tab, int n)
+void ft_free(char **tab, int n)
 {
 	int i;
 
@@ -298,13 +297,13 @@ int only_char(char c, char *str)
 	return (1);
 }
 
-int	check_cmds(char **cmds, char *cmd)
+int check_cmds(char **cmds, char *cmd)
 {
-	int		i;
-	int		*comma;
-	t_list	*tmp;
-	int		last;
-	int		ret;
+	int i;
+	int *comma;
+	t_list *tmp;
+	int last;
+	int ret;
 
 	tmp = NULL;
 	last = 0;
@@ -323,28 +322,22 @@ int	check_cmds(char **cmds, char *cmd)
 			if (i != cmd_counter(comma, cmd) - 1 && only_char(' ', cmds[i]))
 				return (parse_er("bash: syntax error near unexpected token `;'", 1));
 		}
-		i = 0;
-		while (cmds[i])
-		{
-			printf("%s\n", cmds[i]);
-			i++;
-		}
 	}
 	return (0);
 }
 
-int	main()
-{
-	int i;
-	char **tab;
-	char *cmd;
+// int main()
+// {
+// 	int i;
+// 	char **tab;
+// 	char *cmd;
 
-	i = 0;
-	tab = NULL;
-	cmd = ft_strdup("echo alloewa  ; chkat3awd; anjerbou comma mabine quotes; ';;;;;;;;;'; hanta sidi khedamnine; njerbou comma we7da mabine double quotes; \";\" ;ewa chbghiti a sidi ; 3reftek chnou bghiti ; njerbou bzf d commas wesst double quotes w comma we7da wess single quotes, \";;;;;;;;;;\"; ';' ; ewa db mzn ;     ;");
+// 	i = 0;
+// 	tab = NULL;
+// 	cmd = ft_strdup("echo alloewa  ; chkat3awd; anjerbou comma mabine quotes; ';;;;;;;;;'; hanta sidi khedamnine; njerbou comma we7da mabine double quotes; \";\" ;ewa chbghiti a sidi ; 3reftek chnou bghiti ; njerbou bzf d commas wesst double quotes w comma we7da wess single quotes, \";;;;;;;;;;\"; ';' ; ewa db mzn ;     ;");
 
-	tab = split_cmds(cmd);
-	if (tab)
-		check_cmds(tab, cmd);
-	ft_free(tab, i);
-}
+// 	tab = split_cmds(cmd);
+// 	if (tab)
+// 		check_cmds(tab, cmd);
+// 	ft_free(tab, i);
+// }
