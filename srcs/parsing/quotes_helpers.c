@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 09:43:58 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/04/06 18:19:31 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/04/12 16:51:06 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,31 @@ int	d_quote(t_quotes *quotes, t_list **lst, int i, char *str)
 	return (0);
 }
 
+void q_helper(int *type, int *flag, int i)
+{
+	if (i == 1)
+	{
+		*type = S_QUOTE;
+		*flag = 1;
+	}
+	if (i == 2)
+	{
+		*type = D_QUOTE;
+		*flag = 1;
+	}
+}
+
+void	q_helper_second(t_quotes *quotes, t_list **lst, int i, char *str)
+{
+
+}
+
 int	quotes_finder(char *str, t_list **lst)
 {
 	int			i;
 	int			counter;
-	int			type;
-	int			flag;
+	int			*type;
+	int			*flag;
 	t_quotes	*quotes;
 
 	i = 0;
@@ -90,22 +109,27 @@ int	quotes_finder(char *str, t_list **lst)
 		flag = 0;
 		if (str[i] == '\\')
 			i += 2;
-		if (str[i] == '\'')
+		if (str[i] == '\'' || str[i] == '\"')
 		{
 			if (s_quote(quotes, lst, i, str) == -1)
 				return (-1);
-			type = S_QUOTE;
+			q_helper(&type, &flag, 1 + (str[i] == '\"'));
 			counter++;
-			flag = 1;
 		}
-		if (str[i] == '\"')
-		{
-			if (d_quote(quotes, lst, i, str) == -1)
-				return (-1);
-			type = D_QUOTE;
-			counter++;
-			flag = 1;
-		}
+		// if (str[i] == '\'')
+		// {
+		// 	if (s_quote(quotes, lst, i, str) == -1)
+		// 		return (-1);
+		// 	q_helper(&type, &flag, 1);
+		// 	counter++;
+		// }
+		// if (str[i] == '\"')
+		// {
+		// 	if (d_quote(quotes, lst, i, str) == -1)
+		// 		return (-1);
+		// 	q_helper(&type, &flag, 2);
+		// 	counter++;
+		// }
 		if (flag == 1)
 			i = quote_ends(type, i + 1, str) + 1;
 		else
@@ -282,7 +306,7 @@ int	cmd_counter(int *comma, char *cmd)
 	return (i);
 }
 
-static void	ft_free(char **tab, int n)
+void	ft_free(char **tab, int n)
 {
 	int	i;
 
@@ -357,48 +381,54 @@ int	only_char(char c, char *str)
 	return (1);
 }
 
+int	free_the_nipples(t_list *tmp, char **cmds, int i)
+{
+	ft_lstclear(&tmp, del_node);
+	ft_free(cmds, i + 1);
+	return (parse_er("bash: syntax error near unexpected token `;'", 1));
+}
+
+int	check_cmds_helper(char **cmds, char *cmd, t_list *tmp, int *comma)
+{
+	int	last;
+	int	i;
+
+	i = -1;
+	last = last_comma(comma);
+	while (cmds[++i])
+	{
+		if (i == cmd_counter(comma, cmd) - 1)
+			if (only_char(' ', cmds[i])
+				&& (comma[last - 1] == (int)ft_strlen(cmd) - 1))
+				free_the_nipples(tmp, cmds, i);
+		if (i != cmd_counter(comma, cmd) - 1 && only_char(' ', cmds[i]))
+			free_the_nipples(tmp, cmds, i);
+	}
+	if (comma)
+		free(comma);
+	i = 0;
+	while (cmds[i])
+	{
+		printf("%s\n", cmds[i]);
+		i++;
+	}
+	ft_free(cmds, i);
+	ft_lstclear(&tmp, del_node);
+	return (0);
+}
+
 int	check_cmds(char **cmds, char *cmd)
 {
 	int		i;
 	int		*comma;
 	t_list	*tmp;
-	int		last;
 	int		ret;
 
 	tmp = NULL;
 	ret = quotes_finder(cmd, &tmp);
 	comma = commas(cmd, &tmp);
-	last = last_comma(comma);
 	if (comma != NULL)
-	{
-		i = -1;
-		while (cmds[++i])
-		{
-			if (i == cmd_counter(comma, cmd) - 1)
-				if (only_char(' ', cmds[i]) && (comma[last - 1] == (int)ft_strlen(cmd) - 1))
-				{
-					ft_lstclear(&tmp, del_node);
-					ft_free(cmds, i + 1);
-					return (parse_er("bash: syntax error near unexpected token `;'", 1));
-				}
-			if (i != cmd_counter(comma, cmd) - 1 && only_char(' ', cmds[i]))
-			{
-				ft_lstclear(&tmp, del_node);
-				ft_free(cmds, i);
-				return (parse_er("bash: syntax error near unexpected token `;'", 1));
-			}
-		}
-		i = 0;
-		if (comma)
-			free(comma);
-		while (cmds[i])
-		{
-			printf("%s\n", cmds[i]);
-			i++;
-		}
-		ft_lstclear(&tmp, del_node);
-		return (0);
-	}
+		return (check_cmds_helper(cmds, cmd, tmp, comma));
 	i = 0;
 	while (cmds[i])
 	{
@@ -409,7 +439,7 @@ int	check_cmds(char **cmds, char *cmd)
 	return (0);
 }
 
-int	main()
+int main()
 {
 	int i;
 	char **tab;
