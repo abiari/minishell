@@ -10,3 +10,18 @@ char	**parse_line(char *line)
 			return (NULL);
 	return (tab);
 }
+
+int	main(void)
+{
+	int		i;
+	char	**tab;
+	char	*cmd;
+
+	i = 0;
+	tab = NULL;
+	cmd = ft_strdup("hello; allo; ';;;'; makayn walou\\;");
+	tab = split_cmds(cmd);
+	if (tab)
+		check_cmds(tab, cmd);
+	free(cmd);
+}
