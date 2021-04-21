@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/03/20 10:29:47 by abiari           ###   ########.fr       */
+/*   Updated: 2021/04/19 14:26:08 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,36 @@
 # define S_QUOTE 9001
 # define D_QUOTE 9002
 
-typedef struct	s_cmds
+
+
+/*
+LINKED LIST
+*/
+
+// Separated By ;
+typedef struct	s_cmd
 {
-	char			**cmd;
-	int				type;
-	struct	s_cmds	*prev;
-	struct	s_cmds	*next;
-}				t_cmds;
+	char *line;
+	t_pipeline *pipes;
+	struct s_cmd *next;
+}				t_cmd;
+
+// Separated by |
+typedef struct	s_pipeline
+{
+	char *line;
+	t_redirect *redirections;
+	struct s_pipeline *next;
+}				t_pipeline;
+
+
+typedef struct	s_redirect
+{
+	char *line;
+	char **args;
+	char **redirect;
+	struct s_redirect *next;
+}				t_redirect;
 
 typedef struct	s_envl
 {
@@ -46,6 +69,11 @@ typedef struct	s_quotes
 
 int		g_status;
 
+void	del_node(void *content);
+int		last_comma(int *commas);
+int		len_init(int index, int *comma, int last, char *cmd);
+int		i_init(int index, int *comma, int last, char *cmd);
+int		free_the_nipples(t_list *tmp, char **cmds, int i);
 char	**parse_line(char *line);
 char	*find_env_key(const char *envp);
 char	*find_env_value(const char *envp);
@@ -66,7 +94,7 @@ char	*fill_command(char *cmd, int index, int *comma);
 int		check_first_cmd(char *cmd, int first_comma);
 int		cmd_counter(int *comma, char *cmd);
 void	ft_free(char **tab, int n);
-char	**cmds_spliter(int *comma, char *cmd, t_list **quotes);
+char	**cmds_spliter(int *comma, char *cmd);
 char	**split_cmds(char *cmd);
 int		only_char(char c, char *str);
 int		check_cmds(char **cmds, char *cmd);
