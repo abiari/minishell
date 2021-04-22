@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 11:47:42 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/04/14 11:49:30 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/04/22 15:46:52 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ int	only_char(char c, char *str)
 int	free_the_nipples(t_list *tmp, char **cmds, int i)
 {
 	ft_lstclear(&tmp, del_node);
-	ft_free(cmds, i + 1);
+	(void)i;
+	(void)cmds;
+	//ft_free(cmds, i);
 	return (parse_er("bash: syntax error near unexpected token `;'", 1));
 }

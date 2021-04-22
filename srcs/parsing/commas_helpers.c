@@ -6,13 +6,13 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 11:46:06 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/04/14 12:45:19 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/04/22 14:20:56 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	commas_counter(char *str, t_list *tmp)
+int	char_counter(char *str, t_list *tmp, char c)
 {
 	int	i;
 	int	count;
@@ -23,13 +23,13 @@ int	commas_counter(char *str, t_list *tmp)
 	{
 		if (str[i] == '\\' && (i++))
 			continue ;
-		if (str[i] == ';' && is_between_quotes(i, &tmp) == 0)
+		if (str[i] == c && is_between_quotes(i, &tmp) == 0)
 			count++;
 	}
 	return (count);
 }
 
-void	commas_array(int *commas, char *str, t_list *tmp)
+void	char_array(int *array, char *str, t_list *tmp, char c)
 {
 	int	i;
 	int	count;
@@ -40,13 +40,13 @@ void	commas_array(int *commas, char *str, t_list *tmp)
 	{
 		if (str[i] == '\\' && (i++))
 			continue ;
-		if (str[i] == ';' && is_between_quotes(i, &tmp) == 0)
+		if (str[i] == c && is_between_quotes(i, &tmp) == 0)
 		{
-			commas[count] = i;
+			array[count] = i;
 			count++;
 		}
 	}
-	commas[count] = -2;
+	array[count] = -2;
 }
 
 int	*commas(char *str, t_list **lst)
@@ -56,13 +56,13 @@ int	*commas(char *str, t_list **lst)
 	t_list	*tmp;
 
 	tmp = *lst;
-	count = commas_counter(str, tmp);
+	count = char_counter(str, tmp, ';');
 	if (count == 0)
 		return (NULL);
 	commas = malloc((sizeof(int) * count) + sizeof(int));
 	if (!commas)
 		return (NULL);
-	commas_array(commas, str, tmp);
+	char_array(commas, str, tmp, ';');
 	return (commas);
 }
 
@@ -80,12 +80,12 @@ int	check_last_cmd(char *cmd, int last_comma)
 	return (1);
 }
 
-int	last_comma(int *commas)
+int	last_char(int *array)
 {
 	int	last;
 
 	last = 0;
-	while (commas[last] != -2)
+	while (array[last] != -2)
 		last++;
 	return (last);
 }

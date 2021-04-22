@@ -6,13 +6,13 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 11:53:48 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/04/14 11:54:51 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/04/22 14:37:58 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*fill_command(char *cmd, int index, int *comma)
+char	*fill_command(char *cmd, int index, int *array)
 {
 	int		i;
 	int		j;
@@ -20,9 +20,9 @@ char	*fill_command(char *cmd, int index, int *comma)
 	int		last;
 	char	*tmp;
 
-	last = last_comma(comma);
-	len = len_init(index, comma, last, cmd);
-	i = i_init(index, comma, last, cmd);
+	last = last_char(array);
+	len = len_init(index, array, last, cmd);
+	i = i_init(index, array, last, cmd);
 	tmp = (char *)malloc((len + 1) * sizeof(char));
 	j = 0;
 	while (j < len)
