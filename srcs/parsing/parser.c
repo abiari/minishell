@@ -29,7 +29,7 @@ int	check_pipes(char **pipe, char *cmd)
 		printf("%s\n", pipe[i]);
 		i++;
 	}
-	ft_free(pipe, i);
+	//ft_free(pipe, i);
 	return (0);
 }
 
@@ -37,23 +37,23 @@ int	main(void)
 {
 	int		i;
 	char	**tab;
-	//char	**pipe;
+	char	**pipe;
 	char	*cmd;
 
 
 	i = 0;
 	tab = NULL;
-	cmd = ft_strdup("echo hello;tesst ;\"test \" ;allo ';';    ;");
+	cmd = ft_strdup("echo | hello;tesst | allo ;\"test \" | allo ;allo ';' | allo ;");
 	tab = split_cmds(cmd);
 	if (tab)
 		check_cmds(tab, cmd);
-	// while (tab[i])
-	// {
-	// 	pipe = pipe_it(tab[i]);
-	// 	if (pipe)
-	// 		check_pipes(pipe, tab[i]);
-	// 	i++;
-	// }
+	while (tab[i])
+	{
+		pipe = pipe_it(tab[i]);
+		if (pipe)
+			check_pipes(pipe, tab[i]);
+		i++;
+	}
 	free(cmd);
 	while(1);
 }

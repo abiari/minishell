@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:18:09 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/04/22 15:44:37 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/04/23 13:39:52 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,25 +39,26 @@ int	check_cmds_helper(char **cmds, char *cmd, t_list *tmp, int *comma)
 
 	i = -1;
 	last = last_char(comma);
-	printf("%d\n", cmd_counter(comma, cmd) - 1);
 	while (cmds[++i])
 	{
 		if (i == cmd_counter(comma, cmd) - 1)
 			if (only_char(' ', cmds[i])
 				&& (comma[last - 1] == (int)ft_strlen(cmd) - 1))
-				free_the_nipples(tmp, cmds, cmd_counter(comma, cmd));
+				return (free_the_nipples(tmp, cmds, cmd_counter(comma, cmd)));
 		if (i != cmd_counter(comma, cmd) - 1 && only_char(' ', cmds[i]))
-			free_the_nipples(tmp, cmds, cmd_counter(comma, cmd));
+			return (free_the_nipples(tmp, cmds, cmd_counter(comma, cmd)));
 	}
 	if (comma)
 		free(comma);
 	i = 0;
+	printf("*----------------------*\n");
 	while (cmds[i])
 	{
 		printf("%s\n", cmds[i]);
 		i++;
 	}
-	ft_free(cmds, i);
+	printf("*----------------------*\n");
+	//ft_free(cmds, i);
 	ft_lstclear(&tmp, del_node);
 	return (0);
 }
@@ -75,11 +76,13 @@ int	check_cmds(char **cmds, char *cmd)
 	if (comma != NULL)
 		return (check_cmds_helper(cmds, cmd, tmp, comma));
 	i = 0;
+	printf("*----------------------*\n");
 	while (cmds[i])
 	{
 		printf("%s\n", cmds[i]);
 		i++;
 	}
-	ft_free(cmds, i);
+	printf("*----------------------*\n");
+	//ft_free(cmds, i);
 	return (0);
 }
