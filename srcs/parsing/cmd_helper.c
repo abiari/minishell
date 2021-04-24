@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:18:09 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/04/23 13:39:52 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/04/24 13:51:07 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ int	check_cmds_helper(char **cmds, char *cmd, t_list *tmp, int *comma)
 	last = last_char(comma);
 	while (cmds[++i])
 	{
-		if (i == cmd_counter(comma, cmd) - 1)
+		if (i == cmd_counter(comma, cmd, 0) - 1)
 			if (only_char(' ', cmds[i])
 				&& (comma[last - 1] == (int)ft_strlen(cmd) - 1))
-				return (free_the_nipples(tmp, cmds, cmd_counter(comma, cmd)));
-		if (i != cmd_counter(comma, cmd) - 1 && only_char(' ', cmds[i]))
-			return (free_the_nipples(tmp, cmds, cmd_counter(comma, cmd)));
+				return (free_the_nipples(tmp, cmds, cmd_counter(comma, cmd, 0), 0));
+		if (i != cmd_counter(comma, cmd, 0) - 1 && only_char(' ', cmds[i]))
+			return (free_the_nipples(tmp, cmds, cmd_counter(comma, cmd, 0), 0));
 	}
 	if (comma)
 		free(comma);
@@ -54,7 +54,38 @@ int	check_cmds_helper(char **cmds, char *cmd, t_list *tmp, int *comma)
 	printf("*----------------------*\n");
 	while (cmds[i])
 	{
-		printf("%s\n", cmds[i]);
+		printf("command %d:\n%s\n", i + 1, cmds[i]);
+		i++;
+	}
+	printf("*----------------------*\n");
+	//ft_free(cmds, i);
+	ft_lstclear(&tmp, del_node);
+	return (0);
+}
+
+int	check_pipes_helper(char **cmds, char *cmd, t_list *tmp, int *pipe)
+{
+	int	last;
+	int	i;
+
+	i = -1;
+	last = last_char(pipe);
+	while (cmds[++i])
+	{
+		if (i == cmd_counter(pipe, cmd, 1) - 1)
+			if (only_char(' ', cmds[i])
+				&& (pipe[last - 1] == (int)ft_strlen(cmd) - 1))
+				return (free_the_nipples(tmp, cmds, cmd_counter(pipe, cmd, 1), 1));
+		if (i != cmd_counter(pipe, cmd, 1) - 1 && only_char(' ', cmds[i]))
+			return (free_the_nipples(tmp, cmds, cmd_counter(pipe, cmd, 1), 1));
+	}
+	if (pipe)
+		free(pipe);
+	i = 0;
+	printf("*----------------------*\n");
+	while (cmds[i])
+	{
+		printf("pipe %d:\n%s\n", i + 1, cmds[i]);
 		i++;
 	}
 	printf("*----------------------*\n");

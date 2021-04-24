@@ -22,7 +22,7 @@ int	check_pipes(char **pipe, char *cmd)
 	ret = quotes_finder(cmd, &tmp);
 	pipe_arr = pipes(cmd, &tmp);
 	if (pipe_arr != NULL)
-		return (check_cmds_helper(pipe, cmd, tmp, pipe_arr));
+		return (check_pipes_helper(pipe, cmd, tmp, pipe_arr));
 	i = 0;
 	while (pipe[i])
 	{
@@ -43,7 +43,7 @@ int	main(void)
 
 	i = 0;
 	tab = NULL;
-	cmd = ft_strdup("echo | hello;tesst | allo ;\"test \" | allo ;allo ';' | allo ;");
+	cmd = ft_strdup("echo |||||| hello; \\| tesst | allo ;\"test \" | allo ;allo ';' | allo ; \"|\"; echo allo \\| | cat -e");
 	tab = split_cmds(cmd);
 	if (tab)
 		check_cmds(tab, cmd);

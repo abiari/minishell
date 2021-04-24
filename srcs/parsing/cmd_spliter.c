@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 11:53:48 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/04/23 13:32:45 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/04/24 14:05:39 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,17 @@ int	check_first_cmd(char *cmd, int first_comma)
 	return (1);
 }
 
-int	cmd_counter(int *comma, char *cmd)
+int	cmd_counter(int *comma, char *cmd, int indice)
 {
 	int	i;
 
 	i = 0;
 	while (comma[i] != -2)
 		i++;
-	if (check_first_cmd(cmd, comma[0]) == -1)
+	if (check_first_cmd(cmd, comma[0]) == -1 && indice == 0)
 		return (parse_er("bash: syntax error near unexpected token `;'", -1));
+	if (check_first_cmd(cmd, comma[0]) == -1 && indice == 1)
+		return (parse_er("bash: syntax error near unexpected token `|'", -1));
 	if (check_last_cmd(cmd, comma[i - 1]))
 		i++;
 	return (i);
@@ -77,7 +79,7 @@ char	**cmds_spliter(int *comma, char *cmd)
 	i = 0;
 	if (comma != NULL)
 	{
-		i = cmd_counter(comma, cmd);
+		i = cmd_counter(comma, cmd, 0);
 		if (i == -1)
 			return (NULL);
 		tab = (char **)malloc((i + 1) * sizeof(char *));
