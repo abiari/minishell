@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 10:37:52 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/05/05 11:48:57 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/05/05 12:16:39 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,29 @@ int	red_counter(char *str, t_list *tmp)
 	return (count);
 }
 
+void	red_array(int *array, char *str, t_list *tmp)
+{
+	int	i;
+	int	count;
+
+	i = -1;
+	count = 0;
+	while (str[++i])
+	{
+		if (str[i] == '\\' && (i++))
+			continue ;
+		if (str[i] == '>' || str[i] == '<')
+		{
+			if (validate_red(str, i, tmp) == 1 || validate_red(str, i, tmp) == 2)
+			{
+				array[count] = i;
+				count++;
+			}
+		}
+	}
+	array[count] = -2;
+}
+
 int	*reds(char *str, t_list **lst)
 {
 	int		count;
@@ -100,7 +123,7 @@ int	*reds(char *str, t_list **lst)
 	reds = malloc((sizeof(int) * count) + sizeof(int));
 	if (!reds)
 		return (NULL);
-	// char_array(reds, str, tmp, '>');
+	red_array(reds, str, tmp);
 	return (reds);
 }
 
