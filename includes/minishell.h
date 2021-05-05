@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/04/19 14:26:08 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/05/05 10:33:51 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 # include <sys/wait.h>
 # define S_QUOTE 9001
 # define D_QUOTE 9002
+# define IN_R 9003
+# define OUT_R 9004
+# define APP_R 9005
 
 
 
@@ -29,27 +32,27 @@ LINKED LIST
 */
 
 // Separated By ;
-typedef struct	s_cmd
-{
-	char *line;
-	t_pipeline *pipes;
-	struct s_cmd *next;
-}				t_cmd;
+// typedef struct	s_cmd
+// {
+// 	char *line;
+// 	t_pipeline *pipes;
+// 	struct s_cmd *next;
+// }				t_cmd;
 
-// Separated by |
-typedef struct	s_pipeline
-{
-	char *line;
-	t_redirect *redirections;
-	struct s_pipeline *next;
-}				t_pipeline;
+// // Separated by |
+// typedef struct	s_pipeline
+// {
+// 	char *line;
+// 	t_redirect *redirections;
+// 	struct s_pipeline *next;
+// }				t_pipeline;
 
 
 typedef struct	s_redirect
 {
-	char *line;
-	char **args;
-	char **redirect;
+	int	type;
+	char **cmd;
+	char *fd;
 	struct s_redirect *next;
 }				t_redirect;
 
@@ -70,10 +73,15 @@ typedef struct	s_quotes
 int		g_status;
 
 void	del_node(void *content);
-int		last_comma(int *commas);
+int		check_cmds_helper(char **cmds, char *cmd, t_list *tmp, int *comma);
+char	**pipe_it(char *cmd);
+int		char_counter(char *str, t_list *tmp, char c);
+void	char_array(int *array, char *str, t_list *tmp, char c);
+int		*pipes(char *str, t_list **lst);
+int		last_char(int *array);
 int		len_init(int index, int *comma, int last, char *cmd);
 int		i_init(int index, int *comma, int last, char *cmd);
-int		free_the_nipples(t_list *tmp, char **cmds, int i);
+int		free_the_nipples(t_list *tmp, char **cmds, int i, int indice);
 char	**parse_line(char *line);
 char	*find_env_key(const char *envp);
 char	*find_env_value(const char *envp);
@@ -92,10 +100,12 @@ int		*commas(char *str, t_list **lst);
 int		check_last_cmd(char *cmd, int last_comma);
 char	*fill_command(char *cmd, int index, int *comma);
 int		check_first_cmd(char *cmd, int first_comma);
-int		cmd_counter(int *comma, char *cmd);
+int		cmd_counter(int *comma, char *cmd, int indice);
 void	ft_free(char **tab, int n);
 char	**cmds_spliter(int *comma, char *cmd);
 char	**split_cmds(char *cmd);
 int		only_char(char c, char *str);
 int		check_cmds(char **cmds, char *cmd);
+int		check_pipes_helper(char **cmds, char *cmd, t_list *tmp, int *pipe);
+// void	lst_append_wa(t_list **lst, t_redirect *node);
 #endif
