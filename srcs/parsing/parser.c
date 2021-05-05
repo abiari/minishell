@@ -39,11 +39,12 @@ int	main(void)
 	char	**tab;
 	char	**pipe;
 	char	*cmd;
+	char	**red;
 
 
 	i = 0;
 	tab = NULL;
-	cmd = ft_strdup("echo |||||| hello; \\| tesst | allo ;\"test \" | allo ;allo ';' | allo ; \"|\"; echo allo \\| | cat -e");
+	cmd = ft_strdup("echo |||||| hello; \\| tesst | allo ;\"test \" | allo ;allo ';' | allo ; \"|\"; echo allo | | cat -e");
 	tab = split_cmds(cmd);
 	if (tab)
 		check_cmds(tab, cmd);
@@ -52,6 +53,14 @@ int	main(void)
 		pipe = pipe_it(tab[i]);
 		if (pipe)
 			check_pipes(pipe, tab[i]);
+		i++;
+	}
+	i = 0;
+	while (pipe[i])
+	{
+		red = reddit(pipe[i]);
+		if(red)
+			check_reds(red, red[i]);
 		i++;
 	}
 	free(cmd);
