@@ -1,32 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_env.c                                          :+:      :+:    :+:   */
+/*   msh_echo.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/11 15:56:18 by abiari            #+#    #+#             */
-/*   Updated: 2021/04/26 16:22:44 by abiari           ###   ########.fr       */
+/*   Created: 2021/04/19 13:22:15 by abiari            #+#    #+#             */
+/*   Updated: 2021/04/21 14:05:21 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int		msh_env(t_list **envl)
+int		msh_echo(char **args)
 {
-	int		ret;
-	t_envl	*tmp_cast;
-	t_list	*tmp;
+	int		i;
+	t_envl	*var;
 
-	ret = 0;
-
-	tmp = *envl;
-	while (tmp != NULL)
+	i = 0;
+	while (args[i])
 	{
-		tmp_cast = ((t_envl *)(tmp)->content);
-		if (tmp_cast->env_printable)
-			printf("%s\n", tmp_cast->var);
-		tmp = tmp->next;
+		ft_putstr_fd(args[i], 1);
+		i++;
 	}
-	return (ret);
 }

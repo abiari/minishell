@@ -1,32 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_env.c                                          :+:      :+:    :+:   */
+/*   msh_exit.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/11 15:56:18 by abiari            #+#    #+#             */
-/*   Updated: 2021/04/26 16:22:44 by abiari           ###   ########.fr       */
+/*   Created: 2021/04/19 13:22:08 by abiari            #+#    #+#             */
+/*   Updated: 2021/05/06 12:41:11 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int		msh_env(t_list **envl)
+int		msh_exit(int status)
 {
-	int		ret;
-	t_envl	*tmp_cast;
-	t_list	*tmp;
-
-	ret = 0;
-
-	tmp = *envl;
-	while (tmp != NULL)
+	if (!status)
 	{
-		tmp_cast = ((t_envl *)(tmp)->content);
-		if (tmp_cast->env_printable)
-			printf("%s\n", tmp_cast->var);
-		tmp = tmp->next;
+		kill(0, SIGKILL);
+		exit(0);
 	}
-	return (ret);
 }

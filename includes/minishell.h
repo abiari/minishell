@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/03/13 15:02:46 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/06 14:45:20 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,45 @@
 # include "../libft/libft.h"
 # include <unistd.h>
 # include <stdio.h>
+# include <fcntl.h>
 # include <signal.h>
 # include <string.h>
 # include <errno.h>
 # include <sys/wait.h>
+# define S_QUOTE 9001
+# define D_QUOTE 9002
+# define IN_R 9003
+# define OUT_R 9004
+# define APP_R 9005
 
-typedef struct	s_cmds
+typedef struct	s_cmd
 {
-	char			*cmd;
-	int				type;
-	struct	s_cmds	*prev;
-	struct	s_cmds	*next;
-}				t_cmds;
+	char *line;
+	t_pipeline *pipes;
+	struct s_cmd *next;
+}				t_cmd;
+
+typedef struct	s_pipeline
+{
+	char *line;
+	t_redirect *redirections;
+	struct s_pipeline *next;
+}				t_pipeline;
+
+typedef struct	s_redirect
+{
+	int	type;
+	char **cmd;
+	char *fd;
+	struct s_redirect *next;
+}				t_redirect;
 
 typedef struct	s_envl
 {
 	char	*key;
 	char	*value;
 	char	*var;
+	int		env_printable;
 }				t_envl;
 
 int		g_status;
