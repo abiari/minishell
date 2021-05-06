@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 09:43:58 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/04/22 15:24:43 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/05/06 16:01:49 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,21 +46,6 @@ int	s_d_quote(t_quotes *quotes, t_list **lst, int i, char *str)
 	lst_append(lst, quotes);
 	return (0);
 }
-
-// int	d_quote(t_quotes *quotes, t_list **lst, int i, char *str)
-// {
-// 	quotes = malloc(sizeof(t_quotes));
-// 	quotes->type = D_QUOTE;
-// 	quotes->opens = i;
-// 	quotes->closes = quote_ends(D_QUOTE, i + 1, str);
-// 	if (quotes->closes == -1)
-// 	{
-// 		ft_lstclear(lst, del_node);
-// 		return (-1);
-// 	}
-// 	lst_append(lst, quotes);
-// 	return (0);
-// }
 
 void	q_helper(int *type, int *flag, int i, int *counter)
 {
