@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 10:05:30 by abiari            #+#    #+#             */
-/*   Updated: 2021/03/06 16:31:15 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/06 12:27:24 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_lstadd_back(t_list **alst, t_list *new)
 {
-	t_list *current;
+	t_list	*current;
 
 	if (!alst)
 		return ;

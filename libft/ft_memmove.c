@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 12:22:19 by abiari            #+#    #+#             */
-/*   Updated: 2019/10/14 07:57:56 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/06 12:31:38 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	unsigned char *ptsrc;
-	unsigned char *ptdest;
+	unsigned char	*ptsrc;
+	unsigned char	*ptdest;
 
 	ptsrc = (unsigned char *)src;
 	ptdest = (unsigned char *)dest;
-	if (dest == NULL && (void*)src == NULL)
+	if (dest == NULL && (void *)src == NULL)
 	{
 		return (0);
 	}

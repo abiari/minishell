@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 20:40:42 by abiari            #+#    #+#             */
-/*   Updated: 2019/10/28 07:52:49 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/06 12:33:23 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	int		ft_wlen(char const *str, int i, int *nbword, int c)
+static	int	ft_wlen(char const *str, int i, int *nbword, int c)
 {
 	*nbword += 1;
 	while (str[i] != c && str[i] != '\0')
@@ -31,7 +31,7 @@ static	void	ft_free(char **tab, int n)
 	tab = NULL;
 }
 
-static	int		ft_fill(char **tab, char const *str, int *nbword, int c)
+static	int	ft_fill(char **tab, char const *str, int *nbword, int c)
 {
 	int		wlen;
 	int		j;
@@ -66,7 +66,7 @@ static	void	reset(int *i, int *j)
 	*j = 0;
 }
 
-char			**ft_split(char const *str, char c)
+char	**ft_split(char const *str, char c)
 {
 	int		i;
 	char	**tab;

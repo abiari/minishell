@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 11:36:40 by abiari            #+#    #+#             */
-/*   Updated: 2019/10/28 08:01:29 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/06 12:26:00 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static	char	*ft_zero(void)
 	return (ret);
 }
 
-static	int		ft_len(unsigned int n)
+static	int	ft_len(unsigned int n)
 {
 	int	i;
 
@@ -35,7 +35,7 @@ static	int		ft_len(unsigned int n)
 	return (i);
 }
 
-static	int		ft_neg(unsigned int *tmp, int n)
+static	int	ft_neg(unsigned int *tmp, int n)
 {
 	if (n < 0)
 	{
@@ -46,7 +46,7 @@ static	int		ft_neg(unsigned int *tmp, int n)
 	return (0);
 }
 
-char			*ft_itoa(int n)
+char	*ft_itoa(int n)
 {
 	int				len;
 	int				signe;

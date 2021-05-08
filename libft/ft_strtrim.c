@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 21:05:33 by abiari            #+#    #+#             */
-/*   Updated: 2019/10/22 15:23:05 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/06 12:38:23 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static	int	findset(char c, char const *set)
 	return (0);
 }
 
-char		*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char const *s1, char const *set)
 {
 	int		setlen;
 	int		slen;

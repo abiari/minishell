@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 16:40:49 by abiari            #+#    #+#             */
-/*   Updated: 2019/10/19 16:23:10 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/06 12:24:03 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	*ft_calloc(size_t n, size_t size)
 		n = 1;
 		size = 1;
 	}
-	if ((str = malloc(n * size)) == NULL)
+	str = malloc(n * size);
+	if (str == NULL)
 		return (NULL);
 	ft_bzero(str, n * size);
 	return (str);

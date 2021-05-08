@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 18:32:40 by abiari            #+#    #+#             */
-/*   Updated: 2019/10/22 15:17:52 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/06 12:39:33 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		p[0] = '\0';
 		return (p);
 	}
-	if (!(p = (char *)malloc(len + 1)))
+	p = (char *)malloc(len + 1);
+	if (!p)
 		return (NULL);
 	while (s[start + i] != '\0' && i < len)
 	{

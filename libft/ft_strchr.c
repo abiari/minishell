@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/09 15:59:31 by abiari            #+#    #+#             */
-/*   Updated: 2019/10/17 19:19:03 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/06 12:35:32 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_strchr(const char *s, int c)
 	size_t	i;
 	char	*str;
 
-	str = (char*)s;
+	str = (char *)s;
 	i = 0;
 	while (i <= ft_strlen(s))
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 15:10:01 by abiari            #+#    #+#             */
-/*   Updated: 2019/10/21 12:43:51 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/06 12:29:58 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	*ft_memchr(const void *buf, int ch, size_t lenght)
 	unsigned int	i;
 	char			*string;
 
-	string = (char*)buf;
+	string = (char *)buf;
 	i = 0;
 	while (i < lenght)
 	{

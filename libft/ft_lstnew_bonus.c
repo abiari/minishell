@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 16:51:15 by abiari            #+#    #+#             */
-/*   Updated: 2021/03/09 18:04:09 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/06 12:29:39 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ t_list	*ft_lstnew(void *content)
 	void	*data;
 
 	data = content;
-	if (!(new = (t_list*)malloc(sizeof(t_list))))
+	new = (t_list *)malloc(sizeof(t_list));
+	if (!new)
 		return (NULL);
 	new->content = data;
 	new->next = NULL;
