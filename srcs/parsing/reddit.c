@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 10:37:52 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/05/06 16:10:50 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/05/08 13:45:00 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	red_counter(char *str, t_list *tmp)
 		if (str[i] == '\\' && (i++))
 			continue ;
 		if (str[i] == '>' || str[i] == '<')
+		{
 			if (validate_red(str, i, tmp) == 1)
 				count++;
 			else if (validate_red(str, i, tmp) == 2)
@@ -83,6 +84,7 @@ int	red_counter(char *str, t_list *tmp)
 				i++;
 				count++;
 			}
+		}
 	}
 	return (count);
 }
@@ -127,42 +129,14 @@ int	*reds(char *str, t_list **lst)
 	return (reds);
 }
 
-char	**red_spliter(int *red, char *cmd)
-{
-	char	**tab;
-	int		i;
-	int		j;
-
-	j = -1;
-	i = 0;
-	if (pipe != NULL)
-	{
-		i = red_counter(red, cmd);
-		if (i == -1)
-			return (NULL);
-		tab = (char **)malloc((i + 1) * sizeof(char *));
-		j = -1;
-		while (++j < i)
-			tab[j] = ft_strdup_dzeb(fill_command(cmd, j, red));
-		tab[j] = NULL;
-		free(red);
-	}
-	else
-	{
-		tab = (char **)malloc((2) * sizeof(char *));
-		tab[0] = ft_strdup(cmd);
-		tab[1] = NULL;
-	}
-	return (tab);
-}
-
-int		red_finder(char *str, t_list **redi, t_list **tmp)
+int		red_finder(char *str, t_list **redi, t_list **tp)
 {
 	int			i;
-	int			type;
 	int			count;
 	t_red		*red;
+	t_list		*tmp;
 
+	tmp = *tp;
 	i = -1;
 	count = 0;
 	while (str[++i])
@@ -170,34 +144,84 @@ int		red_finder(char *str, t_list **redi, t_list **tmp)
 		if (str[i] == '\\' && (i++))
 			continue ;
 		if (str[i] == '>' || str[i] == '<')
+		{
 			if (validate_red(str, i, tmp) == 1 || validate_red(str, i, tmp) == 2)
 			{
 				red = malloc(sizeof(t_red));
 				red->index = i;
 				red->type = red_type_check(str, i);
 				count++;
+				if (validate_red(str, i, tmp) == 2)
+					i++;
 				lst_append(redi, red);
 			}
+		}
 	}
 	return (count);
 }
 
-char	**reddit(char *cmd)
+
+void print_list(t_list *list)
+{
+	if (list)
+	{
+		printf("FROM PRINT_LIST %d | %d\n", ((t_red*)list->content)->index, ((t_red*)list->content)->type);
+		print_list(list->next);
+	}
+}
+
+void	fill_red(int index, char *cmd, t_list *red) /*ach kadir a sa7bi zid t9ra mn lbssala*/
+{
+	//char	*str;
+	int		prev;
+	//int		i;
+	t_list	*tmp;
+
+	(void)cmd;
+	tmp = red;
+	prev = 0;
+	while (((t_red*)tmp->content)->index != index && ((t_red*)tmp->next))
+	{
+		prev = ((t_red*)tmp->content)->index;
+	}
+	printf("%d\n", prev);
+}
+
+void	split_red(char *cmd, t_list *reds, t_list *quotes)
+{
+	int		red_count;
+	char	**meh;
+	t_list	*tmp;
+	int		i;
+
+	(void)cmd;
+	i = 0;
+	tmp = reds;
+	red_count = red_counter(cmd, quotes);
+	meh = (char**)malloc(sizeof(char*) * (red_count + 2));
+	while (((t_red*)tmp->next))
+	{
+		//meh[i] = ft_strdup(fill_red(((t_red*)tmp->content)->index, cmd, reds));
+		fill_red(((t_red*)tmp->content)->index, cmd, reds);
+	}
+}
+
+void	reddit(char *cmd)
 {
 	t_list	*tmp;
-	t_red	*r_srct;
-	int		*red;
+	t_list	*tp;
+	//char	*cmd;
 	int		ret;
-	char	**tab;
+	// char	**red;
 
 	tmp = NULL;
-	red = NULL;
+	tp = NULL;
 	ret = quotes_finder(cmd, &tmp);
-	ret = red_finder(cmd, &r_srct, &tmp);
-	// red = reds(cmd, &tmp);
-	// tab = red_spliter(red, cmd);
+	ret = red_finder(cmd, &tp, &tmp);
+	//print_list(tp);
+	if (ret > 0)
+		split_red(cmd, tp, tmp);
 	ft_lstclear(&tmp, del_node);
-	ft_lstclear(&r_srct, del_node_r);
-	return (tab);
+	ft_lstclear(&tp, del_node_r);
 }
 

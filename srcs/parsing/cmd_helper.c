@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:18:09 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/04/24 13:51:07 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/05/07 14:54:02 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,13 @@ int	check_pipes_helper(char **cmds, char *cmd, t_list *tmp, int *pipe)
 	if (pipe)
 		free(pipe);
 	i = 0;
-	printf("*----------------------*\n");
-	while (cmds[i])
-	{
-		printf("pipe %d:\n%s\n", i + 1, cmds[i]);
-		i++;
-	}
-	printf("*----------------------*\n");
+	// printf("*----------------------*\n");
+	// while (cmds[i])
+	// {
+	// 	printf("pipe %d:\n%s\n", i + 1, cmds[i]);
+	// 	i++;
+	// }
+	// printf("*----------------------*\n");
 	//ft_free(cmds, i);
 	ft_lstclear(&tmp, del_node);
 	return (0);
