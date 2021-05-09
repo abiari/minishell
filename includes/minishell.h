@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/06 14:45:20 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/08 14:40:14 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,13 @@ typedef struct	s_envl
 	int		env_printable;
 }				t_envl;
 
-int		g_status;
+typedef struct	s_globals
+{
+	int	status;
+	int	exit_code;
+}				t_globals;
+
+t_globals	g_vars;
 
 char	*find_env_key(const char *envp);
 char	*find_env_value(const char *envp);
@@ -72,4 +78,6 @@ void	add_env_var(char *var, char *value, t_list **envl);
 void	envl_clear(void *content);
 int		delete_env_var(char *var, t_list **envl);
 t_envl	*find_env_var(char *var, t_list **envl);
+char	*bin_path(char *cmd, t_list *envl);
+void	free_double(char **arr);
 #endif
