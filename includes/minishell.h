@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/05 10:33:51 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/05/10 13:10:21 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ LINKED LIST
 // 	struct s_pipeline *next;
 // }				t_pipeline;
 
-
 typedef struct	s_redirect
 {
 	int	type;
@@ -70,9 +69,22 @@ typedef struct	s_quotes
 	int		closes;
 }				t_quotes;
 
+typedef struct	s_red
+{
+	int		id;
+	int		index;
+	int		type;
+}				t_red;
+
 int		g_status;
 
+char	**reddit(char *cmd);
+int		red_i_init(int index, int *array, int last, char *cmd);
+int		red_type_check(char *str, int i);
+int		red_len_init(int index, int *array, int last, char *cmd);
+char	*fill_red(char *cmd, int index, int *array);
 void	del_node(void *content);
+void	del_node_r(void *content);
 int		check_cmds_helper(char **cmds, char *cmd, t_list *tmp, int *comma);
 char	**pipe_it(char *cmd);
 int		char_counter(char *str, t_list *tmp, char c);
