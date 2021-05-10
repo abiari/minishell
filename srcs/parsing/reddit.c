@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 10:37:52 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/05/08 13:45:00 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/05/10 12:11:17 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,16 @@ void	red_array(int *array, char *str, t_list *tmp)
 			continue ;
 		if (str[i] == '>' || str[i] == '<')
 		{
-			if (validate_red(str, i, tmp) == 1 || validate_red(str, i, tmp) == 2)
+			if (validate_red(str, i, tmp) == 1)
 			{
 				array[count] = i;
 				count++;
+			}
+			if (validate_red(str, i, tmp) == 2)
+			{
+				array[count] = i;
+				count++;
+				i++;
 			}
 		}
 	}
@@ -150,6 +156,7 @@ int		red_finder(char *str, t_list **redi, t_list **tp)
 				red = malloc(sizeof(t_red));
 				red->index = i;
 				red->type = red_type_check(str, i);
+				red->id = count;
 				count++;
 				if (validate_red(str, i, tmp) == 2)
 					i++;
@@ -165,63 +172,99 @@ void print_list(t_list *list)
 {
 	if (list)
 	{
-		printf("FROM PRINT_LIST %d | %d\n", ((t_red*)list->content)->index, ((t_red*)list->content)->type);
+		printf("FROM PRINT_LIST %d | %d | %d\n", ((t_red*)list->content)->id, ((t_red*)list->content)->index, ((t_red*)list->content)->type);
 		print_list(list->next);
 	}
 }
 
-void	fill_red(int index, char *cmd, t_list *red) /*ach kadir a sa7bi zid t9ra mn lbssala*/
-{
-	//char	*str;
-	int		prev;
-	//int		i;
-	t_list	*tmp;
+// char	*fill_red(int id, int index, char *cmd, t_list *red, t_list *quotes)
+// {
+// 	//char	*str;
+// 	int		start;
+// 	int		end;
+// 	int		i;
+// 	t_list	*tmp;
 
-	(void)cmd;
-	tmp = red;
-	prev = 0;
-	while (((t_red*)tmp->content)->index != index && ((t_red*)tmp->next))
-	{
-		prev = ((t_red*)tmp->content)->index;
-	}
-	printf("%d\n", prev);
-}
+// 	(void)cmd;
+// 	tmp = red;
+// 	start = index;
+// 	while (((t_red*)tmp->content)->id <= red_counter(cmd, quotes))
+// 	{
 
-void	split_red(char *cmd, t_list *reds, t_list *quotes)
+// 		tmp = tmp->next;
+// 	}
+
+// }
+
+// void	split_red(char *cmd, t_list *reds, t_list *quotes)
+// {
+// 	int		red_count;
+// 	char	**meh;
+// 	t_list	*tmp;
+// 	int		i;
+
+// 	(void)cmd;
+// 	i = 0;
+// 	tmp = reds;
+// 	red_count = red_counter(cmd, quotes);
+// 	meh = (char**)malloc(sizeof(char*) * (red_count + 2));
+// 	while (tmp->next)
+// 	{
+// 		meh[i] = ft_strdup(fill_red(((t_red*)tmp->content)->id, ((t_red*)tmp->content)->index, cmd, reds, quotes));
+// 		tmp = tmp->next;
+// 	}
+// }
+
+char	**red_spliter(int *red_arr, char *cmd, t_list *quotes)
 {
-	int		red_count;
-	char	**meh;
-	t_list	*tmp;
+	char	**tab;
 	int		i;
+	int		j;
 
-	(void)cmd;
+	j = -1;
 	i = 0;
-	tmp = reds;
-	red_count = red_counter(cmd, quotes);
-	meh = (char**)malloc(sizeof(char*) * (red_count + 2));
-	while (((t_red*)tmp->next))
+	if (red_arr != NULL)
 	{
-		//meh[i] = ft_strdup(fill_red(((t_red*)tmp->content)->index, cmd, reds));
-		fill_red(((t_red*)tmp->content)->index, cmd, reds);
+		i = red_counter(cmd, quotes) + 1;
+		if (i == -1)
+			return (NULL);
+		tab = (char **)malloc((i + 1) * sizeof(char *));
+		j = -1;
+		while (++j < i)
+			tab[j] = ft_strdup_dzeb(fill_red(cmd, j, red_arr));
+		tab[j] = NULL;
+		free(red_arr);
 	}
+	else
+		return (NULL);
+	return (tab);
 }
 
-void	reddit(char *cmd)
+char	**reddit(char *cmd)
 {
 	t_list	*tmp;
 	t_list	*tp;
-	//char	*cmd;
+	int		*red_arr;
 	int		ret;
-	// char	**red;
+	int 	i;
+	char	**red;
 
+	i = 0;
 	tmp = NULL;
 	tp = NULL;
 	ret = quotes_finder(cmd, &tmp);
 	ret = red_finder(cmd, &tp, &tmp);
 	//print_list(tp);
-	if (ret > 0)
-		split_red(cmd, tp, tmp);
+	// if (ret > 0)
+	// 	split_red(cmd, tp, tmp);
+	red_arr = reds(cmd, &tmp);
+	red = red_spliter(red_arr, cmd, tmp);
+	i = -1;
+	if (red)
+		while (red[++i])
+			printf("%s\n", red[i]);
 	ft_lstclear(&tmp, del_node);
 	ft_lstclear(&tp, del_node_r);
+	return (red);
 }
 

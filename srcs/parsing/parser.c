@@ -13,7 +13,7 @@ char	**parse_line(char *line)
 
 int	check_pipes(char **pipe, char *cmd)
 {
-	int		i;
+	// int		i;
 	int		*pipe_arr;
 	t_list	*tmp;
 	int		ret;
@@ -23,7 +23,7 @@ int	check_pipes(char **pipe, char *cmd)
 	pipe_arr = pipes(cmd, &tmp);
 	if (pipe_arr != NULL)
 		return (check_pipes_helper(pipe, cmd, tmp, pipe_arr));
-	 i = 0;
+	//  i = 0;
 	// while (pipe[i])
 	// {
 	// 	printf("%s\n", pipe[i]);
@@ -40,12 +40,12 @@ int	main(void)
 	char	**tab;
 	char	**pipe;
 	char	*cmd;
-	// char	**red;
+	char	**red;
 
 
 	i = 0;
 	tab = NULL;
-	cmd = ft_strdup("echo  >> | hello  QLLO; \\| tesst  allo | allo ;\"test \" | allo ;allo ';' | allo ; \"|\"; echo allo meh | cat -e");
+	cmd = ft_strdup("allO>finek>>meh>>  >   >>salam < > XXXXX; echo hello > file 1 world > file 2 \\>meh | cat file 1  ");
 	tab = split_cmds(cmd);
 	if (tab)
 		check_cmds(tab, cmd);
@@ -57,10 +57,10 @@ int	main(void)
 			check_pipes(pipe, tab[i]);
 			j = -1;
 			while (pipe[++j])
-				reddit(pipe[j]);
+				red = reddit(pipe[j]);
 		}
 		i++;
 	}
 	free(cmd);
-	while(1);
+	//while(1);
 }
