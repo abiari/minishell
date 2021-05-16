@@ -6,13 +6,13 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 11:36:40 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/06 12:26:00 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/10 23:28:49 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	char	*ft_zero(void)
+char	*ft_zero(void)
 {
 	char	*ret;
 
@@ -22,7 +22,7 @@ static	char	*ft_zero(void)
 	return (ret);
 }
 
-static	int	ft_len(unsigned int n)
+int	ft_len(unsigned int n)
 {
 	int	i;
 
@@ -35,7 +35,7 @@ static	int	ft_len(unsigned int n)
 	return (i);
 }
 
-static	int	ft_neg(unsigned int *tmp, int n)
+int	ft_neg(unsigned int *tmp, int n)
 {
 	if (n < 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/08 14:40:14 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/15 08:26:22 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,13 @@
 # define OUT_R 9004
 # define APP_R 9005
 
-typedef struct	s_cmd
+typedef struct	s_redirect
 {
-	char *line;
-	t_pipeline *pipes;
-	struct s_cmd *next;
-}				t_cmd;
+	int	type;
+	char **cmd;
+	char *fd;
+	struct s_redirect *next;
+}				t_redirect;
 
 typedef struct	s_pipeline
 {
@@ -40,13 +41,12 @@ typedef struct	s_pipeline
 	struct s_pipeline *next;
 }				t_pipeline;
 
-typedef struct	s_redirect
+typedef struct	s_cmd
 {
-	int	type;
-	char **cmd;
-	char *fd;
-	struct s_redirect *next;
-}				t_redirect;
+	char *line;
+	t_pipeline *pipes;
+	struct s_cmd *next;
+}				t_cmd;
 
 typedef struct	s_envl
 {
@@ -62,7 +62,7 @@ typedef struct	s_globals
 	int	exit_code;
 }				t_globals;
 
-t_globals	g_vars;
+extern t_globals	g_vars;
 
 char	*find_env_key(const char *envp);
 char	*find_env_value(const char *envp);

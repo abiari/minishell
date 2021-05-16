@@ -6,13 +6,13 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 20:40:42 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/06 12:33:23 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/10 23:29:06 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	int	ft_wlen(char const *str, int i, int *nbword, int c)
+int	ft_wlen(char const *str, int i, int *nbword, int c)
 {
 	*nbword += 1;
 	while (str[i] != c && str[i] != '\0')
@@ -20,7 +20,7 @@ static	int	ft_wlen(char const *str, int i, int *nbword, int c)
 	return (i);
 }
 
-static	void	ft_free(char **tab, int n)
+void	ft_free(char **tab, int n)
 {
 	int	i;
 
@@ -31,7 +31,7 @@ static	void	ft_free(char **tab, int n)
 	tab = NULL;
 }
 
-static	int	ft_fill(char **tab, char const *str, int *nbword, int c)
+int	ft_fill(char **tab, char const *str, int *nbword, int c)
 {
 	int		wlen;
 	int		j;
@@ -60,7 +60,7 @@ static	int	ft_fill(char **tab, char const *str, int *nbword, int c)
 	return (wlen);
 }
 
-static	void	reset(int *i, int *j)
+void	reset(int *i, int *j)
 {
 	*i = 0;
 	*j = 0;

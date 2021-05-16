@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 19:33:40 by abiari            #+#    #+#             */
-/*   Updated: 2021/03/11 12:41:01 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/15 08:58:44 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ t_envl *find_env_var(char *var, t_list **envl)
 	tmp = *envl;
 	while (tmp->next)
 	{
-		if (ft_strcmp(var, ((t_envl *)tmp)->key) == 0)
-			return ((t_envl *)tmp);
+		if (ft_strcmp(var, ((t_envl *)tmp->content)->key) == 0)
+			return ((t_envl *)tmp->content);
 		tmp = tmp->next;
 	}
 	return (NULL);

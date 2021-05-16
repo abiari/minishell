@@ -6,13 +6,13 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 21:05:33 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/06 12:38:23 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/10 23:28:37 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	int	findset(char c, char const *set)
+int	findset(char c, char const *set)
 {
 	int	i;
 
@@ -25,7 +25,7 @@ static	int	findset(char c, char const *set)
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	int		setlen;
+	// int		setlen;
 	int		slen;
 	int		srt;
 	int		end;
@@ -35,7 +35,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	end = 0;
 	if (!s1 || !set)
 		return (NULL);
-	setlen = ft_strlen(set);
+	// setlen = ft_strlen(set);
 	slen = ft_strlen(s1);
 	while (findset(s1[srt], set))
 		srt++;

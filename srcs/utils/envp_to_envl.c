@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_utils.c                                        :+:      :+:    :+:   */
+/*   envp_to_envl.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:28:27 by abiari            #+#    #+#             */
-/*   Updated: 2021/03/09 17:56:46 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/10 23:21:01 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ t_list	*envp_to_envl(char *envp[])
 {
 	int	i;
 	t_list	*envl;
-	t_list	*next_env;
+	// t_list	*next_env;
 	t_envl	*env;
 
 	i = 0;
 	envl = NULL;
-	next_env = NULL;
+	// next_env = NULL;
 	while (envp[i] != NULL)
 	{
 		if ((env = malloc(sizeof(t_envl))) == NULL)
