@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executer.c                                         :+:      :+:    :+:   */
+/*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 17:35:24 by abiari            #+#    #+#             */
-/*   Updated: 2021/03/11 16:47:04 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/16 17:23:04 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-typedef struct	s_command
-{
-	const char **argv;
-}				t_command;
-
-int spawn_proc(int in, int out, t_command *cmd, char *envp[])
+int spawn_proc(int in, int out, t_pipeline *cmd, char *envp[])
 {
 	pid_t pid;
 
@@ -33,25 +28,23 @@ int spawn_proc(int in, int out, t_command *cmd, char *envp[])
 			dup2(out, 1);
 			close(out);
 		}
-		return execve(cmd->argv[0], (char *const *)cmd->argv, envp);
+		return execve(cmd->cmd[0], (char *const *)cmd->cmd, envp);
 	}
 	return pid;
 }
 
-int fork_pipes(int n, t_command *cmd, char **envp)
+int	fork_pipes(t_pipeline *cmd, char **envp)
 {
-	int		i;
 	int		in;
 	int		fd[2];
 	pid_t	pid;
-	int ret = 0;
+	int		ret = 0;
 
 	in = 0;
-	i = 0;
-	while (i < n - 1)
+	while (cmd->next != NULL)
 	{
 		pipe(fd);
-		spawn_proc(in, fd[1], cmd + i, envp);
+		spawn_proc(in, fd[1], cmd, envp);
 		close(fd[1]);
 		if (in != 0)
 		{
@@ -59,7 +52,7 @@ int fork_pipes(int n, t_command *cmd, char **envp)
 			close(in);
 		}
 		in = fd[0];
-		i++;
+		cmd = cmd->next;
 	}
 	if (in != 0)
 	{
@@ -68,7 +61,7 @@ int fork_pipes(int n, t_command *cmd, char **envp)
 	}
 	pid = fork();
 	if (pid == 0)
-		execve(cmd[i].argv[0], (char *const *)cmd[i].argv, envp);
+		execve(cmd->cmd[0], (char *const *)cmd->cmd, envp);
 	// while (wait(NULL) != -1);
 	while (waitpid(-1, &ret, 0) != -1);
 		//printf("%d\n", WEXITSTATUS(ret));
@@ -79,19 +72,4 @@ void	error()
 {
 	ft_putstr_fd(strerror(errno), STDERR_FILENO);
 	exit(-1);
-}
-
-int 	main(int argc, char const *argv[], char **envp)
-{
-	int ret;
-	(void)argc;
-	(void)argv;
-	const char *ls[] = {"/bin/cat", 0};
-	// const char *awk[] = {"./program", 0};
-	const char *sort[] = {"/bin/ls", "-la", 0};
-	const char *uniq[] = {"/usr/bin/sort", 0};
-	t_command cmd[] = {{ls}/*, {awk}*/, {sort}, {uniq}};
-	ret = fork_pipes(3, cmd, envp);
-	// while(1);
-	return(ret);
 }

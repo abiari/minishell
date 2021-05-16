@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 14:10:26 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/06 14:52:55 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/16 17:31:12 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ int	redirect(int in, int out, t_cmd *cmd)
 	while (files->next)
 	{
 		if (files->type == APP_R)
-			fd = open(files->fd, O_CREAT | O_APPEND | O_RDWR | O_TRUNC,
+			fd = open(files->file, O_CREAT | O_APPEND | O_RDWR | O_TRUNC,
 			S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 		else
-			fd = open(files->fd, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR |
+			fd = open(files->file, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR |
 			S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 		if (fd < 0)
 		{

@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 11:43:08 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/15 09:15:05 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/16 16:46:26 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,13 @@ char	*bin_path(char *cmd, t_list *envl)
 	split_path = ft_split((find_env_var("PATH", &envl))->value, ':');
 	if (!split_path)
 	{
-		// ft_putstr_fd("msh: $PATH variable corrupted", 2);
+		ft_putstr_fd("msh: $PATH variable not found", 2);
 		return(NULL);
 	}
 	while (split_path[i])
 	{
 		split_path[i] = ft_strjoin(split_path[i], "/");
 		path = ft_strjoin(split_path[i], cmd);
-		printf("%s\n", path);
 		bin_fd = open(path, O_RDONLY);
 		if (bin_fd > 0)
 		{
@@ -57,23 +56,25 @@ char	*bin_path(char *cmd, t_list *envl)
 	return(NULL);
 }
 
-int	main(int argc, char *argv[], char *envp[])
+void	check_n_exec(char *cmd, t_list *envl)
 {
-	char	*exec_path;
-	t_list	*envl;
+	int	fd;
+	char	*bin;
 
-	(void)argc;
-	(void)argv;
-	envl = envp_to_envl(envp);
-	// while (envl->next)
-	// {
-	// 	printf("%s\n", ((t_envl *)envl->content)->var);
-	// 	envl = envl->next;
-	// }
-	exec_path = bin_path("ls", envl);
-	if (exec_path)
-		printf("bin exists at: %s", exec_path);
+	bin = cmd;
+	fd = open(cmd, O_RDONLY);
+	if (fd < 0)
+	{
+		bin = bin_path(cmd, envl);
+		close(fd);
+	}
+	if (bin == NULL)
+	{
+		ft_putstr_fd("msh: command not found", 2);
+		return ;
+	}
 	else
-		printf("command not found");
-	return(0);
+	{
+		// fork_pipes
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/15 08:26:22 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/16 16:19:10 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,20 @@ typedef struct	s_redirect
 {
 	int	type;
 	char **cmd;
-	char *fd;
+	char *file;
 	struct s_redirect *next;
 }				t_redirect;
 
 typedef struct	s_pipeline
 {
-	char *line;
+	char **cmd;
 	t_redirect *redirections;
 	struct s_pipeline *next;
 }				t_pipeline;
 
 typedef struct	s_cmd
 {
-	char *line;
+	char **cmd;
 	t_pipeline *pipes;
 	struct s_cmd *next;
 }				t_cmd;
@@ -80,4 +80,5 @@ int		delete_env_var(char *var, t_list **envl);
 t_envl	*find_env_var(char *var, t_list **envl);
 char	*bin_path(char *cmd, t_list *envl);
 void	free_double(char **arr);
+int		fork_pipes(t_pipeline *cmd, char **envp);
 #endif
