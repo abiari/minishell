@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/16 16:19:10 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/17 11:08:53 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # define IN_R 9003
 # define OUT_R 9004
 # define APP_R 9005
+# define FALSE 9006
+# define TRUE 9007
 
 typedef struct	s_redirect
 {
@@ -81,4 +83,5 @@ t_envl	*find_env_var(char *var, t_list **envl);
 char	*bin_path(char *cmd, t_list *envl);
 void	free_double(char **arr);
 int		fork_pipes(t_pipeline *cmd, char **envp);
+int		redirect(t_pipeline *cmd);
 #endif

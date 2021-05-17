@@ -6,21 +6,22 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 17:35:24 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/16 17:23:04 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/17 13:45:41 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int spawn_proc(int in, int out, t_pipeline *cmd, char *envp[])
+void	spawn_proc(int in, int out, t_pipeline *cmd, char *envp[])
 {
 	pid_t pid;
 
-	if ((pid = fork()) == 0)
+	pid = fork();
+	if (pid == 0)
 	{
 		if (in != 0)
 		{
-			dup2(in, 0);
+			dup2(in, STDIN_FILENO);
 			close(in);
 		}
 		if (out != 1)
@@ -28,9 +29,11 @@ int spawn_proc(int in, int out, t_pipeline *cmd, char *envp[])
 			dup2(out, 1);
 			close(out);
 		}
-		return execve(cmd->cmd[0], (char *const *)cmd->cmd, envp);
+		redirect(cmd);
+		execve(cmd->cmd[0], (char *const *)cmd->cmd, envp);
+		ft_putstr_fd(strerror(errno), STDERR_FILENO);
+		exit(errno);
 	}
-	return pid;
 }
 
 int	fork_pipes(t_pipeline *cmd, char **envp)
@@ -38,9 +41,10 @@ int	fork_pipes(t_pipeline *cmd, char **envp)
 	int		in;
 	int		fd[2];
 	pid_t	pid;
-	int		ret = 0;
+	int		status;
 
 	in = 0;
+	status = 0;
 	while (cmd->next != NULL)
 	{
 		pipe(fd);
@@ -59,17 +63,16 @@ int	fork_pipes(t_pipeline *cmd, char **envp)
 		dup2(in, 0);
 		close(in);
 	}
+	redirect(cmd);
 	pid = fork();
 	if (pid == 0)
+	{
 		execve(cmd->cmd[0], (char *const *)cmd->cmd, envp);
-	// while (wait(NULL) != -1);
-	while (waitpid(-1, &ret, 0) != -1);
-		//printf("%d\n", WEXITSTATUS(ret));
-	return (ret);
-}
-
-void	error()
-{
-	ft_putstr_fd(strerror(errno), STDERR_FILENO);
-	exit(-1);
+		ft_putstr_fd(strerror(errno), STDERR_FILENO);
+		exit(errno);
+	}
+	while (waitpid(-1, &status, 0) > 0)
+		if (WIFEXITED(status))
+			g_vars.exit_code = WEXITSTATUS(status);
+	return (status);
 }
