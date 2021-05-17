@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 10:37:52 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/05/10 12:11:17 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/05/17 11:42:10 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,6 +240,21 @@ char	**red_spliter(int *red_arr, char *cmd, t_list *quotes)
 	return (tab);
 }
 
+int manage_red(char **red)
+{
+	int	i;
+
+	i = -1;
+	while (red[++i])
+	{
+		if (only_char(' ', red[i]))
+		{
+			printf("bash: syntax error near unexpected token `>'\n");
+			return (0);
+		}
+	}
+	return (1);
+}
 char	**reddit(char *cmd)
 {
 	t_list	*tmp;
@@ -254,15 +269,15 @@ char	**reddit(char *cmd)
 	tp = NULL;
 	ret = quotes_finder(cmd, &tmp);
 	ret = red_finder(cmd, &tp, &tmp);
-	//print_list(tp);
-	// if (ret > 0)
-	// 	split_red(cmd, tp, tmp);
 	red_arr = reds(cmd, &tmp);
 	red = red_spliter(red_arr, cmd, tmp);
 	i = -1;
-	if (red)
+	if (red && manage_red(red))
+	{
 		while (red[++i])
-			printf("%s\n", red[i]);
+				printf("%s\n", red[i]);
+		printf("*_______________________________________*\n");
+	}
 	ft_lstclear(&tmp, del_node);
 	ft_lstclear(&tp, del_node_r);
 	return (red);

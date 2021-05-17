@@ -45,7 +45,7 @@ int	main(void)
 
 	i = 0;
 	tab = NULL;
-	cmd = ft_strdup("allO>finek>>meh>>  >   >>salam < > XXXXX; echo hello > file 1 world > file 2 \\>meh | cat file 1  ");
+	cmd = ft_strdup("allO>finek>>meh>>salam < XXXXX; echo hello > file 1 world > file 2 \\>meh  >| cat file 1  ");
 	tab = split_cmds(cmd);
 	if (tab)
 		check_cmds(tab, cmd);
