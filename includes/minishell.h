@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/10 13:10:21 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/05/17 11:30:57 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,29 +31,29 @@
 LINKED LIST
 */
 
-// Separated By ;
-// typedef struct	s_cmd
-// {
-// 	char *line;
-// 	t_pipeline *pipes;
-// 	struct s_cmd *next;
-// }				t_cmd;
-
-// // Separated by |
-// typedef struct	s_pipeline
-// {
-// 	char *line;
-// 	t_redirect *redirections;
-// 	struct s_pipeline *next;
-// }				t_pipeline;
-
 typedef struct	s_redirect
 {
 	int	type;
 	char **cmd;
-	char *fd;
+	char *file;
 	struct s_redirect *next;
 }				t_redirect;
+
+// Separated by |
+typedef struct	s_pipeline
+{
+	char **cmd;
+	t_redirect *redirections;
+	struct s_pipeline *next;
+}				t_pipeline;
+
+// Separated By ;
+typedef struct	s_cmd
+{
+	// char	*cmd;
+	t_pipeline *pipes;
+	struct s_cmd *next;
+}				t_cmd;
 
 typedef struct	s_envl
 {
