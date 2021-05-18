@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 10:37:52 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/05/17 11:42:10 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/05/18 14:28:09 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,15 @@ int		red_finder(char *str, t_list **redi, t_list **tp)
 	return (count);
 }
 
+int	red_type(t_list *red, int id)
+{
+	while (red->next)
+	{
+		if(((t_red*)red->content)->id == id)
+			return (((t_red*)red->content)->type);
+	}
+	return (0);
+}
 
 void print_list(t_list *list)
 {
