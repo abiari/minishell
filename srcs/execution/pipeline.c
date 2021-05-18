@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 17:35:24 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/17 13:45:41 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/18 15:08:34 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 void	spawn_proc(int in, int out, t_pipeline *cmd, char *envp[])
 {
-	pid_t pid;
-
-	pid = fork();
-	if (pid == 0)
+	g_vars.pid = fork();
+	if (g_vars.pid == 0)
 	{
 		if (in != 0)
 		{
@@ -40,7 +38,6 @@ int	fork_pipes(t_pipeline *cmd, char **envp)
 {
 	int		in;
 	int		fd[2];
-	pid_t	pid;
 	int		status;
 
 	in = 0;
@@ -64,8 +61,8 @@ int	fork_pipes(t_pipeline *cmd, char **envp)
 		close(in);
 	}
 	redirect(cmd);
-	pid = fork();
-	if (pid == 0)
+	g_vars.pid = fork();
+	if (g_vars.pid == 0)
 	{
 		execve(cmd->cmd[0], (char *const *)cmd->cmd, envp);
 		ft_putstr_fd(strerror(errno), STDERR_FILENO);

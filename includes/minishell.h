@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/17 11:08:53 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/18 15:06:50 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct	s_envl
 typedef struct	s_globals
 {
 	int	status;
+	pid_t	pid;
 	int	exit_code;
 }				t_globals;
 
