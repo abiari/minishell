@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/17 11:30:57 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/05/18 14:36:50 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ int		red_i_init(int index, int *array, int last, char *cmd);
 int		red_type_check(char *str, int i);
 int		red_len_init(int index, int *array, int last, char *cmd);
 char	*fill_red(char *cmd, int index, int *array);
+int		red_finder(char *str, t_list **redi, t_list **tp);
+int		red_type(t_list *red, int id);
 void	del_node(void *content);
 void	del_node_r(void *content);
 int		check_cmds_helper(char **cmds, char *cmd, t_list *tmp, int *comma);
