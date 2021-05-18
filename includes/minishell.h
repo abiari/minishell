@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/18 14:36:50 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/05/18 15:01:45 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,13 @@ typedef struct	s_red
 	int		type;
 }				t_red;
 
-int		g_status;
+typedef struct	s_globals
+{
+	int	status;
+	int	exit_code;
+}				t_globals;
+
+extern t_globals	g_vars;
 
 char	**reddit(char *cmd);
 int		red_i_init(int index, int *array, int last, char *cmd);
