@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 17:35:24 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/19 11:33:50 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/19 14:55:26 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,22 +48,21 @@ int	fork_pipes(t_pipeline *cmd, char **envp)
 		spawn_proc(in, fd[1], cmd, envp);
 		close(fd[1]);
 		if (in != 0)
+			close(in);
+		in = fd[0];
+		cmd = cmd->next;
+	}
+	if (in != STDIN_FILENO)
+		close(in);
+	g_vars.pid = fork();
+	if (g_vars.pid == 0)
+	{
+		if (in != 0)
 		{
 			dup2(in, STDIN_FILENO);
 			close(in);
 		}
-		in = fd[0];
-		cmd = cmd->next;
-	}
-	if (in != 0)
-	{
-		dup2(in, STDIN_FILENO);
-		close(in);
-	}
-	redirect(cmd);
-	g_vars.pid = fork();
-	if (g_vars.pid == 0)
-	{
+		redirect(cmd);
 		execve(cmd->cmd[0], (char *const *)cmd->cmd, envp);
 		ft_putstr_fd(strerror(errno), STDERR_FILENO);
 		exit(errno);
