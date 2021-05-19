@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:06:25 by abiari            #+#    #+#             */
-/*   Updated: 2021/03/08 14:36:29 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/19 11:30:50 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,21 @@
 
 // }
 
-void	msh_loop(int status, char **line)
+void	msh_loop(char **line)
 {
-	while (status)
+	int	n;
+
+	n = 1;
+	while (n)
 	{
+		g_vars.pid = 0;
 		ft_putstr_fd("msh$>: ", STDOUT_FILENO);
-		get_next_line(STDIN_FILENO, line);
+		n = get_next_line(STDIN_FILENO, line);
+		if (n == 0)
+		{
+			printf("exit\n");
+			break ;
+		}
 	}
 }
 
@@ -33,9 +42,8 @@ int		main(int ac, char *av[], char *env[])
 	(void)ac;
 	(void)av;
 	(void)env;
-	signal(SIGINT, SIG_DFL);
-	signal(EOF, SIG_IGN);
-	g_status = 1;
-	msh_loop(g_status, &line);
+	signal(SIGQUIT, sig_handler);
+	signal(SIGINT, sig_handler);
+	msh_loop(&line);
 	return (0);
 }

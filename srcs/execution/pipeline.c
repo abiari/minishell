@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 17:35:24 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/18 15:08:34 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/19 11:33:50 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	spawn_proc(int in, int out, t_pipeline *cmd, char *envp[])
 		}
 		if (out != 1)
 		{
-			dup2(out, 1);
+			dup2(out, STDOUT_FILENO);
 			close(out);
 		}
 		redirect(cmd);
@@ -49,7 +49,7 @@ int	fork_pipes(t_pipeline *cmd, char **envp)
 		close(fd[1]);
 		if (in != 0)
 		{
-			dup2(in, 0);
+			dup2(in, STDIN_FILENO);
 			close(in);
 		}
 		in = fd[0];
@@ -57,7 +57,7 @@ int	fork_pipes(t_pipeline *cmd, char **envp)
 	}
 	if (in != 0)
 	{
-		dup2(in, 0);
+		dup2(in, STDIN_FILENO);
 		close(in);
 	}
 	redirect(cmd);

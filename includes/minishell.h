@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/18 15:06:50 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/19 11:30:27 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,5 @@ char	*bin_path(char *cmd, t_list *envl);
 void	free_double(char **arr);
 int		fork_pipes(t_pipeline *cmd, char **envp);
 int		redirect(t_pipeline *cmd);
+void	sig_handler(int sign_num);
 #endif
