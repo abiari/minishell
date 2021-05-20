@@ -6,13 +6,13 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 14:10:26 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/17 13:08:50 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/20 10:38:13 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	redirect(t_pipeline *cmd)
+void	redirect(t_pipeline *cmd)
 {
 	t_redirect	*files;
 	int			fd;
@@ -31,8 +31,8 @@ int	redirect(t_pipeline *cmd)
 			fd = open(files->file, O_RDONLY);
 		if (fd < 0)
 		{
-			ft_putstr_fd(strerror(errno), 2); //to be moved after execve
-			return (FALSE);
+			ft_putstr_fd(strerror(errno), 2);
+			exit(errno);
 		}
 		files = files->next;
 	}
@@ -51,5 +51,4 @@ int	redirect(t_pipeline *cmd)
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
-	return (TRUE);
 }

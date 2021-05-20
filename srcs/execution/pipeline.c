@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 17:35:24 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/19 14:55:26 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/20 10:42:39 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,5 @@ int	fork_pipes(t_pipeline *cmd, char **envp)
 	while (waitpid(-1, &status, 0) > 0)
 		if (WIFEXITED(status))
 			g_vars.exit_code = WEXITSTATUS(status);
-	return (status);
+	return (0);
 }
