@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:18:09 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/05/09 13:44:35 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/05/20 10:41:10 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,14 @@ int	check_cmds_helper(char **cmds, char *cmd, t_list *tmp, int *comma)
 	if (comma)
 		free(comma);
 	i = 0;
-	printf("*----------------------*\n");
-	while (cmds[i])
-	{
-		printf("command %d:\n%s\n", i + 1, cmds[i]);
-		i++;
-	}
-	printf("*----------------------*\n");
-	//ft_free(cmds, i);
+	// printf("*----------------------*\n");
+	// while (cmds[i])
+	// {
+	// 	printf("command %d:\n%s\n", i + 1, cmds[i]);
+	// 	i++;
+	// }
+	// printf("*----------------------*\n");
+	// //ft_free(cmds, i);
 	ft_lstclear(&tmp, del_node);
 	return (0);
 }
@@ -107,13 +107,13 @@ int	check_cmds(char **cmds, char *cmd)
 	if (comma != NULL)
 		return (check_cmds_helper(cmds, cmd, tmp, comma));
 	i = 0;
-	printf("*----------------------*\n");
-	while (cmds[i])
-	{
-		printf("%s\n", cmds[i]);
-		i++;
-	}
-	printf("*----------------------*\n");
+	// printf("*----------------------*\n");
+	// while (cmds[i])
+	// {
+	// 	printf("%s\n", cmds[i]);
+	// 	i++;
+	// }
+	// printf("*----------------------*\n");
 	//ft_free(cmds, i);
 	return (0);
 }

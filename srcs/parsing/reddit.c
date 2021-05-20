@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 10:37:52 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/05/18 14:28:09 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/05/20 10:40:10 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,12 +167,15 @@ int		red_finder(char *str, t_list **redi, t_list **tp)
 	return (count);
 }
 
-int	red_type(t_list *red, int id)
+int	red_type(t_list **red, int id)
 {
-	while (red->next)
+	t_list *reds;
+
+	reds = *red;
+	while (reds->next)
 	{
-		if(((t_red*)red->content)->id == id)
-			return (((t_red*)red->content)->type);
+		if(((t_red*)reds->content)->id == id)
+			return (((t_red*)reds->content)->type);
 	}
 	return (0);
 }
@@ -281,12 +284,12 @@ char	**reddit(char *cmd)
 	red_arr = reds(cmd, &tmp);
 	red = red_spliter(red_arr, cmd, tmp);
 	i = -1;
-	if (red && manage_red(red))
-	{
-		while (red[++i])
-				printf("%s\n", red[i]);
-		printf("*_______________________________________*\n");
-	}
+	// if (red && manage_red(red))
+	// {
+	// 	while (red[++i])
+	// 			printf("%s\n", red[i]);
+	// 	printf("*_______________________________________*\n");
+	// }
 	ft_lstclear(&tmp, del_node);
 	ft_lstclear(&tp, del_node_r);
 	return (red);

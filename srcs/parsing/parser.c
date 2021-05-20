@@ -32,8 +32,6 @@ void lst_append_red(t_redirect **list, t_redirect *param) {
 		(*list) = param;
 }
 
-char	*
-
 t_redirect	*red_lst(char	**pipelist, char **red, char *cmd, t_pipeline *pipe_lst)
 {
 	t_redirect	*red_list;
@@ -41,15 +39,17 @@ t_redirect	*red_lst(char	**pipelist, char **red, char *cmd, t_pipeline *pipe_lst
 	t_list	**reds;
 	int		v;
 
+	reds = NULL;
+	quotes = NULL;
+	(void)pipelist;
 	v = quotes_finder(cmd, quotes);
 	v = red_finder(cmd, reds, quotes);
 	v = -1;
 	while (red[++v])
 	{
 		red_list = malloc(sizeof(t_redirect));
-		red_list->cmd = cmd_final(**red);
 		red_list->file = red[v];
-		red_list->type = red_type(&red, v);
+		red_list->type = red_type(reds, v);
 		lst_append_red(&pipe_lst->redirections, red_list);
 	}
 	return (red_list);
@@ -73,7 +73,7 @@ t_pipeline	*pipe_lst(char **pipelist, char **red, char *cmd, t_cmd *cmd_list)
 	{
 		pipe_list = malloc(sizeof(t_pipeline));
 		pipe_list->redirections = red_lst(pipelist, red, cmd, pipe_list);
-		pipe_list->cmd	= pipelist[v];
+		pipe_list->cmd	= ft_split(pipelist[v], ' ');
 		lst_append_pipe(&cmd_list->pipes, pipe_list);
 	}
 	return (pipe_list);
@@ -102,6 +102,7 @@ t_list	**main_lst(void)
 
 
 	i = 0;
+	main_list = NULL;
 	tab = NULL;
 	cmd = ft_strdup("allO>finek>>meh>>salam < XXXXX; echo hello > file 1 world > file 2 \\>meh  >| cat file 1  ");
 	tab = split_cmds(cmd);
@@ -131,18 +132,16 @@ int	main(void)
 {
 	t_list **parser;
 	t_list	*cmd;
-	int		i;
-
 
 	parser = main_lst();
-	cmd = &parser;
+	cmd = *parser;
 	while (((t_cmd*)cmd->content)->next)
 	{
 		while(((t_cmd*)cmd->content)->pipes)
 		{
 			while(((t_cmd*)cmd->content)->pipes->redirections)
 			{
-				printf("#command : %s\n", ((t_cmd*)cmd->content)->pipes->redirections->cmd);
+				printf("#file : %s\n", ((t_cmd*)cmd->content)->pipes->redirections->file);
 			}
 		}
 	}
