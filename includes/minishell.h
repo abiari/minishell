@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/18 15:01:45 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/05/20 10:50:00 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,18 @@ LINKED LIST
 typedef struct	s_redirect
 {
 	int	type;
-	char **cmd;
-	char *file;
+	// char **cmd;
+	char	*file;
 	struct s_redirect *next;
 }				t_redirect;
 
 // Separated by |
 typedef struct	s_pipeline
 {
-	char **cmd;
+	char	**cmd;
+	int	has_red;
 	t_redirect *redirections;
-	struct s_pipeline *next;
+	struct	s_pipeline *next;
 }				t_pipeline;
 
 // Separated By ;
@@ -90,7 +91,7 @@ int		red_type_check(char *str, int i);
 int		red_len_init(int index, int *array, int last, char *cmd);
 char	*fill_red(char *cmd, int index, int *array);
 int		red_finder(char *str, t_list **redi, t_list **tp);
-int		red_type(t_list *red, int id);
+int		red_type(t_list **red, int id);
 void	del_node(void *content);
 void	del_node_r(void *content);
 int		check_cmds_helper(char **cmds, char *cmd, t_list *tmp, int *comma);
