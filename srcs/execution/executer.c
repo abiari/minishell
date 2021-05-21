@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 11:43:08 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/17 14:40:46 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/21 17:20:14 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*bin_path(char *cmd, t_list *envl)
 	split_path = ft_split((find_env_var("PATH", &envl))->value, ':');
 	if (!split_path)
 	{
-		ft_putstr_fd("msh: $PATH variable not found", 2);
+		ft_putstr_fd("msh: No such file or directory", 2);
 		return(NULL);
 	}
 	while (split_path[i])
@@ -52,32 +52,15 @@ char	*bin_path(char *cmd, t_list *envl)
 		}
 		i++;
 	}
+	ft_putstr_fd("msh: command not found", 2);
 	free_double(split_path);
 	return(NULL);
 }
 
-int		exec(t_pipeline *cmd, char **envp)
+void	exec(t_pipeline *cmd, char **envp)
 {
-	int		fd;
-	char	*bin;
 	t_list	*envl;
-	int		ret;
 
-	ret = 0;
 	envl = envp_to_envl(envp);
-	bin = cmd->cmd[0];
-	fd = open(bin, O_RDONLY);
-	if (fd < 0)
-	{
-		bin = bin_path(bin, envl);
-		close(fd);
-	}
-	if (bin == NULL)
-	{
-		ft_putstr_fd("msh: command not found", 2);
-		return (0);
-	}
-	else
-		ret = fork_pipes(cmd, envp);
-	return (ret);
+	fork_pipes(cmd, envp);
 }

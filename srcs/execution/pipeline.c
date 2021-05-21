@@ -6,11 +6,26 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 17:35:24 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/20 10:42:39 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/21 17:20:01 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+char	*check_exec(char *cmd, t_list *envl)
+{
+	char	*bin;
+	int		fd;
+
+	bin = cmd;
+	fd = open(bin, O_RDONLY);
+	if (fd < 0)
+	{
+		bin = bin_path(bin, envl);
+		close(fd);
+	}
+	return (bin);
+}
 
 void	spawn_proc(int in, int out, t_pipeline *cmd, char *envp[])
 {
@@ -34,16 +49,20 @@ void	spawn_proc(int in, int out, t_pipeline *cmd, char *envp[])
 	}
 }
 
-int	fork_pipes(t_pipeline *cmd, char **envp)
+void	fork_pipes(t_pipeline *cmd, char **envp)
 {
 	int		in;
 	int		fd[2];
 	int		status;
+	char	*bin;
 
 	in = 0;
 	status = 0;
 	while (cmd->next != NULL)
 	{
+		bin = check_exec(cmd->cmd[0], envp_to_envl(envp));
+		if (bin == NULL)
+			return ;
 		pipe(fd);
 		spawn_proc(in, fd[1], cmd, envp);
 		close(fd[1]);
@@ -54,6 +73,9 @@ int	fork_pipes(t_pipeline *cmd, char **envp)
 	}
 	if (in != STDIN_FILENO)
 		close(in);
+	bin = check_exec(cmd->cmd[0], envp_to_envl(envp));
+	if (bin == NULL)
+		return ;
 	g_vars.pid = fork();
 	if (g_vars.pid == 0)
 	{
@@ -70,5 +92,4 @@ int	fork_pipes(t_pipeline *cmd, char **envp)
 	while (waitpid(-1, &status, 0) > 0)
 		if (WIFEXITED(status))
 			g_vars.exit_code = WEXITSTATUS(status);
-	return (0);
 }
