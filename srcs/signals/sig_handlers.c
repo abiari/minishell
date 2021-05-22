@@ -6,13 +6,13 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 15:08:56 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/19 11:28:06 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/22 13:58:24 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	process(int sign_num)
+void	process(int sign_num)
 {
 	if (!kill(g_vars.pid, sign_num))
 	{
@@ -31,11 +31,11 @@ static void	process(int sign_num)
 	{
 		ft_putchar_fd('\n', 1);
 		g_vars.exit_code = 1;
-		prompt();
+		msh_prompt();
 	}
 }
 
-void		sig_handler(int sign_num)
+void	sig_handler(int sign_num)
 {
 	if ((sign_num == SIGINT || sign_num == SIGQUIT) && g_vars.pid != 0)
 		process(sign_num);
@@ -45,7 +45,7 @@ void		sig_handler(int sign_num)
 		{
 			ft_putchar_fd('\n', 1);
 			g_vars.exit_code = 1;
-			prompt();
+			msh_prompt();
 		}
 		else if (sign_num == SIGQUIT)
 			ft_putstr_fd("\b\b  \b\b", 1);

@@ -6,13 +6,13 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 10:45:23 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/06 14:56:15 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/22 10:48:14 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int		is_alphanum(char *s)
+int	is_alphanum(char *s)
 {
 	int		i;
 	int		flag;
@@ -32,11 +32,11 @@ int		is_alphanum(char *s)
 	return (flag);
 }
 
-int		msh_unset(char *args[], t_list *envl)
+int	msh_unset(char *args[], t_list *envl)
 {
 	int		ret;
-	// int		flag;
 	int		i;
+	// int		flag;
 
 	ret = 0;
 	// flag = 0;

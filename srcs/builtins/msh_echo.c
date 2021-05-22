@@ -6,13 +6,13 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 13:22:15 by abiari            #+#    #+#             */
-/*   Updated: 2021/04/21 14:05:21 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/22 14:01:30 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int		msh_echo(char **args)
+int	msh_echo(char **args)
 {
 	int		i;
 	t_envl	*var;
@@ -21,6 +21,7 @@ int		msh_echo(char **args)
 	while (args[i])
 	{
 		ft_putstr_fd(args[i], 1);
+		write(1, ' ', 1);
 		i++;
 	}
 }

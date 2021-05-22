@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:28:27 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/10 23:21:01 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/22 10:46:36 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,16 @@ char	*find_env_value(const char *envp)
 
 t_list	*envp_to_envl(char *envp[])
 {
-	int	i;
+	int		i;
 	t_list	*envl;
-	// t_list	*next_env;
 	t_envl	*env;
 
 	i = 0;
 	envl = NULL;
-	// next_env = NULL;
 	while (envp[i] != NULL)
 	{
-		if ((env = malloc(sizeof(t_envl))) == NULL)
+		env = malloc(sizeof(t_envl));
+		if (env == NULL)
 		{
 			printf("msh: %s", strerror(errno));
 			exit(errno);
