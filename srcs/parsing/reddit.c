@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reddit.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 10:37:52 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/05/25 13:01:01 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/05/25 15:15:31 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,12 +283,11 @@ char		*to_join(char **spaces)
 	return (cmd);
 }
 
-char		**check_red(char **red, t_quotes *quotes, char *cmd)
+char		**check_red(char **red, t_list *quotes, char *cmd)
 {
 	char	**tab;
 	char	**spaces;
 	int		i;
-	int		j;
 
 	i = red_counter(cmd, quotes) + 1;
 	tab = malloc((i + 1) * sizeof(char *));
@@ -301,12 +300,13 @@ char		**check_red(char **red, t_quotes *quotes, char *cmd)
 	{
 		if(i != 0)
 		{
-			spaces = space_it(red);
+			spaces = space_it(red[i]);
 			tab[i] = ft_strdup(spaces[0]);
 			if (two_d_counter(spaces) > 1)
 				tab[0] = ft_strjoin(tab[0], to_join(spaces));
 		}
 	}
+	return (tab);
 }
 
 char	**reddit(char *cmd)
@@ -323,7 +323,14 @@ char	**reddit(char *cmd)
 	ret = red_finder(cmd, &tp, &tmp);
 	red_arr = reds(cmd, &tmp);
 	red = red_spliter(red_arr, cmd, tmp);
-	red = check_red(red, &tmp, cmd);
+	red = check_red(red, tmp, cmd);
+	int i = 0;
+	while (red[i])
+	{
+		printf("|%s| ", red[i]);
+		i++;
+	}
+
 	ft_lstclear(&tmp, del_node);
 	ft_lstclear(&tp, del_node_r);
 	return (red);

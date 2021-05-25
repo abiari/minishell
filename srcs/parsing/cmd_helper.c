@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_helper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:18:09 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/05/24 14:28:07 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/05/25 14:58:39 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ int	check_pipes_helper(char **cmds, char *cmd, t_list *tmp, int *pipe)
 
 int	check_cmds(char **cmds, char *cmd)
 {
-	int		i;
 	int		*comma;
 	t_list	*tmp;
 	int		ret;
