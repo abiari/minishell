@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 10:37:52 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/05/20 10:40:10 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/05/25 13:01:01 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,10 +172,11 @@ int	red_type(t_list **red, int id)
 	t_list *reds;
 
 	reds = *red;
-	while (reds->next)
+	while (reds)
 	{
 		if(((t_red*)reds->content)->id == id)
 			return (((t_red*)reds->content)->type);
+		reds = reds->next;
 	}
 	return (0);
 }
@@ -267,29 +268,62 @@ int manage_red(char **red)
 	}
 	return (1);
 }
+
+char		*to_join(char **spaces)
+{
+	int	i;
+	char	*cmd;
+
+	i = 0;
+	cmd = ft_strdup("");
+	while (spaces[++i])
+	{
+		cmd = ft_strjoin(cmd, spaces[i]);
+	}
+	return (cmd);
+}
+
+char		**check_red(char **red, t_quotes *quotes, char *cmd)
+{
+	char	**tab;
+	char	**spaces;
+	int		i;
+	int		j;
+
+	i = red_counter(cmd, quotes) + 1;
+	tab = malloc((i + 1) * sizeof(char *));
+	if (only_char(' ', red[0]) || red[0] == '\0')
+		tab[0] = ft_strdup("");
+	else
+		tab[0] = ft_strdup(red[0]);
+	i = 0;
+	while (red[++i])
+	{
+		if(i != 0)
+		{
+			spaces = space_it(red);
+			tab[i] = ft_strdup(spaces[0]);
+			if (two_d_counter(spaces) > 1)
+				tab[0] = ft_strjoin(tab[0], to_join(spaces));
+		}
+	}
+}
+
 char	**reddit(char *cmd)
 {
 	t_list	*tmp;
 	t_list	*tp;
 	int		*red_arr;
 	int		ret;
-	int 	i;
 	char	**red;
 
-	i = 0;
 	tmp = NULL;
 	tp = NULL;
 	ret = quotes_finder(cmd, &tmp);
 	ret = red_finder(cmd, &tp, &tmp);
 	red_arr = reds(cmd, &tmp);
 	red = red_spliter(red_arr, cmd, tmp);
-	i = -1;
-	// if (red && manage_red(red))
-	// {
-	// 	while (red[++i])
-	// 			printf("%s\n", red[i]);
-	// 	printf("*_______________________________________*\n");
-	// }
+	red = check_red(red, &tmp, cmd);
 	ft_lstclear(&tmp, del_node);
 	ft_lstclear(&tp, del_node_r);
 	return (red);

@@ -37,20 +37,24 @@ t_redirect	*red_lst(char	**pipelist, char **red, char *cmd, t_pipeline *pipe_lst
 	t_redirect	*red_list;
 	t_list	*quotes;
 	t_list	*reds;
+	char	**tmp;
 	int		v;
 
 	reds = NULL;
 	quotes = NULL;
+	pipe_lst->redirections = NULL;
 	(void)pipelist;
 	v = quotes_finder(cmd, &quotes);
 	v = red_finder(cmd, &reds, &quotes);
 	v = -1;
 	while (red[++v])
 	{
+		tmp = space_it(red[v]);
 		red_list = malloc(sizeof(t_redirect));
-		red_list->file = red[v];
+		red_list->file = tmp[0];
 		red_list->type = red_type(&reds, v);
-		lst_append_red(&pipe_lst->redirections, red_list);
+		red_list->next = NULL;
+		lst_append_red(&(pipe_lst->redirections), red_list);
 	}
 	return (red_list);
 }
@@ -62,19 +66,28 @@ void lst_append_pipe(t_pipeline **list, t_pipeline *param) {
 		(*list) = param;
 }
 
-
 t_pipeline	*pipe_lst(char **pipelist, char **red, char *cmd, t_cmd *cmd_list)
 {
 	t_pipeline	*pipe_list;
 	int			v;
 
 	v = -1;
+	cmd_list->pipes = NULL;
 	while (pipelist[++v])
 	{
 		pipe_list = malloc(sizeof(t_pipeline));
-		pipe_list->redirections = red_lst(pipelist, red, cmd, pipe_list);
-		pipe_list->cmd	= ft_split(pipelist[v], ' ');
-		lst_append_pipe(&cmd_list->pipes, pipe_list);
+		pipe_list->has_red = 0;
+		pipe_list->redirections = NULL;
+		if (red)
+		{
+			pipe_list->has_red = 1;
+			pipe_list->redirections = red_lst(pipelist, red, cmd, pipe_list);
+			pipe_list->cmd	= NULL;
+		}
+		else
+			pipe_list->cmd	= space_it(pipelist[v]);
+		pipe_list->next = NULL;
+		lst_append_pipe(&(cmd_list->pipes), pipe_list);
 	}
 	return (pipe_list);
 }
@@ -84,43 +97,67 @@ t_cmd	*cmd_lst(char **pipelist, char **red, char *cmd)
 	t_cmd *cmd_list;
 
 	cmd_list = malloc(sizeof(t_cmd));
+	cmd_list->cmd = NULL;
 	cmd_list->pipes = NULL;
+	cmd_list->has_pipe = 1;
 	cmd_list->pipes = pipe_lst(pipelist, red, cmd, cmd_list);
+	cmd_list->next = NULL;
 	return(cmd_list);
 }
 
-t_list	**main_lst(void)
+t_cmd	*omg(char *cmd)
+{
+	t_cmd *cmd_list;
+
+	cmd_list = malloc(sizeof(t_cmd));
+	cmd_list->has_pipe = 0;
+	cmd_list->cmd = space_it(cmd);
+	cmd_list->pipes = NULL;
+	cmd_list->next = NULL;
+	return(cmd_list);
+}
+
+t_list		*main_lst(void)
 {
 	int		i;
 	int		j;
 	char	**tab;
 	char	**pipe;
 	char	*cmd;
+	char	*exec;
 	char	**red;
 	t_cmd	*cmd_list;
-	t_list	**main_list;
+	t_list	*main_list;
 
 
 	i = 0;
 	main_list = NULL;
 	tab = NULL;
-	cmd = ft_strdup("allO>\'\'finek>>meh>>salam < XXXXX; echo \"hello\" > file 1 world > file 2 \\>meh  >| cat file 1 \'  \' ");
+	cmd = ft_strdup(">file > file this > file is > file a test < XXXXX; echo > file this | file is > file a test < XXXXX ");
 	tab = split_cmds(cmd);
 	if (tab)
-		check_cmds(tab, cmd);
+		if (check_cmds(tab, cmd) == 1)
+			return (NULL);
 	while (tab[i])
 	{
 		pipe = pipe_it(tab[i]);
 		if (pipe)
 		{
-			check_pipes(pipe, tab[i]);
+			if(check_pipes(pipe, tab[i]) == 1)
+				return (NULL);
 			j = -1;
 			while (pipe[++j])
 			{
 				red = reddit(pipe[j]);
+				//checking redirections errors
 				cmd_list = cmd_lst(red, pipe, pipe[j]);
-				lst_append(main_list, cmd_list);
+				lst_append(&main_list, cmd_list);
 			}
+		}
+		else
+		{
+			cmd_list = omg(tab[i]);
+			lst_append(&main_list, cmd_list);
 		}
 		i++;
 	}
@@ -130,22 +167,36 @@ t_list	**main_lst(void)
 
 int	main(void)
 {
-	t_list **parser;
 	t_list	*cmd;
+	int		i;
 
-	parser = main_lst();
-	cmd = *parser;
+	i = -1;
+	cmd = main_lst();;
+	if (cmd == NULL)
+		return (1);
 	while (cmd)
 	{
-		while(((t_cmd*)cmd->content)->pipes)
+		if (((t_cmd*)cmd->content)->pipes != NULL)
 		{
-			while(((t_cmd*)cmd->content)->pipes->redirections)
+			while(((t_cmd*)cmd->content)->pipes)
 			{
-				printf("#file : %s\n", ((t_cmd*)cmd->content)->pipes->redirections->file);
-				((t_cmd*)cmd->content)->pipes->redirections = ((t_cmd*)cmd->content)->pipes->redirections->next;
+				while(((t_cmd*)cmd->content)->pipes->redirections)
+				{
+					printf("%s\n", ((t_cmd*)cmd->content)->pipes->redirections->file);
+					((t_cmd*)cmd->content)->pipes->redirections = ((t_cmd*)cmd->content)->pipes->redirections->next;
+				}
+				((t_cmd*)cmd->content)->pipes = ((t_cmd*)cmd->content)->pipes->next;
 			}
-			((t_cmd*)cmd->content)->pipes = ((t_cmd*)cmd->content)->pipes->next;
 		}
+		else
+		{
+			i = -1;
+			while (((t_cmd*)cmd->content)->cmd[++i])
+			{	printf("executable command:\n");
+				printf("%s\n", (((t_cmd*)cmd->content)->cmd[i]));
+			}
+		}
+
 		cmd = cmd->next;
 	}
 }
