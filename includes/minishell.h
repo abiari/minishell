@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/20 10:50:00 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/25 10:58:36 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ LINKED LIST
 typedef struct	s_redirect
 {
 	int	type;
-	// char **cmd;
+	char **cmd;
 	char	*file;
 	struct s_redirect *next;
 }				t_redirect;
@@ -51,7 +51,8 @@ typedef struct	s_pipeline
 // Separated By ;
 typedef struct	s_cmd
 {
-	// char	*cmd;
+	char	**cmd;
+	int	has_pipe;
 	t_pipeline *pipes;
 	struct s_cmd *next;
 }				t_cmd;
@@ -84,7 +85,13 @@ typedef struct	s_globals
 }				t_globals;
 
 extern t_globals	g_vars;
-
+int		space_counter(int *comma);
+int		two_d_counter(char **two_d);
+char	**space_spliter(int *space, char *cmd);
+int		*spaces(char *str, t_list **lst);
+char	**space_it(char *red);
+char	*split_ws(char *red);
+char	*get_cmd(char **red, char **pipelist);
 char	**reddit(char *cmd);
 int		red_i_init(int index, int *array, int last, char *cmd);
 int		red_type_check(char *str, int i);
@@ -103,17 +110,6 @@ int		last_char(int *array);
 int		len_init(int index, int *comma, int last, char *cmd);
 int		i_init(int index, int *comma, int last, char *cmd);
 int		free_the_nipples(t_list *tmp, char **cmds, int i, int indice);
-char	**parse_line(char *line);
-char	*find_env_key(const char *envp);
-char	*find_env_value(const char *envp);
-t_list	*envp_to_envl(char *envp[]);
-int		msh_cd(char *path, t_list *envl);
-int		msh_pwd(t_list *envl);
-void	lst_append(t_list **lst, void *content);
-void	mod_env_var(char *var, char *new_value, t_list *envl);
-void	add_env_var(char *var, char *value, t_list *envl);
-t_envl	*find_env_var(char *var, t_list *envl);
-int		parse_er(char *err, int ret);
 int		quote_ends(int type, int i, char *str);
 int		quotes_finder(char *str, t_list **lst);
 int		is_between_quotes(int i, t_list **lst);
@@ -128,5 +124,17 @@ char	**split_cmds(char *cmd);
 int		only_char(char c, char *str);
 int		check_cmds(char **cmds, char *cmd);
 int		check_pipes_helper(char **cmds, char *cmd, t_list *tmp, int *pipe);
+//exec
+char	**parse_line(char *line);
+char	*find_env_key(const char *envp);
+char	*find_env_value(const char *envp);
+t_list	*envp_to_envl(char *envp[]);
+int		msh_cd(char *path, t_list *envl);
+int		msh_pwd(t_list *envl);
+void	lst_append(t_list **lst, void *content);
+void	mod_env_var(char *var, char *new_value, t_list *envl);
+void	add_env_var(char *var, char *value, t_list *envl);
+t_envl	*find_env_var(char *var, t_list *envl);
+int		parse_er(char *err, int ret);
 // void	lst_append_wa(t_list **lst, t_redirect *node);
 #endif
