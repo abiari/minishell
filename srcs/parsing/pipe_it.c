@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 13:43:03 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/05/05 10:42:59 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/05/26 15:32:58 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ char	**pipe_spliter(int *pipe, char *cmd)
 
 	j = -1;
 	i = 0;
+	tab = NULL;
 	if (pipe != NULL)
 	{
 		i = cmd_counter(pipe, cmd, 1);
@@ -52,9 +53,10 @@ char	**pipe_spliter(int *pipe, char *cmd)
 	}
 	else
 	{
-		tab = (char **)malloc((2) * sizeof(char *));
-		tab[0] = ft_strdup(cmd);
-		tab[1] = NULL;
+		return (NULL);
+		// tab = (char **)malloc((2) * sizeof(char *));
+		// tab[0] = ft_strdup(cmd);
+		// tab[1] = NULL;
 	}
 	return (tab);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reddit.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 10:37:52 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/05/25 15:15:31 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/26 16:34:38 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,6 +269,22 @@ int manage_red(char **red)
 	return (1);
 }
 
+char	*my_strjoin(char *s1, char const *s2)
+{
+	int		size;
+	char	*ret;
+
+	if (!s1)
+		return (NULL);
+	size = ft_strlen(s1) + ft_strlen(s2);
+	ret = (char *)malloc(size + 1);
+	if (ret == NULL)
+		return (ret);
+	ft_strlcpy(ret, s1, size + 1);
+	ft_strlcpy(ret + ft_strlen(s1), s2, size + 1);
+	return (ret);
+}
+
 char		*to_join(char **spaces)
 {
 	int	i;
@@ -278,7 +294,8 @@ char		*to_join(char **spaces)
 	cmd = ft_strdup("");
 	while (spaces[++i])
 	{
-		cmd = ft_strjoin(cmd, spaces[i]);
+		// printf("ha ana %s\n", spaces[i]);
+		cmd = my_strjoin(cmd, spaces[i]);
 	}
 	return (cmd);
 }
@@ -288,24 +305,36 @@ char		**check_red(char **red, t_list *quotes, char *cmd)
 	char	**tab;
 	char	**spaces;
 	int		i;
+	int j;
 
+	j = -1;
 	i = red_counter(cmd, quotes) + 1;
+	if (!red)
+		return NULL;
 	tab = malloc((i + 1) * sizeof(char *));
 	if (only_char(' ', red[0]) || red[0] == '\0')
 		tab[0] = ft_strdup("");
 	else
+	{
 		tab[0] = ft_strdup(red[0]);
+		tab[0] = my_strjoin(tab[0]," ");
+	}
 	i = 0;
 	while (red[++i])
 	{
 		if(i != 0)
 		{
-			spaces = space_it(red[i]);
+			spaces = ft_split(red[i], ' ');
+			j = -1;
 			tab[i] = ft_strdup(spaces[0]);
-			if (two_d_counter(spaces) > 1)
-				tab[0] = ft_strjoin(tab[0], to_join(spaces));
+			if (two_d_counter(spaces) > 0)
+			{
+				tab[0] = my_strjoin(tab[0], to_join(spaces));
+				tab[0] = my_strjoin(tab[0]," ");
+			}
 		}
 	}
+	tab[i] = NULL;
 	return (tab);
 }
 
@@ -316,6 +345,7 @@ char	**reddit(char *cmd)
 	int		*red_arr;
 	int		ret;
 	char	**red;
+	char	**ugh;
 
 	tmp = NULL;
 	tp = NULL;
@@ -323,16 +353,9 @@ char	**reddit(char *cmd)
 	ret = red_finder(cmd, &tp, &tmp);
 	red_arr = reds(cmd, &tmp);
 	red = red_spliter(red_arr, cmd, tmp);
-	red = check_red(red, tmp, cmd);
-	int i = 0;
-	while (red[i])
-	{
-		printf("|%s| ", red[i]);
-		i++;
-	}
-
+	ugh = check_red(red, tmp, cmd);
 	ft_lstclear(&tmp, del_node);
 	ft_lstclear(&tp, del_node_r);
-	return (red);
+	return (ugh);
 }
 
