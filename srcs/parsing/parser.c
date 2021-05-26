@@ -43,10 +43,10 @@ t_redirect	*red_lst(char	**pipelist, char **red, char *cmd, t_pipeline *pipe_lst
 	quotes = NULL;
 	pipe_lst->redirections = NULL;
 	(void)pipelist;
-	red_list = NULL;
 	v = quotes_finder(cmd, &quotes);
 	v = red_finder(cmd, &reds, &quotes);
 	v = -1;
+	red_list = NULL;
 	while (red[++v])
 	{
 		red_list = malloc(sizeof(t_redirect));
@@ -133,7 +133,7 @@ t_list		*main_lst(void)
 	x = 0;
 	main_list = NULL;
 	tab = NULL;
-	cmd = ft_strdup("test \" || \"  | test2 ; echo > file hello > file2 world |command > file80 concat > file21 concat;");
+	cmd = ft_strdup("echo hello world ;test \" || \"  | test2 ; echo > file hello > file2 world |command > file80 concat > file21 concat;");
 	tab = split_cmds(cmd);
 	if (tab)
 		if (check_cmds(tab, cmd) == 1)
@@ -151,14 +151,14 @@ t_list		*main_lst(void)
 				red = reddit(pipe[j]);
 				if (red)
 				{
-					// x = 0;
-					// printf("---------------------------------------------\n");
-					// while (red[x])
-					// {
-					// 	printf("  red /%d/ |%s|",x, red[x]);
-					// 	x++;
-					// }
-					// printf("\n---------------------------------------------\n");
+					x = 0;
+					printf("---------------------------------------------\n");
+					while (red[x])
+					{
+						printf("  red /%d/ |%s|",x, red[x]);
+						x++;
+					}
+					printf("\n---------------------------------------------\n");
 					cmd_list = cmd_lst(pipe, red, pipe[j]);
 					lst_append(&main_list, cmd_list);
 					//ft_free(red, x);
@@ -188,43 +188,41 @@ int	main(void)
 	cmd = main_lst();
 	if (cmd == NULL)
 		return (1);
-	printf("allo");
-	while (cmd)
-	{
-		if (((t_cmd *)cmd->content)->pipes != NULL)
-		{
-			while (((t_cmd *)cmd->content)->pipes)
-			{
-				if (((t_cmd *)cmd->content)->pipes->has_red == 1)
-				{
-					while (((t_cmd *)cmd->content)->pipes->redirections)
-					{
-						i = -1;
-						while (((t_cmd *)cmd->content)->pipes->redirections->cmd[++i])
-							printf("command from reds :%s\n", ((t_cmd *)cmd->content)->pipes->redirections->cmd[i]);
-						printf("file :%s\n", ((t_cmd *)cmd->content)->pipes->redirections->file);
-						((t_cmd *)cmd->content)->pipes->redirections = ((t_cmd *)cmd->content)->pipes->redirections->next;
-					}
-				}
-				else
-				{
-					i = -1;
-					while (((t_cmd *)cmd->content)->pipes->cmd[++i])
-						printf("command from pipeline :%s\n", ((t_cmd *)cmd->content)->pipes->cmd[i]);
-				}
-				((t_cmd *)cmd->content)->pipes = ((t_cmd *)cmd->content)->pipes->next;
-			}
-		}
-		else
-		{
-			i = -1;
-			while (((t_cmd *)cmd->content)->cmd[++i])
-			{
-				printf("executable command:\n");
-				printf("command from t_cmd: %s\n", (((t_cmd *)cmd->content)->cmd[i]));
-			}
-		}
-		cmd = cmd->next;
-	}
+	// while (cmd)
+	// {
+	// 	if (((t_cmd *)cmd->content)->pipes != NULL)
+	// 	{
+	// 		while (((t_cmd *)cmd->content)->pipes)
+	// 		{
+	// 			if (((t_cmd *)cmd->content)->pipes->has_red == 1)
+	// 			{
+	// 				while (((t_cmd *)cmd->content)->pipes->redirections)
+	// 				{
+	// 					i = -1;
+	// 					while (((t_cmd *)cmd->content)->pipes->redirections->cmd[++i])
+	// 						printf("command from reds :%s\n", ((t_cmd *)cmd->content)->pipes->redirections->cmd[i]);
+	// 					printf("file :%s\n", ((t_cmd *)cmd->content)->pipes->redirections->file);
+	// 					((t_cmd *)cmd->content)->pipes->redirections = ((t_cmd *)cmd->content)->pipes->redirections->next;
+	// 				}
+	// 			}
+	// 			else
+	// 			{
+	// 				i = -1;
+	// 				while (((t_cmd *)cmd->content)->pipes->cmd[++i])
+	// 					printf("command from pipeline :%s\n", ((t_cmd *)cmd->content)->pipes->cmd[i]);
+	// 			}
+	// 			((t_cmd *)cmd->content)->pipes = ((t_cmd *)cmd->content)->pipes->next;
+	// 		}
+	// 	}
+	// 	else
+	// 	{
+	// 		i = -1;
+	// 		while (((t_cmd *)cmd->content)->cmd[++i])
+	// 		{
+	// 			printf("command from t_cmd: %s\n", (((t_cmd *)cmd->content)->cmd[i]));
+	// 		}
+	// 	}
+	// 	cmd = cmd->next;
+	// }
 	return (0);
 }
