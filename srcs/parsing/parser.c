@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 13:37:19 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/05/28 17:26:44 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/05/28 17:40:58 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_redirect	*red_lst(char **red, char *cmd, t_pipeline *pipe_lst)
 	red_list = NULL;
 	while (red[++v])
 	{
-		printf("redirection :%s\n", red[v]);
+		//printf("redirection :%s\n", red[v]);
 		red_list = malloc(sizeof(t_redirect));
 		red_list->file = red[v];
 		red_list->type = red_type(&reds, v);
