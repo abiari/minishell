@@ -6,11 +6,22 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 13:37:19 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/05/28 17:40:58 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/05/29 14:54:43 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	ft_freex(char **tab)
+{
+	int	i;
+
+	i = -1;
+	while (tab[++i])
+		free(tab[i]);
+	free(tab);
+	tab = NULL;
+}
 
 char	**parse_line(char *line)
 {
@@ -47,6 +58,7 @@ void lst_append_red(t_redirect **list, t_redirect *param) {
 t_redirect	*red_lst(char **red, char *cmd, t_pipeline *pipe_lst)
 {
 	t_redirect	*red_list;
+	t_redirect	*head;
 	t_list	*quotes;
 	t_list	*reds;
 	int		v;
@@ -56,18 +68,22 @@ t_redirect	*red_lst(char **red, char *cmd, t_pipeline *pipe_lst)
 	pipe_lst->redirections = NULL;
 	v = quotes_finder(cmd, &quotes);
 	v = red_finder(cmd, &reds, &quotes);
-	v = 0;
-	red_list = NULL;
+	v = 1;
+	red_list = malloc(sizeof(t_redirect));
+	red_list->file = ft_strdup(red[v]);
+	red_list->type = red_type(&reds, v);
+	red_list->next = NULL;
+	lst_append_red(&(pipe_lst->redirections), red_list);
+	head = red_list;
 	while (red[++v])
 	{
-		//printf("redirection :%s\n", red[v]);
 		red_list = malloc(sizeof(t_redirect));
-		red_list->file = red[v];
+		red_list->file = ft_strdup(red[v]);
 		red_list->type = red_type(&reds, v);
 		red_list->next = NULL;
 		lst_append_red(&(pipe_lst->redirections), red_list);
 	}
-	return (red_list);
+	return (head);
 }
 
 void lst_append_pipe(t_pipeline **list, t_pipeline *param) {
@@ -133,7 +149,7 @@ t_list		*main_lst(void)
 	x = 0;
 	main_list = NULL;
 	tab = NULL;
-	cmd = ft_strdup("echo hello > file world > file2 ! | command > file80 concat1 > file21 concat2;");
+	cmd = ft_strdup("> file0 echo >> file1 hello < file2 world > file3 mamamia > file4 !;");
 	tab = split_cmds(cmd);
 	if (tab)
 		if (check_cmds(tab, cmd) == 1)
@@ -153,6 +169,9 @@ t_list		*main_lst(void)
 		i++;
 	}
 	free(cmd);
+	ft_freex(tab);
+	ft_freex(pipe);
+	ft_freex(red);
 	return (main_list);
 }
 
@@ -176,11 +195,11 @@ int	main(void)
 			printf("\n");
 			if (((t_cmd *)cmd->content)->pipes->has_red)
 			{
+				printf("redirections:\n");
 				while (((t_cmd *)cmd->content)->pipes->redirections)
 				{
 					i = 0;
-					printf("redirections:\n");
-					printf("file[%d]:|%s|\n",i , ((t_cmd *)cmd->content)->pipes->redirections->file);
+					printf("|redirection type :|%d|%s|\n", ((t_cmd *)cmd->content)->pipes->redirections->type,((t_cmd *)cmd->content)->pipes->redirections->file);
 					((t_cmd *)cmd->content)->pipes->redirections = ((t_cmd *)cmd->content)->pipes->redirections->next;
 					i++;
 				}
@@ -189,5 +208,6 @@ int	main(void)
 		}
 		cmd = cmd->next;
 	}
+	while(1);
 	return (0);
 }

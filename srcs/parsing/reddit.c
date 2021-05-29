@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 10:37:52 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/05/26 16:34:38 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/05/29 13:42:56 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ int	red_type(t_list **red, int id)
 	reds = *red;
 	while (reds)
 	{
-		if(((t_red*)reds->content)->id == id)
+		if(((t_red*)reds->content)->id == id - 1)
 			return (((t_red*)reds->content)->type);
 		reds = reds->next;
 	}
