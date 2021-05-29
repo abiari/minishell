@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/25 10:58:36 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/05/29 14:58:41 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ LINKED LIST
 typedef struct	s_redirect
 {
 	int	type;
-	char **cmd;
 	char	*file;
 	struct s_redirect *next;
 }				t_redirect;
@@ -51,8 +50,6 @@ typedef struct	s_pipeline
 // Separated By ;
 typedef struct	s_cmd
 {
-	char	**cmd;
-	int	has_pipe;
 	t_pipeline *pipes;
 	struct s_cmd *next;
 }				t_cmd;
