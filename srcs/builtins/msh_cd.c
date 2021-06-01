@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/05 16:08:37 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/22 13:55:55 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/31 10:17:37 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	msh_cd(char *path, t_list *envl)
 	{
 		path = getcwd(NULL, 0);
 		mod_env_var("PWD", path, &envl);
-		if (find_env_var("OLDPWD", envl) != NULL)
+		if (find_env_var("OLDPWD", &envl) != NULL)
 			add_env_var("OLDPWD", old_path, &envl);
 		else
 			mod_env_var("OLDPWD", old_path, &envl);

@@ -6,32 +6,42 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:06:25 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/19 11:30:50 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/01 14:43:03 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// t_cmds	parse_line(char *line)
-// {
+t_globals	g_vars;
 
-// }
+void	msh_prompt(void)
+{
+	ft_putstr_fd("msh$: ", STDOUT_FILENO);
+	ft_putstr_fd(getcwd(NULL, 0), STDOUT_FILENO);
+	ft_putstr_fd(">> ", STDOUT_FILENO);
+}
 
-void	msh_loop(char **line)
+
+void	msh_loop(char **line, char **envp)
 {
 	int	n;
+	t_list *cmd;
+	// t_cmd *cmd_cast;
 
 	n = 1;
 	while (n)
 	{
-		g_vars.pid = 0;
-		ft_putstr_fd("msh$>: ", STDOUT_FILENO);
+		msh_prompt();
 		n = get_next_line(STDIN_FILENO, line);
 		if (n == 0)
 		{
 			printf("exit\n");
 			break ;
 		}
+		cmd = main_lst(*line);
+		// cmd_cast = (t_cmd *)(cmd);
+
+		exec(((t_cmd *)cmd->content)->pipes, envp);
 	}
 }
 
@@ -41,9 +51,8 @@ int		main(int ac, char *av[], char *env[])
 
 	(void)ac;
 	(void)av;
-	(void)env;
 	signal(SIGQUIT, sig_handler);
 	signal(SIGINT, sig_handler);
-	msh_loop(&line);
+	msh_loop(&line, env);
 	return (0);
 }

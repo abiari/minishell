@@ -6,13 +6,13 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/05 16:15:43 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/22 10:47:28 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/31 10:17:56 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	msh_pwd(t_list *envl)
+int	msh_pwd(void)
 {
 	char	*cwd;
 

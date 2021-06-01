@@ -6,21 +6,28 @@
 #    By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/19 17:19:26 by abiari            #+#    #+#              #
-#    Updated: 2021/03/11 12:43:58 by abiari           ###   ########.fr        #
+#    Updated: 2021/06/01 14:38:24 by abiari           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = msh
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS =  -g3 -fsanitize=address
 
 SRC = srcs/main.c srcs/builtins/msh_cd.c srcs/builtins/msh_pwd.c\
-srcs/utils/env_utils.c srcs/utils/env_utils2.c srcs/utils/lst_append.c
+srcs/utils/env_utils.c srcs/utils/envp_to_envl.c srcs/utils/lst_append.c\
+srcs/parsing/cmd_helper.c srcs/parsing/cmd_spliter.c\
+srcs/parsing/commas_helpers.c srcs/parsing/helpers.c srcs/parsing/parser.c\
+srcs/parsing/parser_utils.c srcs/parsing/pipe_it.c\
+srcs/parsing/quotes_helpers.c srcs/parsing/red_helper.c srcs/parsing/reddit.c\
+srcs/parsing/space_it.c srcs/parsing/utils.c srcs/execution/pipeline.c\
+srcs/execution/redirection.c srcs/execution/executer.c\
+srcs/signals/sig_handlers.c
 
 all: $(NAME)
 
 $(NAME):
-	make -C /libft
+	make -C ./libft && make bonus -C ./libft
 	$(CC) $(CFLAGS) $(SRC) libft/libft.a -o msh
 
 clean:

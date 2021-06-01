@@ -1,27 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/15 10:01:16 by abiari            #+#    #+#             */
-/*   Updated: 2019/10/18 19:40:58 by abiari           ###   ########.fr       */
+/*   Created: 2021/05/20 18:10:58 by ael-bagh          #+#    #+#             */
+/*   Updated: 2021/05/25 13:02:53 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/minishell.h"
 
-t_list	*ft_lstlast(t_list *lst)
+int	two_d_counter(char **two_d)
 {
-	t_list	*tmp;
+	int i;
 
-	if (lst == NULL)
-		return (NULL);
-	tmp = lst;
-	while (tmp->next != NULL)
-	{
-		tmp = tmp->next;
-	}
-	return (tmp);
+	i = 0;
+	if (!two_d)
+		return (-1);
+	while (two_d[i])
+		i++;
+	return (i);
+}
+
+int	space_counter(int *comma)
+{
+	int	i;
+
+	i = 0;
+	while (comma[i] != -2)
+		i++;
+	return (i);
 }

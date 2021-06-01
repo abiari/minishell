@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/19 11:30:27 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/01 14:54:36 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include <sys/wait.h>
 # define S_QUOTE 9001
 # define D_QUOTE 9002
-# define IN_R 9003
-# define OUT_R 9004
+# define OUT_R 9003
+# define IN_R 9004
 # define APP_R 9005
 # define FALSE 9006
 # define TRUE 9007
@@ -31,24 +31,39 @@
 typedef struct	s_redirect
 {
 	int	type;
-	char **cmd;
-	char *file;
+	char	*file;
 	struct s_redirect *next;
 }				t_redirect;
 
+// Separated by |
 typedef struct	s_pipeline
 {
-	char **cmd;
-	t_redirect *redirections;
-	struct s_pipeline *next;
+	char		**cmd;
+	int			has_red;
+	t_redirect	*redirections;
+	struct	s_pipeline *next;
 }				t_pipeline;
 
+// Separated By ;
 typedef struct	s_cmd
 {
-	char **cmd;
 	t_pipeline *pipes;
 	struct s_cmd *next;
 }				t_cmd;
+
+typedef struct	s_quotes
+{
+	int		type;
+	int		opens;
+	int		closes;
+}				t_quotes;
+
+typedef struct	s_red
+{
+	int		id;
+	int		index;
+	int		type;
+}				t_red;
 
 typedef struct	s_envl
 {
@@ -71,7 +86,7 @@ char	*find_env_key(const char *envp);
 char	*find_env_value(const char *envp);
 t_list	*envp_to_envl(char *envp[]);
 int		msh_cd(char *path, t_list *envl);
-int		msh_pwd(t_list *envl);
+int		msh_pwd(void);
 int		msh_unset(char *args[], t_list *envl);
 int		msh_env(t_list **envl);
 int		msh_export(char **args, t_list **envl);
@@ -83,7 +98,55 @@ int		delete_env_var(char *var, t_list **envl);
 t_envl	*find_env_var(char *var, t_list **envl);
 char	*bin_path(char *cmd, t_list *envl);
 void	free_double(char **arr);
-int		fork_pipes(t_pipeline *cmd, char **envp);
-int		redirect(t_pipeline *cmd);
+void	fork_pipes(t_pipeline *cmd, char **envp);
+void	redirect(t_pipeline *cmd);
 void	sig_handler(int sign_num);
+void	exec(t_pipeline *cmd, char **envp);
+void	process(int sign_num);
+void	sig_handler(int sign_num);
+void	create_file(t_pipeline *cmd);
+void	msh_prompt(void);
+
+int		space_counter(int *comma);
+int		two_d_counter(char **two_d);
+char	**space_spliter(int *space, char *cmd);
+int		*spaces(char *str, t_list **lst);
+char	**space_it(char *red);
+char	*split_ws(char *red);
+char	*get_cmd(char **red, char **pipelist);
+char	**reddit(char *cmd);
+int		red_i_init(int index, int *array, int last, char *cmd);
+int		red_type_check(char *str, int i);
+int		red_len_init(int index, int *array, int last, char *cmd);
+char	*fill_red(char *cmd, int index, int *array);
+int		red_finder(char *str, t_list **redi, t_list **tp);
+int		red_type(t_list **red, int id);
+void	del_node(void *content);
+void	del_node_r(void *content);
+int		check_cmds_helper(char **cmds, char *cmd, t_list *tmp, int *comma);
+char	**pipe_it(char *cmd);
+int		char_counter(char *str, t_list *tmp, char c);
+void	char_array(int *array, char *str, t_list *tmp, char c);
+int		*pipes(char *str, t_list **lst);
+int		last_char(int *array);
+int		len_init(int index, int *comma, int last, char *cmd);
+int		i_init(int index, int *comma, int last, char *cmd);
+int		free_the_nipples(t_list *tmp, char **cmds, int i, int indice);
+int		quote_ends(int type, int i, char *str);
+int		quotes_finder(char *str, t_list **lst);
+int		is_between_quotes(int i, t_list **lst);
+int		*commas(char *str, t_list **lst);
+int		check_last_cmd(char *cmd, int last_comma);
+char	*fill_command(char *cmd, int index, int *comma);
+int		check_first_cmd(char *cmd, int first_comma);
+int		cmd_counter(int *comma, char *cmd, int indice);
+void	ft_free(char **tab, int n);
+char	**cmds_spliter(int *comma, char *cmd);
+char	**split_cmds(char *cmd);
+int		only_char(char c, char *str);
+int		check_cmds(char **cmds, char *cmd);
+int		check_pipes_helper(char **cmds, char *cmd, t_list *tmp, int *pipe);
+char	**parse_line(char *line);
+int		parse_er(char *err, int ret);
+t_list	*main_lst(char *cmd);
 #endif

@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 20:40:42 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/10 23:29:06 by abiari           ###   ########.fr       */
+/*   Updated: 2021/05/31 10:28:32 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_wlen(char const *str, int i, int *nbword, int c)
 	return (i);
 }
 
-void	ft_free(char **tab, int n)
+void	ft_free_it(char **tab, int n)
 {
 	int	i;
 
@@ -44,7 +44,7 @@ int	ft_fill(char **tab, char const *str, int *nbword, int c)
 		wlen++;
 	if (!(tmp = (char *)malloc((wlen + 1) * sizeof(char))))
 	{
-		ft_free(tab, *nbword);
+		ft_free_it(tab, *nbword);
 		*nbword = 0;
 		return (ft_strlen(str));
 	}

@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
+/*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/15 10:01:16 by abiari            #+#    #+#             */
-/*   Updated: 2019/10/18 19:40:58 by abiari           ###   ########.fr       */
+/*   Created: 2021/04/14 12:20:17 by ael-bagh          #+#    #+#             */
+/*   Updated: 2021/04/14 12:38:55 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/minishell.h"
 
-t_list	*ft_lstlast(t_list *lst)
+int	is_between_quotes(int i, t_list **lst)
 {
 	t_list	*tmp;
 
-	if (lst == NULL)
-		return (NULL);
-	tmp = lst;
-	while (tmp->next != NULL)
+	tmp = *lst;
+	while (tmp != NULL)
 	{
+		if (i > ((t_quotes *)tmp->content)->opens
+			&& i < ((t_quotes *)tmp->content)->closes)
+			return (((t_quotes *)tmp->content)->type);
 		tmp = tmp->next;
 	}
-	return (tmp);
+	return (0);
 }

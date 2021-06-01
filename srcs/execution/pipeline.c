@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 17:35:24 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/21 17:20:01 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/01 14:23:55 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*check_exec(char *cmd, t_list *envl)
 	return (bin);
 }
 
-void	spawn_proc(int in, int out, t_pipeline *cmd, char *envp[])
+void	spawn_proc(int in, int *fd, t_pipeline *cmd, char *envp[])
 {
 	g_vars.pid = fork();
 	if (g_vars.pid == 0)
@@ -37,14 +37,20 @@ void	spawn_proc(int in, int out, t_pipeline *cmd, char *envp[])
 			dup2(in, STDIN_FILENO);
 			close(in);
 		}
-		if (out != 1)
+		if (fd[1] != 1)
 		{
-			dup2(out, STDOUT_FILENO);
-			close(out);
+			dup2(fd[1], STDOUT_FILENO);
+			close(fd[1]);
 		}
-		redirect(cmd);
+		if (fd[0] > 2)
+		{
+			close(fd[0]);
+		}
+		if (cmd->has_red)
+			redirect(cmd);
 		execve(cmd->cmd[0], (char *const *)cmd->cmd, envp);
 		ft_putstr_fd(strerror(errno), STDERR_FILENO);
+		write(2, "\n", 1);
 		exit(errno);
 	}
 }
@@ -54,27 +60,24 @@ void	fork_pipes(t_pipeline *cmd, char **envp)
 	int		in;
 	int		fd[2];
 	int		status;
-	char	*bin;
 
 	in = 0;
 	status = 0;
 	while (cmd->next != NULL)
 	{
-		bin = check_exec(cmd->cmd[0], envp_to_envl(envp));
-		if (bin == NULL)
+		cmd->cmd[0] = check_exec(cmd->cmd[0], envp_to_envl(envp));
+		if (cmd->cmd[0] == NULL)
 			return ;
 		pipe(fd);
-		spawn_proc(in, fd[1], cmd, envp);
+		spawn_proc(in, fd, cmd, envp);
 		close(fd[1]);
 		if (in != 0)
 			close(in);
 		in = fd[0];
 		cmd = cmd->next;
 	}
-	if (in != STDIN_FILENO)
-		close(in);
-	bin = check_exec(cmd->cmd[0], envp_to_envl(envp));
-	if (bin == NULL)
+	cmd->cmd[0] = check_exec(cmd->cmd[0], envp_to_envl(envp));
+	if (cmd->cmd[0] == NULL)
 		return ;
 	g_vars.pid = fork();
 	if (g_vars.pid == 0)
@@ -84,11 +87,17 @@ void	fork_pipes(t_pipeline *cmd, char **envp)
 			dup2(in, STDIN_FILENO);
 			close(in);
 		}
-		redirect(cmd);
+		if (fd[1] > 2)
+			close(fd[1]);
+		if (cmd->has_red)
+			redirect(cmd);
 		execve(cmd->cmd[0], (char *const *)cmd->cmd, envp);
 		ft_putstr_fd(strerror(errno), STDERR_FILENO);
+		write(2, "\n", 1);
 		exit(errno);
 	}
+	if (in != STDIN_FILENO)
+		close(in);
 	while (waitpid(-1, &status, 0) > 0)
 		if (WIFEXITED(status))
 			g_vars.exit_code = WEXITSTATUS(status);
