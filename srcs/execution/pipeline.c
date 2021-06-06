@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 17:35:24 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/01 14:23:55 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/06 12:21:34 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ char	*check_exec(char *cmd, t_list *envl)
 void	spawn_proc(int in, int *fd, t_pipeline *cmd, char *envp[])
 {
 	g_vars.pid = fork();
+	// g_vars.pid = 0;
 	if (g_vars.pid == 0)
 	{
 		if (in != 0)
@@ -43,9 +44,7 @@ void	spawn_proc(int in, int *fd, t_pipeline *cmd, char *envp[])
 			close(fd[1]);
 		}
 		if (fd[0] > 2)
-		{
 			close(fd[0]);
-		}
 		if (cmd->has_red)
 			redirect(cmd);
 		execve(cmd->cmd[0], (char *const *)cmd->cmd, envp);
@@ -53,6 +52,14 @@ void	spawn_proc(int in, int *fd, t_pipeline *cmd, char *envp[])
 		write(2, "\n", 1);
 		exit(errno);
 	}
+}
+
+int		is_builtin(char *cmd)
+{
+	return (ft_strcmp("echo", cmd) || ft_strcmp("env", cmd)
+			|| ft_strcmp("cd", cmd) || ft_strcmp("export", cmd)
+			|| ft_strcmp("pwd", cmd) || ft_strcmp("exit", cmd)
+			|| ft_strcmp("unset", cmd));
 }
 
 void	fork_pipes(t_pipeline *cmd, char **envp)
@@ -65,12 +72,18 @@ void	fork_pipes(t_pipeline *cmd, char **envp)
 	status = 0;
 	while (cmd->next != NULL)
 	{
+		// if (is_builtin(cmd->cmd[0]))
+		// {
+		// 	execute_builtin(cmd, in);
+		// 	continue ;
+		// }
 		cmd->cmd[0] = check_exec(cmd->cmd[0], envp_to_envl(envp));
 		if (cmd->cmd[0] == NULL)
 			return ;
 		pipe(fd);
 		spawn_proc(in, fd, cmd, envp);
-		close(fd[1]);
+		if (fd[1] > 2)
+			close(fd[1]);
 		if (in != 0)
 			close(in);
 		in = fd[0];
@@ -79,6 +92,7 @@ void	fork_pipes(t_pipeline *cmd, char **envp)
 	cmd->cmd[0] = check_exec(cmd->cmd[0], envp_to_envl(envp));
 	if (cmd->cmd[0] == NULL)
 		return ;
+	// g_vars.pid = 0;
 	g_vars.pid = fork();
 	if (g_vars.pid == 0)
 	{
@@ -96,7 +110,7 @@ void	fork_pipes(t_pipeline *cmd, char **envp)
 		write(2, "\n", 1);
 		exit(errno);
 	}
-	if (in != STDIN_FILENO)
+	if (in != 0)
 		close(in);
 	while (waitpid(-1, &status, 0) > 0)
 		if (WIFEXITED(status))

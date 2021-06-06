@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 11:43:08 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/01 14:59:02 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/03 12:26:48 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,6 @@ char	*bin_path(char *cmd, t_list *envl)
 
 void	exec(t_pipeline *cmd, char **envp)
 {
-	// t_list	*envl;
-
-	// envl = envp_to_envl(envp);
 	if ((cmd->cmd[0] == NULL) && (cmd->has_red == 1))
 		create_file(cmd);
 	else

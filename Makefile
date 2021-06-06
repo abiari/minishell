@@ -6,13 +6,13 @@
 #    By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/19 17:19:26 by abiari            #+#    #+#              #
-#    Updated: 2021/06/01 14:38:24 by abiari           ###   ########.fr        #
+#    Updated: 2021/06/02 11:27:21 by abiari           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = msh
 CC = gcc
-CFLAGS =  -g3 -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address
 
 SRC = srcs/main.c srcs/builtins/msh_cd.c srcs/builtins/msh_pwd.c\
 srcs/utils/env_utils.c srcs/utils/envp_to_envl.c srcs/utils/lst_append.c\
@@ -27,8 +27,8 @@ srcs/signals/sig_handlers.c
 all: $(NAME)
 
 $(NAME):
-	make -C ./libft && make bonus -C ./libft
-	$(CC) $(CFLAGS) $(SRC) libft/libft.a -o msh
+	make -C ./libft && make bonus -C ./libft && make clean -C ./libft
+	$(CC) $(CFLAGS) $(SRC) libft/libft.a -o $(NAME)
 
 clean:
 	/bin/rm -f $(OBJS)

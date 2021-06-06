@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 14:10:26 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/01 14:54:12 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/02 17:19:37 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	create_file(t_pipeline *cmd)
 			write(2, "\n", 1);
 			exit(errno);
 		}
+		close(fd);
 		files_dup = files;
 		files = files->next;
 	}
@@ -66,19 +67,22 @@ void	redirect(t_pipeline *cmd)
 		files_dup = files;
 		files = files->next;
 	}
-	if (files_dup->type == IN_R)
+	if (files_dup->type == IN_R && fd > 2)
 	{
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
-	else if (files_dup->type == OUT_R)
+	else if (files_dup->type == OUT_R && fd > 2)
 	{
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 	}
 	else
 	{
-		dup2(fd, STDOUT_FILENO);
-		close(fd);
+		if (fd > 2)
+		{
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+		}
 	}
 }
