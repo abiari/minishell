@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   space_it.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 17:56:13 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/01 14:07:25 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/06 16:06:45 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	**space_spliter(int *space, char *cmd)
 		tab = (char **)malloc((i + 1) * sizeof(char *));
 		j = -1;
 		while (++j < i)
-			tab[j] = ft_strdup_dzeb(fill_command(cmd, j, space));
+			tab[j] = ft_strdup(fill_command(cmd, j, space));
 		tab[j] = NULL;
 		free(space);
 	}
@@ -62,11 +62,12 @@ char	**space_it(char *red)
 {
 	t_list	*tmp;
 	int		*space;
+	int		ret;
 	char	**tab;
 
 	tmp = NULL;
 	space = NULL;
-	quotes_finder(red, &tmp);
+	ret = quotes_finder(red, &tmp);
 	space = spaces(red, &tmp);
 	tab = space_spliter(space, red);
 	ft_lstclear(&tmp, del_node);
@@ -95,10 +96,12 @@ char	*split_ws(char *red)
 char		*get_cmd(char **red, char **pipelist)
 {
 	int	i;
+	int ret;
 	char	*cmd;
 
 	(void)pipelist;
 	i = -1;
+	ret = 0;
 	cmd = NULL;
 	if (red)
 	{

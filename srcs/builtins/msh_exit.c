@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 13:22:08 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/22 15:43:39 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/06 19:27:33 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,26 @@ long long	ft_ll_atoi(const char *ptr)
 	return (res * sign);
 }
 
-int	msh_exit(char **argv)
+int	ft_isnum(char *num)
+{
+	int	i;
+
+	i = 0;
+	while (num[i])
+	{
+		if (!ft_isdigit(num[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	msh_exit(char **argv, t_list *envl)
 {
 	int	i;
 	int	code;
 
+	(void)envl;
 	i = 0;
 	code = 0;
 	while (argv[i] != NULL)
@@ -54,9 +69,9 @@ int	msh_exit(char **argv)
 	else
 	{
 		i = 0;
-		while (argv[0][i] != NULL)
+		while (argv[0][i] != '\0')
 		{
-			if (ft_isdigit(argv[i]) == 0)
+			if (ft_isnum(argv[i]) == 0)
 			{
 				printf("exit \n");
 				ft_putstr_fd("msh: exit: ", 2);

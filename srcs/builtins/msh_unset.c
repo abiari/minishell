@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 10:45:23 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/22 10:48:14 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/06 19:11:46 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	is_alphanum(char *s)
 	return (flag);
 }
 
-int	msh_unset(char *args[], t_list *envl)
+int	msh_unset(char **args, t_list *envl)
 {
 	int		ret;
 	int		i;

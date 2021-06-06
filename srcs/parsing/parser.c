@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 13:37:19 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/01 14:04:57 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/06 20:56:50 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,11 @@ void lst_append_pipe(t_pipeline **list, t_pipeline *param) {
 		(*list) = param;
 }
 
-t_pipeline	*pipe_lst(char **pipelist, char **red, char *cmd, t_cmd *cmd_list)
+t_pipeline	*pipe_lst(char **pipelist, t_cmd *cmd_list)
 {
-	t_pipeline	*pipe_list = NULL;
+	t_pipeline	*pipe_list;
 	int			v;
+	char **red;
 
 	v = -1;
 	cmd_list->pipes = NULL;
@@ -105,10 +106,11 @@ t_pipeline	*pipe_lst(char **pipelist, char **red, char *cmd, t_cmd *cmd_list)
 		pipe_list = malloc(sizeof(t_pipeline));
 		pipe_list->has_red = 0;
 		pipe_list->redirections = NULL;
+		red = reddit(pipelist[v]);
 		if (red)
 		{
 			pipe_list->has_red = 1;
-			pipe_list->redirections = red_lst(red, cmd, pipe_list);
+			pipe_list->redirections = red_lst(red, pipelist[v], pipe_list);
 			pipe_list->cmd	= ft_split(red[0], ' ');
 		}
 		else
@@ -122,12 +124,11 @@ t_pipeline	*pipe_lst(char **pipelist, char **red, char *cmd, t_cmd *cmd_list)
 	return (cmd_list->pipes);
 }
 
-t_cmd	*cmd_lst(char **pipelist, char **red, char *cmd)
+t_cmd	*cmd_lst(char **pipelist)
 {
 	t_cmd *cmd_list;
-
 	cmd_list = malloc(sizeof(t_cmd));
-	cmd_list->pipes = pipe_lst(pipelist, red, cmd, cmd_list);
+	cmd_list->pipes = pipe_lst(pipelist, cmd_list);
 	cmd_list->next = NULL;
 	return(cmd_list);
 }
@@ -135,19 +136,19 @@ t_cmd	*cmd_lst(char **pipelist, char **red, char *cmd)
 t_list		*main_lst(char *cmd)
 {
 	int		i;
-	int		j;
+	// int		j;
+	int		x;
 	char	**tab;
 	char	**pipe;
-	// char	*cmd;
-	char	**red;
+	// char	**red;
 	t_cmd	*cmd_list;
 	t_list	*main_list;
 
 
 	i = 0;
+	x = 0;
 	main_list = NULL;
 	tab = NULL;
-	// cmd = ft_strdup("> file0 echo >> file1 hello < file2 world > file3 mamamia > file4 !;");
 	tab = split_cmds(cmd);
 	if (tab)
 		if (check_cmds(tab, cmd) == 1)
@@ -157,16 +158,19 @@ t_list		*main_lst(char *cmd)
 		pipe = pipe_it(tab[i]);
 		if (check_pipes(pipe, tab[i]) == 1)
 			return (NULL);
-		j = -1;
-		while (pipe[++j])
-		{
-			red = reddit(pipe[j]);
-			cmd_list = cmd_lst(pipe, red, pipe[j]);
-			lst_append(&main_list, cmd_list);
-		}
+		// j = -1;
+		// while (pipe[++j])
+		// {
+		// red = reddit(pipe[j]);
+		cmd_list = cmd_lst(pipe);
+			// pipe_list = pipe_lst(pipe, red, cmd_list);
+			// lst_append_pipe(&pipe_list, )
+
+		// }
+		lst_append(&main_list, cmd_list);
 		i++;
 	}
-	// free(cmd);
+	free(cmd);
 	// ft_freex(tab);
 	// ft_freex(pipe);
 	// ft_freex(red);
@@ -202,6 +206,7 @@ t_list		*main_lst(char *cmd)
 // 					i++;
 // 				}
 // 			}
+// 			printf("--------------------------------------------\n");
 // 			((t_cmd *)cmd->content)->pipes = ((t_cmd *)cmd->content)->pipes->next;
 // 		}
 // 		cmd = cmd->next;

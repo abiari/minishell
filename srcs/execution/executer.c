@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 11:43:08 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/03 12:26:48 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/06 19:17:24 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,32 @@ char	*bin_path(char *cmd, t_list *envl)
 	return (NULL);
 }
 
+void	exec_builtin(char **cmd, char **envp)
+{
+	static char	*builtin_str[7] = {
+	"echo", "cd", "pwd", "export", "unset", "env", "exit"};
+	static	int	(*builtin_func[7])(char **, t_list *) = {
+	&msh_echo, &msh_cd, &msh_pwd, &msh_export,
+	&msh_unset, &msh_env, &msh_exit};
+	int			j;
+
+	j = 0;
+	while (j < 7)
+	{
+		if (strcmp(cmd[0], builtin_str[j]) == 0)
+			(g_vars.exit_code = (
+						*builtin_func[j])(&cmd[1], envp_to_envl(envp)));
+		j++;
+	}
+}
+
 void	exec(t_pipeline *cmd, char **envp)
 {
 	if ((cmd->cmd[0] == NULL) && (cmd->has_red == 1))
 		create_file(cmd);
+	else if ((cmd->next == NULL) && is_builtin(cmd->cmd[0])
+		&& cmd->has_red == 0)
+		exec_builtin(cmd->cmd, envp);
 	else
 		fork_pipes(cmd, envp);
 }

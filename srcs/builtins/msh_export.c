@@ -6,13 +6,13 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 12:32:04 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/22 10:47:51 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/06 19:10:14 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	msh_export(char **args, t_list **envl)
+int	msh_export(char **args, t_list *envl)
 {
 	int		i;
 	t_envl	*env_var;
@@ -29,7 +29,7 @@ int	msh_export(char **args, t_list **envl)
 				env_var->value = ft_strdup(find_env_value(args[i]));
 				env_var->var = ft_strdup(args[i]);
 				env_var->env_printable = 1;
-				lst_append(envl, env_var);
+				lst_append(&envl, env_var);
 			}
 			else
 			{
@@ -44,10 +44,10 @@ int	msh_export(char **args, t_list **envl)
 	}
 	else
 	{
-		while ((*envl)->next)
+		while ((envl)->next)
 		{
 			printf("declare -x %s", ((t_envl *)envl)->var);
-			(*envl) = (*envl)->next;
+			(envl) = (envl)->next;
 		}
 	}
 	return (0);

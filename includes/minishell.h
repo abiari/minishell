@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/01 14:54:36 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/06 19:19:35 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,44 +28,44 @@
 # define FALSE 9006
 # define TRUE 9007
 
-typedef struct	s_redirect
+typedef struct s_redirect
 {
-	int	type;
-	char	*file;
-	struct s_redirect *next;
+	int					type;
+	char				*file;
+	struct s_redirect	*next;
 }				t_redirect;
 
 // Separated by |
-typedef struct	s_pipeline
+typedef struct s_pipeline
 {
-	char		**cmd;
-	int			has_red;
-	t_redirect	*redirections;
-	struct	s_pipeline *next;
+	char				**cmd;
+	int					has_red;
+	t_redirect			*redirections;
+	struct s_pipeline	*next;
 }				t_pipeline;
 
 // Separated By ;
-typedef struct	s_cmd
+typedef struct s_cmd
 {
-	t_pipeline *pipes;
-	struct s_cmd *next;
+	t_pipeline		*pipes;
+	struct s_cmd	*next;
 }				t_cmd;
 
-typedef struct	s_quotes
+typedef struct s_quotes
 {
 	int		type;
 	int		opens;
 	int		closes;
 }				t_quotes;
 
-typedef struct	s_red
+typedef struct s_red
 {
 	int		id;
 	int		index;
 	int		type;
 }				t_red;
 
-typedef struct	s_envl
+typedef struct s_envl
 {
 	char	*key;
 	char	*value;
@@ -73,11 +73,11 @@ typedef struct	s_envl
 	int		env_printable;
 }				t_envl;
 
-typedef struct	s_globals
+typedef struct s_globals
 {
-	int	status;
+	int		status;
 	pid_t	pid;
-	int	exit_code;
+	int		exit_code;
 }				t_globals;
 
 extern t_globals	g_vars;
@@ -85,11 +85,13 @@ extern t_globals	g_vars;
 char	*find_env_key(const char *envp);
 char	*find_env_value(const char *envp);
 t_list	*envp_to_envl(char *envp[]);
-int		msh_cd(char *path, t_list *envl);
-int		msh_pwd(void);
-int		msh_unset(char *args[], t_list *envl);
-int		msh_env(t_list **envl);
-int		msh_export(char **args, t_list **envl);
+int		msh_cd(char **args, t_list *envl);
+int		msh_pwd(char **args, t_list *envl);
+int		msh_unset(char **args, t_list *envl);
+int		msh_env(char **args, t_list *envl);
+int		msh_export(char **args, t_list *envl);
+int		msh_exit(char **args, t_list *envl);
+int		msh_echo(char **args, t_list *envl);
 void	lst_append(t_list **lst, void *content);
 void	mod_env_var(char *var, char *new_value, t_list **envl);
 void	add_env_var(char *var, char *value, t_list **envl);
@@ -105,6 +107,8 @@ void	exec(t_pipeline *cmd, char **envp);
 void	process(int sign_num);
 void	sig_handler(int sign_num);
 void	create_file(t_pipeline *cmd);
+int		is_builtin(char *cmd);
+void	exec_builtin(char **cmd, char **envp);
 void	msh_prompt(void);
 
 int		space_counter(int *comma);

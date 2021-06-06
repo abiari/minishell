@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_it.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 13:43:03 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/01 14:05:12 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/06 16:06:45 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	**pipe_spliter(int *pipe, char *cmd)
 		tab = (char **)malloc((i + 1) * sizeof(char *));
 		j = -1;
 		while (++j < i)
-			tab[j] = ft_strdup_dzeb(fill_command(cmd, j, pipe));
+			tab[j] = ft_strdup(fill_command(cmd, j, pipe));
 		tab[j] = NULL;
 		free(pipe);
 	}
@@ -64,12 +64,12 @@ char	**pipe_it(char *cmd)
 {
 	t_list	*tmp;
 	int		*pipe;
-	// int		ret;
+	int		ret;
 	char	**tab;
 
 	tmp = NULL;
 	pipe = NULL;
-	quotes_finder(cmd, &tmp);
+	ret = quotes_finder(cmd, &tmp);
 	pipe = pipes(cmd, &tmp);
 	tab = pipe_spliter(pipe, cmd);
 	ft_lstclear(&tmp, del_node);

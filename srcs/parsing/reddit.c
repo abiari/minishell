@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reddit.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 10:37:52 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/01 14:06:22 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/06 16:06:45 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,7 +244,7 @@ char	**red_spliter(int *red_arr, char *cmd, t_list *quotes)
 		tab = (char **)malloc((i + 1) * sizeof(char *));
 		j = -1;
 		while (++j < i)
-			tab[j] = ft_strdup_dzeb(fill_red(cmd, j, red_arr));
+			tab[j] = ft_strdup(fill_red(cmd, j, red_arr));
 		tab[j] = NULL;
 		free(red_arr);
 	}
@@ -294,7 +294,6 @@ char		*to_join(char **spaces)
 	cmd = ft_strdup("");
 	while (spaces[++i])
 	{
-		// printf("ha ana %s\n", spaces[i]);
 		cmd = my_strjoin(cmd, spaces[i]);
 	}
 	return (cmd);
@@ -305,12 +304,14 @@ char		**check_red(char **red, t_list *quotes, char *cmd)
 	char	**tab;
 	char	**spaces;
 	int		i;
+	int j;
 
+	j = -1;
 	i = red_counter(cmd, quotes) + 1;
 	if (!red)
 		return NULL;
 	tab = malloc((i + 1) * sizeof(char *));
-	if (only_char(' ', red[0]) || red[0] == NULL)
+	if (only_char(' ', red[0]) || red[0] == '\0')
 		tab[0] = ft_strdup("");
 	else
 	{
@@ -323,6 +324,7 @@ char		**check_red(char **red, t_list *quotes, char *cmd)
 		if(i != 0)
 		{
 			spaces = ft_split(red[i], ' ');
+			j = -1;
 			tab[i] = ft_strdup(spaces[0]);
 			if (two_d_counter(spaces) > 0)
 			{
@@ -340,13 +342,14 @@ char	**reddit(char *cmd)
 	t_list	*tmp;
 	t_list	*tp;
 	int		*red_arr;
+	int		ret;
 	char	**red;
 	char	**ugh;
 
 	tmp = NULL;
 	tp = NULL;
-	quotes_finder(cmd, &tmp);
-	red_finder(cmd, &tp, &tmp);
+	ret = quotes_finder(cmd, &tmp);
+	ret = red_finder(cmd, &tp, &tmp);
 	red_arr = reds(cmd, &tmp);
 	red = red_spliter(red_arr, cmd, tmp);
 	ugh = check_red(red, tmp, cmd);

@@ -6,17 +6,19 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/05 16:08:37 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/31 10:17:37 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/06 18:42:11 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	msh_cd(char *path, t_list *envl)
+int	msh_cd(char **args, t_list *envl)
 {
 	int		ret;
 	char	*old_path;
+	char	*path;
 
+	path = args[0];
 	old_path = NULL;
 	ret = 0;
 	old_path = getcwd(NULL, 0);
