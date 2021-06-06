@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 17:56:13 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/05/21 15:27:05 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/06/06 16:06:45 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	**space_spliter(int *space, char *cmd)
 		tab = (char **)malloc((i + 1) * sizeof(char *));
 		j = -1;
 		while (++j < i)
-			tab[j] = ft_strdup_dzeb(fill_command(cmd, j, space));
+			tab[j] = ft_strdup(fill_command(cmd, j, space));
 		tab[j] = NULL;
 		free(space);
 	}

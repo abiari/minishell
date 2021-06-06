@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 10:37:52 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/05/29 13:42:56 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/06/06 16:06:45 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,7 +244,7 @@ char	**red_spliter(int *red_arr, char *cmd, t_list *quotes)
 		tab = (char **)malloc((i + 1) * sizeof(char *));
 		j = -1;
 		while (++j < i)
-			tab[j] = ft_strdup_dzeb(fill_red(cmd, j, red_arr));
+			tab[j] = ft_strdup(fill_red(cmd, j, red_arr));
 		tab[j] = NULL;
 		free(red_arr);
 	}
@@ -294,7 +294,6 @@ char		*to_join(char **spaces)
 	cmd = ft_strdup("");
 	while (spaces[++i])
 	{
-		// printf("ha ana %s\n", spaces[i]);
 		cmd = my_strjoin(cmd, spaces[i]);
 	}
 	return (cmd);
