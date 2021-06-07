@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/07 13:38:36 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/07 14:48:08 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	process(int sign_num);
 void	sig_handler(int sign_num);
 void	create_file(t_pipeline *cmd);
 int		is_builtin(char *cmd);
-void	exec_builtin(char **cmd, t_list **envl);
+int		exec_builtin(char **cmd, t_list **envl);
 void	msh_prompt(void);
 
 int		space_counter(int *comma);

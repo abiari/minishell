@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 17:35:24 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/07 13:47:46 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/07 17:18:33 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ char	*check_exec(char *cmd, t_list *envl)
 
 void	spawn_proc(int in, int *fd, t_pipeline *cmd, t_list **envl)
 {
-	g_vars.pid = 0;
-	// g_vars.pid = fork();
+	g_vars.pid = fork();
 	if (g_vars.pid == 0)
 	{
 		if (in != 0)
@@ -48,7 +47,7 @@ void	spawn_proc(int in, int *fd, t_pipeline *cmd, t_list **envl)
 		if (cmd->has_red)
 			redirect(cmd);
 		if (is_builtin(cmd->cmd[0]))
-			exec_builtin(cmd->cmd, envl);
+			exit(exec_builtin(cmd->cmd, envl));
 		else
 		{
 			execve(cmd->cmd[0], (char *const *)cmd->cmd, NULL);
@@ -84,9 +83,9 @@ void	fork_pipes(t_pipeline *cmd, t_list **envl)
 
 	in = 0;
 	status = 0;
-	ret = is_builtin(cmd->cmd[0]);
 	while (cmd->next != NULL)
 	{
+		ret = is_builtin(cmd->cmd[0]);
 		if (ret != 1)
 		{
 			cmd->cmd[0] = check_exec(cmd->cmd[0], *envl);
@@ -102,14 +101,14 @@ void	fork_pipes(t_pipeline *cmd, t_list **envl)
 		in = fd[0];
 		cmd = cmd->next;
 	}
+	ret = is_builtin(cmd->cmd[0]);
 	if (ret != 1)
 	{
 		cmd->cmd[0] = check_exec(cmd->cmd[0], *envl);
 		if (cmd->cmd[0] == NULL)
 			return ;
 	}
-	// g_vars.pid = fork();
-	g_vars.pid = 0;
+	g_vars.pid = fork();
 	if (g_vars.pid == 0)
 	{
 		if (in != 0)
@@ -122,7 +121,7 @@ void	fork_pipes(t_pipeline *cmd, t_list **envl)
 		if (cmd->has_red)
 			redirect(cmd);
 		if (is_builtin(cmd->cmd[0]))
-			exec_builtin(cmd->cmd, envl);
+			exit(exec_builtin(cmd->cmd, envl));
 		else
 		{
 			execve(cmd->cmd[0], (char *const *)cmd->cmd, NULL);
@@ -145,3 +144,4 @@ void	fork_pipes(t_pipeline *cmd, t_list **envl)
 		if (WIFEXITED(status))
 			g_vars.exit_code = WEXITSTATUS(status);
 }
+// wait for commands ";"

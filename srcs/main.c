@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:06:25 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/07 13:37:29 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/07 17:25:04 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ void	msh_loop(char **line, char **envp)
 		// }
 		while (cmd != NULL)
 		{
+			//mini parser for each command separated by ";"
+			// wait for wach command to execute then pass
 			exec(((t_cmd *)cmd->content)->pipes, &envl);
 			cmd = cmd->next;
 		}

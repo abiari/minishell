@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 11:43:08 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/07 13:40:31 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/07 14:48:53 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*bin_path(char *cmd, t_list *envl)
 	return (NULL);
 }
 
-void	exec_builtin(char **cmd, t_list **envl)
+int	exec_builtin(char **cmd, t_list **envl)
 {
 	static char	*builtin_str[7] = {
 	"echo", "cd", "pwd", "export", "unset", "env", "exit"};
@@ -71,10 +71,13 @@ void	exec_builtin(char **cmd, t_list **envl)
 	while (j < 7)
 	{
 		if (strcmp(cmd[0], builtin_str[j]) == 0)
-			(g_vars.exit_code = (
-						*builtin_func[j])(&cmd[1], *envl));
+		{
+			g_vars.exit_code = (*builtin_func[j])(&cmd[1], *envl);
+			return (g_vars.exit_code);
+		}
 		j++;
 	}
+	return (0);
 }
 
 void	exec(t_pipeline *cmd, t_list **envl)
