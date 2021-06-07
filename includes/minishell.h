@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/06 19:19:35 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/07 13:38:36 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,15 +100,15 @@ int		delete_env_var(char *var, t_list **envl);
 t_envl	*find_env_var(char *var, t_list **envl);
 char	*bin_path(char *cmd, t_list *envl);
 void	free_double(char **arr);
-void	fork_pipes(t_pipeline *cmd, char **envp);
+void	fork_pipes(t_pipeline *cmd, t_list **envl);
 void	redirect(t_pipeline *cmd);
 void	sig_handler(int sign_num);
-void	exec(t_pipeline *cmd, char **envp);
+void	exec(t_pipeline *cmd, t_list **envl);
 void	process(int sign_num);
 void	sig_handler(int sign_num);
 void	create_file(t_pipeline *cmd);
 int		is_builtin(char *cmd);
-void	exec_builtin(char **cmd, char **envp);
+void	exec_builtin(char **cmd, t_list **envl);
 void	msh_prompt(void);
 
 int		space_counter(int *comma);
