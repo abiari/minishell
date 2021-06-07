@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 15:56:18 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/06 19:21:55 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/07 11:04:26 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	msh_env(char **args, t_list *envl)
 
 	if (args[0] != NULL)
 	{
-		ft_putstr_fd("bad usage\n", 2);
+		ft_putstr_fd("msh: env: too many arguments\n", 2);
 		return (1);
 	}
 	ret = 0;
@@ -29,7 +29,10 @@ int	msh_env(char **args, t_list *envl)
 	{
 		tmp_cast = ((t_envl *)(tmp)->content);
 		if (tmp_cast->env_printable)
-			printf("%s\n", tmp_cast->var);
+		{
+			write(1, tmp_cast->var, ft_strlen(tmp_cast->var));
+			write(1, "\n", 1);
+		}
 		tmp = tmp->next;
 	}
 	return (ret);

@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/05 16:08:37 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/06 18:42:11 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/07 10:59:51 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	msh_cd(char **args, t_list *envl)
 	int		ret;
 	char	*old_path;
 	char	*path;
+	char	*home;
 
 	path = args[0];
 	old_path = NULL;
@@ -26,6 +27,20 @@ int	msh_cd(char **args, t_list *envl)
 	{
 		ft_putstr_fd(strerror(errno), STDERR_FILENO);
 		return ((int)errno);
+	}
+	if (path == NULL || (ft_strcmp(path, "~") == 0))
+	{
+		home = find_env_var("HOME", &envl)->value;
+		if (home != NULL)
+			ret = chdir(home);
+		else
+		{
+			ft_putstr_fd("msh: cd: HOME not set", 2);
+			g_vars.exit_code = 1;
+			return (g_vars.exit_code);
+		}
+		g_vars.exit_code = 0;
+		return (0);
 	}
 	ret = chdir(path);
 	if (ret != -1)

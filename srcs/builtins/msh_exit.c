@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 13:22:08 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/06 19:27:33 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/07 11:12:38 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,20 +66,22 @@ int	msh_exit(char **argv, t_list *envl)
 		ft_putstr_fd("msh: exit: too many arguments", 2);
 		return (g_vars.exit_code = 1);
 	}
+	else if (i == 0)
+		exit(0);
 	else
 	{
 		i = 0;
-		while (argv[0][i] != '\0')
+		// while (argv[0][i] != '\0')
+		// {
+		if (ft_isnum(argv[i]) == 0)
 		{
-			if (ft_isnum(argv[i]) == 0)
-			{
-				printf("exit \n");
-				ft_putstr_fd("msh: exit: ", 2);
-				ft_putstr_fd(argv[0], 2);
-				ft_putstr_fd(": numeric argument required", 2);
-				exit(255);
-			}
+			printf("exit \n");
+			ft_putstr_fd("msh: exit: ", 2);
+			ft_putstr_fd(argv[0], 2);
+			ft_putstr_fd(": numeric argument required", 2);
+			exit(255);
 		}
+		// }
 		code = ft_ll_atoi(argv[0]);
 		printf("exit\n");
 		if (code > 255)

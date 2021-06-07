@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 11:43:08 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/06 19:17:24 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/07 13:40:31 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*bin_path(char *cmd, t_list *envl)
 	return (NULL);
 }
 
-void	exec_builtin(char **cmd, char **envp)
+void	exec_builtin(char **cmd, t_list **envl)
 {
 	static char	*builtin_str[7] = {
 	"echo", "cd", "pwd", "export", "unset", "env", "exit"};
@@ -72,18 +72,28 @@ void	exec_builtin(char **cmd, char **envp)
 	{
 		if (strcmp(cmd[0], builtin_str[j]) == 0)
 			(g_vars.exit_code = (
-						*builtin_func[j])(&cmd[1], envp_to_envl(envp)));
+						*builtin_func[j])(&cmd[1], *envl));
 		j++;
 	}
 }
 
-void	exec(t_pipeline *cmd, char **envp)
+void	exec(t_pipeline *cmd, t_list **envl)
 {
 	if ((cmd->cmd[0] == NULL) && (cmd->has_red == 1))
 		create_file(cmd);
-	else if ((cmd->next == NULL) && is_builtin(cmd->cmd[0])
+	else if ((cmd->next == NULL) && is_builtin(cmd->cmd[0]) == 1
 		&& cmd->has_red == 0)
-		exec_builtin(cmd->cmd, envp);
+		exec_builtin(cmd->cmd, envl);
 	else
-		fork_pipes(cmd, envp);
+	{
+		if (is_builtin(cmd->cmd[0]) == 2)
+		{
+			ft_putstr_fd("msh: ", 2);
+			ft_putstr_fd(cmd->cmd[0], 2);
+			ft_putstr_fd(": command not found\n", 2);
+			g_vars.exit_code = 127;
+		}
+		else
+			fork_pipes(cmd, envl);
+	}
 }

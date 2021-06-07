@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 13:22:15 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/06 19:21:31 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/07 10:48:37 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,21 @@ int	msh_echo(char **args, t_list *envl)
 
 	(void)envl;
 	i = 0;
-	if (ft_strcmp(args[0], "-n") == 0)
-		i = 1;
-	while (args[i])
-	{
-		ft_putstr_fd(args[i], 1);
-		if (args[i + 1] != NULL)
-			write(1, " ", 1);
-		i++;
-	}
-	if (ft_strcmp(args[0], "-n") != 0)
+	if (args[0] == NULL)
 		write(1, "\n", 1);
+	else
+	{
+		if (ft_strcmp(args[0], "-n") == 0)
+			i = 1;
+		while (args[i])
+		{
+			ft_putstr_fd(args[i], 1);
+			if (args[i + 1] != NULL)
+				write(1, " ", 1);
+			i++;
+		}
+		if (ft_strcmp(args[0], "-n") != 0)
+			write(1, "\n", 1);
+	}
 	return (0);
 }
