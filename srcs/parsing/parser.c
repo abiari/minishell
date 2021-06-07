@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 13:37:19 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/06 20:56:50 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/07 17:29:28 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ t_redirect	*red_lst(char **red, char *cmd, t_pipeline *pipe_lst)
 {
 	t_redirect	*red_list;
 	t_redirect	*head;
-	t_list	*quotes;
-	t_list	*reds;
-	int		v;
+	t_list		*quotes;
+	t_list		*reds;
+	int			v;
 
 	reds = NULL;
 	quotes = NULL;
@@ -151,24 +151,26 @@ t_list		*main_lst(char *cmd)
 	tab = NULL;
 	tab = split_cmds(cmd);
 	if (tab)
+	{
 		if (check_cmds(tab, cmd) == 1)
 			return (NULL);
-	while (tab[i])
-	{
-		pipe = pipe_it(tab[i]);
-		if (check_pipes(pipe, tab[i]) == 1)
-			return (NULL);
-		// j = -1;
-		// while (pipe[++j])
-		// {
-		// red = reddit(pipe[j]);
-		cmd_list = cmd_lst(pipe);
+		while (tab[i])
+		{
+			pipe = pipe_it(tab[i]);
+			if (check_pipes(pipe, tab[i]) == 1)
+				return (NULL);
+			// j = -1;
+			// while (pipe[++j])
+			// {
+			// red = reddit(pipe[j]);
+			cmd_list = cmd_lst(pipe);
 			// pipe_list = pipe_lst(pipe, red, cmd_list);
 			// lst_append_pipe(&pipe_list, )
 
-		// }
-		lst_append(&main_list, cmd_list);
-		i++;
+			// }
+			lst_append(&main_list, cmd_list);
+			i++;
+		}
 	}
 	free(cmd);
 	// ft_freex(tab);
