@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 12:32:04 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/06 19:10:14 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/07 18:06:04 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@ int	msh_export(char **args, t_list *envl)
 {
 	int		i;
 	t_envl	*env_var;
+	t_list	*tmp;
 
 	i = 0;
-	if (args)
+	if (args[0] != NULL)
 	{
 		while (args[i] != NULL)
 		{
@@ -44,10 +45,11 @@ int	msh_export(char **args, t_list *envl)
 	}
 	else
 	{
-		while ((envl)->next)
+		tmp = envl;
+		while ((tmp)->next)
 		{
-			printf("declare -x %s", ((t_envl *)envl)->var);
-			(envl) = (envl)->next;
+			printf("declare -x %s\n", ((t_envl *)(tmp->content))->var);
+			(tmp) = (tmp)->next;
 		}
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/05 16:08:37 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/07 14:44:06 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/08 07:49:30 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,14 @@ int	msh_cd(char **args, t_list *envl)
 			g_vars.exit_code = 1;
 			return (g_vars.exit_code);
 		}
-		g_vars.exit_code = 0;
-		return (0);
 	}
-	ret = chdir(path);
+	else
+		ret = chdir(path);
 	if (ret != -1)
 	{
 		path = getcwd(NULL, 0);
 		mod_env_var("PWD", path, &envl);
-		if (find_env_var("OLDPWD", &envl) != NULL)
+		if (find_env_var("OLDPWD", &envl) == NULL)
 			add_env_var("OLDPWD", old_path, &envl);
 		else
 			mod_env_var("OLDPWD", old_path, &envl);
@@ -56,7 +55,8 @@ int	msh_cd(char **args, t_list *envl)
 	{
 		ft_putstr_fd(strerror(errno), STDERR_FILENO);
 		free(old_path);
-		return ((int)errno);
+		return (1);
 	}
+	g_vars.exit_code = 0;
 	return (ret);
 }

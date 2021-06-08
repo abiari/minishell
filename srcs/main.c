@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:06:25 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/07 17:25:04 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/08 08:00:50 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,12 @@ void	msh_prompt(void)
 }
 
 
-void	msh_loop(char **line, char **envp)
+void	msh_loop(char **line, t_list *envl)
 {
-	int	n;
+	int		n;
 	t_list	*cmd;
-	t_list	*envl;
 
 	n = 1;
-	envl = envp_to_envl(envp);
 	while (n)
 	{
 		msh_prompt();
@@ -42,48 +40,26 @@ void	msh_loop(char **line, char **envp)
 			break ;
 		}
 		cmd = main_lst(*line);
-		// int i = 0;
-		// while (cmd)
-		// {
-		// 	while (((t_cmd *)cmd->content)->pipes)
-		// 	{
-		// 		i = 0;
-		// 		while (((t_cmd *)cmd->content)->pipes->cmd[i])
-		// 		{
-		// 			printf("%s\n", ((t_cmd *)cmd->content)->pipes->cmd[i]);
-		// 			if (((t_cmd *)cmd->content)->pipes->has_red)
-		// 			{
-		// 				while (((t_cmd *)cmd->content)->pipes->redirections)
-		// 				{
-		// 					printf("%s\n", ((t_cmd *)cmd->content)->pipes->redirections->file);
-		// 					((t_cmd *)cmd->content)->pipes->redirections = ((t_cmd *)cmd->content)->pipes->redirections->next;
-		// 				}
-		// 			}
-		// 			i++;
-		// 		}
-		// 		((t_cmd *)cmd->content)->pipes = ((t_cmd *)cmd->content)->pipes->next;
-		// 	}
-
-		// 	cmd = cmd->next;
-		// }
 		while (cmd != NULL)
 		{
 			//mini parser for each command separated by ";"
-			// wait for wach command to execute then pass
+			// wait for each command to execute then pass
 			exec(((t_cmd *)cmd->content)->pipes, &envl);
 			cmd = cmd->next;
 		}
 	}
 }
 
-int		main(int ac, char *av[], char *env[])
+int	main(int ac, char *av[], char *envp[])
 {
+	t_list	*envl;
 	char	*line;
 
 	(void)ac;
 	(void)av;
 	signal(SIGQUIT, sig_handler);
 	signal(SIGINT, sig_handler);
-	msh_loop(&line, env);
+	envl = envp_to_envl(envp);
+	msh_loop(&line, envl);
 	return (0);
 }

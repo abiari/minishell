@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/07 14:48:08 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/08 07:58:13 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ extern t_globals	g_vars;
 char	*find_env_key(const char *envp);
 char	*find_env_value(const char *envp);
 t_list	*envp_to_envl(char *envp[]);
+char	**envl_to_envp(t_list **envl);
 int		msh_cd(char **args, t_list *envl);
 int		msh_pwd(char **args, t_list *envl);
 int		msh_unset(char **args, t_list *envl);

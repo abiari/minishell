@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 17:35:24 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/07 17:18:33 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/08 08:00:35 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ char	*check_exec(char *cmd, t_list *envl)
 
 void	spawn_proc(int in, int *fd, t_pipeline *cmd, t_list **envl)
 {
+	char	**envp;
+
 	g_vars.pid = fork();
 	if (g_vars.pid == 0)
 	{
@@ -50,7 +52,8 @@ void	spawn_proc(int in, int *fd, t_pipeline *cmd, t_list **envl)
 			exit(exec_builtin(cmd->cmd, envl));
 		else
 		{
-			execve(cmd->cmd[0], (char *const *)cmd->cmd, NULL);
+			envp = envl_to_envp(envl);
+			execve(cmd->cmd[0], (char *const *)cmd->cmd, envp);
 			ft_putstr_fd(strerror(errno), STDERR_FILENO);
 			write(2, "\n", 1);
 			exit(errno);
@@ -80,6 +83,7 @@ void	fork_pipes(t_pipeline *cmd, t_list **envl)
 	int		fd[2];
 	int		status;
 	int		ret;
+	char	**envp;
 
 	in = 0;
 	status = 0;
@@ -124,7 +128,8 @@ void	fork_pipes(t_pipeline *cmd, t_list **envl)
 			exit(exec_builtin(cmd->cmd, envl));
 		else
 		{
-			execve(cmd->cmd[0], (char *const *)cmd->cmd, NULL);
+			envp = envl_to_envp(envl);
+			execve(cmd->cmd[0], (char *const *)cmd->cmd, envp);
 			ft_putstr_fd("msh: ", STDERR_FILENO);
 			ft_putstr_fd(cmd->cmd[0], STDERR_FILENO);
 			if (errno == ENOENT)
