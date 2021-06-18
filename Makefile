@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+         #
+#    By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/19 17:19:26 by abiari            #+#    #+#              #
-#    Updated: 2021/06/06 19:20:45 by abiari           ###   ########.fr        #
+#    Updated: 2021/06/17 17:30:28 by ael-bagh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ srcs/parsing/cmd_helper.c srcs/parsing/cmd_spliter.c\
 srcs/parsing/commas_helpers.c srcs/parsing/helpers.c srcs/parsing/parser.c\
 srcs/parsing/parser_utils.c srcs/parsing/pipe_it.c\
 srcs/parsing/quotes_helpers.c srcs/parsing/red_helper.c srcs/parsing/reddit.c\
-srcs/parsing/space_it.c srcs/parsing/utils.c srcs/execution/pipeline.c\
+srcs/parsing/space_it.c srcs/parsing/utils.c srcs/parsing/expand_it.c srcs/execution/pipeline.c\
 srcs/execution/redirection.c srcs/execution/executer.c\
 srcs/signals/sig_handlers.c srcs/builtins/msh_echo.c srcs/builtins/msh_env.c\
 srcs/builtins/msh_exit.c srcs/builtins/msh_export.c srcs/builtins/msh_unset.c

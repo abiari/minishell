@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 13:38:03 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/05/10 12:01:47 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/06/15 15:35:39 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	red_len_init(int index, int *array, int last, char *cmd)
 	prev = 0;
 	if (index == 0)
 		return (array[index]);
-	if (red_type_check(cmd, array[index - 1]) == APP_R)
+	if (red_type_check(cmd, array[index - 1]) == APP_R || red_type_check(cmd, array[index - 1]) == DOC_R)
 		prev = 1;
 	if(index == last)
 	{
@@ -63,7 +63,7 @@ int	red_i_init(int index, int *array, int last, char *cmd)
 	prev = 0;
 	if (index == 0)
 		return (0);
-	if (red_type_check(cmd, array[index - 1]) == APP_R)
+	if (red_type_check(cmd, array[index - 1]) == APP_R || red_type_check(cmd, array[index - 1]) == DOC_R)
 		prev = 1;
 	if (index == last)
 		return (array[index - 1] + 1 + prev);

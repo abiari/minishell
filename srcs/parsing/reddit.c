@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 10:37:52 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/06 16:06:45 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/06/18 16:14:42 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,12 @@ int	red_type_check(char *str, int i)
 			i++;
 			count++;
 		}
-		if (count != 1)
+		if (count > 2)
 			return (-1);
-		else
+		if (count == 1)
 			return (OUT_R);
+		if (count == 2)
+			return (DOC_R);
 	}
 	return (-1);
 }
@@ -55,7 +57,7 @@ int	validate_red(char *str, int i, t_list *tmp)
 	{
 		if ((red == IN_R || red == OUT_R) && is_between_quotes(i, &tmp) == 0)
 			return (1);
-		else if (red == APP_R)
+		else if (red == APP_R || red == DOC_R)
 		{
 			if (is_between_quotes(i, &tmp) == 0 && is_between_quotes(i + 1, &tmp) == 0)
 				return (2);
@@ -299,7 +301,7 @@ char		*to_join(char **spaces)
 	return (cmd);
 }
 
-char		**check_red(char **red, t_list *quotes, char *cmd)
+char		**check_red(char **red, t_list *quotes, char *cmd, t_list **envl)
 {
 	char	**tab;
 	char	**spaces;
@@ -323,7 +325,7 @@ char		**check_red(char **red, t_list *quotes, char *cmd)
 	{
 		if(i != 0)
 		{
-			spaces = ft_split(red[i], ' ');
+			spaces = space_it(red[i], envl, 0);
 			j = -1;
 			tab[i] = ft_strdup(spaces[0]);
 			if (two_d_counter(spaces) > 0)
@@ -337,7 +339,7 @@ char		**check_red(char **red, t_list *quotes, char *cmd)
 	return (tab);
 }
 
-char	**reddit(char *cmd)
+char	**reddit(char *cmd, t_list **envl)
 {
 	t_list	*tmp;
 	t_list	*tp;
@@ -352,7 +354,7 @@ char	**reddit(char *cmd)
 	ret = red_finder(cmd, &tp, &tmp);
 	red_arr = reds(cmd, &tmp);
 	red = red_spliter(red_arr, cmd, tmp);
-	ugh = check_red(red, tmp, cmd);
+	ugh = check_red(red, tmp, cmd, envl);
 	ft_lstclear(&tmp, del_node);
 	ft_lstclear(&tp, del_node_r);
 	return (ugh);

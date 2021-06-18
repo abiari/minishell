@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/08 07:58:13 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/18 16:14:05 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define OUT_R 9003
 # define IN_R 9004
 # define APP_R 9005
+# define DOC_R 9008
 # define FALSE 9006
 # define TRUE 9007
 
@@ -48,7 +49,7 @@ typedef struct s_pipeline
 typedef struct s_cmd
 {
 	t_pipeline		*pipes;
-	struct s_cmd	*next;
+	//struct s_cmd	*next;
 }				t_cmd;
 
 typedef struct s_quotes
@@ -112,14 +113,19 @@ int		is_builtin(char *cmd);
 int		exec_builtin(char **cmd, t_list **envl);
 void	msh_prompt(void);
 
+char	*magic_touch(char *str);
+char	*expand(char *tab, t_list **envl);
+char	*ft_strndup(const char *src, int n);
+int		is_valid_quote(int	i, t_list **lst);
+char	**spank_it(char **tab, t_list **envl);
 int		space_counter(int *comma);
 int		two_d_counter(char **two_d);
 char	**space_spliter(int *space, char *cmd);
 int		*spaces(char *str, t_list **lst);
-char	**space_it(char *red);
+char	**space_it(char *red, t_list **envl, int spank);
 char	*split_ws(char *red);
 char	*get_cmd(char **red, char **pipelist);
-char	**reddit(char *cmd);
+char	**reddit(char *cmd, t_list **envl);
 int		red_i_init(int index, int *array, int last, char *cmd);
 int		red_type_check(char *str, int i);
 int		red_len_init(int index, int *array, int last, char *cmd);
@@ -153,5 +159,6 @@ int		check_cmds(char **cmds, char *cmd);
 int		check_pipes_helper(char **cmds, char *cmd, t_list *tmp, int *pipe);
 char	**parse_line(char *line);
 int		parse_er(char *err, int ret);
-t_list	*main_lst(char *cmd);
+t_list	*main_lst(char *cmd, t_list **envl);
+
 #endif

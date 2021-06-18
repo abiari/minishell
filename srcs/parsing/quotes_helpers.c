@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 09:43:58 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/05/06 16:01:49 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/06/18 10:35:55 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ int	quotes_finder(char *str, t_list **lst)
 	i = -1;
 	quotes = NULL;
 	counter = 0;
+	if (!str)
+		return(0);
 	while (str[++i])
 	{
 		flag = 0;

@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 13:43:03 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/06 16:06:45 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/06/17 11:10:52 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ char	**pipe_it(char *cmd)
 	tmp = NULL;
 	pipe = NULL;
 	ret = quotes_finder(cmd, &tmp);
+	if (ret == -1)
+		printf("Multiple line: command\n");
 	pipe = pipes(cmd, &tmp);
 	tab = pipe_spliter(pipe, cmd);
 	ft_lstclear(&tmp, del_node);
