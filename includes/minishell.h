@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/18 16:14:05 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/06/21 13:54:52 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ int		*pipes(char *str, t_list **lst);
 int		last_char(int *array);
 int		len_init(int index, int *comma, int last, char *cmd);
 int		i_init(int index, int *comma, int last, char *cmd);
-int		free_the_nipples(t_list *tmp, char **cmds, int i, int indice);
+int		free_them(t_list *tmp, char **cmds, int i, int indice);
 int		quote_ends(int type, int i, char *str);
 int		quotes_finder(char *str, t_list **lst);
 int		is_between_quotes(int i, t_list **lst);

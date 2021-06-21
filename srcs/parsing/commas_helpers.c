@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 11:46:06 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/12 15:36:09 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/06/21 13:57:32 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,8 @@ int	*commas(char *str, t_list **lst)
 int	check_last_cmd(char *cmd, int last_comma)
 {
 	int	i;
-	// int	flag;
 
 	i = last_comma;
-	// flag = 0;
 	while (cmd[i])
 		i++;
 	if (i == last_comma + 1)

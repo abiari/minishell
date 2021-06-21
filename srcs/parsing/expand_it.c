@@ -6,13 +6,13 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:54:07 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/18 15:57:39 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/06/21 14:38:42 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int		char_finder(char *str, char c)
+int	dollar_finder(char *str, t_list **quotes)
 {
 	int	i;
 
@@ -21,7 +21,9 @@ int		char_finder(char *str, char c)
 		return (-1);
 	while (str[i])
 	{
-		if (str[i] == c)
+		if (str[i] == '$' && (is_between_quotes(i, quotes) != S_QUOTE)
+			&& (str[i + 1] != '\0' && str[i + 1] != '\"'
+				&& str[i + 1] != '\'' && str[i + 1] != ' '))
 			return (i);
 		i++;
 	}
@@ -45,7 +47,7 @@ char	*join_one(char *str, char c)
 
 char	*magic_touch(char *str)
 {
-	int	i;
+	int		i;
 	t_list	*tmp;
 	char	*ret_str;
 
@@ -70,8 +72,7 @@ char	*magic_touch(char *str)
 
 char	*expand(char *tab, t_list **envl)
 {
-	int		i;
-	int		tmp[2];
+	int		tmp[3];
 	char	*ret;
 	char	*key;
 	t_envl	*var;
@@ -79,32 +80,32 @@ char	*expand(char *tab, t_list **envl)
 
 	ret = NULL;
 	quotes = NULL;
-	i = quotes_finder(tab, &quotes);
-	i = -1;
+	tmp[1] = quotes_finder(tab, &quotes);
 	tmp[0] = 0;
 	tmp[1] = 0;
-	if (char_finder(tab, '$') == -1 || (char_finder(tab, '$') != -1 && is_between_quotes(char_finder(tab, '$'), &quotes) == S_QUOTE))
+	tmp[2] = -1;
+	if (dollar_finder(tab, &quotes) == -1)
 		return (tab);
-	while (tab[++i])
+	while (tab[++tmp[2]])
 	{
-		if (tab[i] == '\\' && (i++))
-	 			continue ;
-		if (tab[i] == '$' && is_between_quotes(i, &quotes) != S_QUOTE)
+		if (tab[tmp[2]] == '$')
 		{
-			tmp[0] = i;
-			while ((tab[i] != ' ' && tab[i] != '\"'&& tab[i] != '\'') && tab[i])
-				i++;
-			key = ft_substr(tab, tmp[0] + 1, i - (tmp[0] + 1));
+			tmp[0] = tmp[2];
+			while ((tab[tmp[2]] != ' ' && tab[tmp[2]] != '\"'
+					&& tab[tmp[2]] != '\'')
+				&& tab[tmp[2]])
+				tmp[2]++;
+			key = ft_substr(tab, tmp[0] + 1, tmp[2] - (tmp[0] + 1));
 			var = find_env_var(key, envl);
 			ret = ft_strndup(tab, tmp[0]);
 			if (var)
 				ret = ft_strjoin(ret, var->value);
-			ret = ft_strjoin(ret, &tab[i]);
+			ret = ft_strjoin(ret, &tab[tmp[2]]);
 			ft_lstclear(&quotes, del_node);
 			tmp[1] = quotes_finder(ret, &quotes);
-			if (char_finder(ret, '$') != -1 && is_between_quotes(char_finder(ret, '$'), &quotes) != S_QUOTE)
+			if (dollar_finder(ret, &quotes) >= 0)
 				expand(ret, envl);
-			if (tab[i] == '\0')
+			if (tab[tmp[2]] == '\0')
 				return (ret);
 		}
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_helper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:18:09 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/01 14:03:38 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/21 14:34:45 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ int	check_cmds_helper(char **cmds, char *cmd, t_list *tmp, int *comma)
 		if (i == cmd_counter(comma, cmd, 0) - 1)
 			if (only_char(' ', cmds[i])
 				&& (comma[last - 1] == (int)ft_strlen(cmd) - 1))
-				return (free_the_nipples(tmp, cmds, cmd_counter(comma, cmd, 0), 0));
+				return (free_them(tmp, cmds, cmd_counter(comma, cmd, 0), 0));
 		if (i != cmd_counter(comma, cmd, 0) - 1 && only_char(' ', cmds[i]))
-			return (free_the_nipples(tmp, cmds, cmd_counter(comma, cmd, 0), 0));
+			return (free_them(tmp, cmds, cmd_counter(comma, cmd, 0), 0));
 	}
 	if (comma)
 		free(comma);
@@ -54,25 +54,25 @@ int	check_cmds_helper(char **cmds, char *cmd, t_list *tmp, int *comma)
 	return (0);
 }
 
-int	check_pipes_helper(char **cmds, char *cmd, t_list *tmp, int *pipe)
+int	check_pipes_helper(char **c, char *cmd, t_list *t, int *p)
 {
 	int	last;
 	int	i;
 
 	i = -1;
-	last = last_char(pipe);
-	while (cmds[++i])
+	last = last_char(p);
+	while (c[++i])
 	{
-		if (i == cmd_counter(pipe, cmd, 1) - 1)
-			if (only_char(' ', cmds[i])
-				&& (pipe[last - 1] == (int)ft_strlen(cmd) - 1))
-				return (free_the_nipples(tmp, cmds, cmd_counter(pipe, cmd, 1), 1));
-		if (i != cmd_counter(pipe, cmd, 1) - 1 && only_char(' ', cmds[i]))
-			return (free_the_nipples(tmp, cmds, cmd_counter(pipe, cmd, 1), 1));
+		if (i == cmd_counter(p, cmd, 1) - 1)
+			if (only_char(' ', c[i])
+				&& (p[last - 1] == (int)ft_strlen(cmd) - 1))
+				return (free_them(t, c, cmd_counter(p, cmd, 1), 1));
+		if (i != cmd_counter(p, cmd, 1) - 1 && only_char(' ', c[i]))
+			return (free_them(t, c, cmd_counter(p, cmd, 1), 1));
 	}
-	if (pipe)
-		free(pipe);
-	ft_lstclear(&tmp, del_node);
+	if (p)
+		free(p);
+	ft_lstclear(&t, del_node);
 	return (0);
 }
 
@@ -80,7 +80,6 @@ int	check_cmds(char **cmds, char *cmd)
 {
 	int		*comma;
 	t_list	*tmp;
-	// int		ret;
 
 	tmp = NULL;
 	quotes_finder(cmd, &tmp);
