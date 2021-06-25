@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 19:33:40 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/22 10:45:38 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/24 08:58:16 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_envl	*find_env_var(char *var, t_list **envl)
 	t_list	*tmp;
 
 	tmp = *envl;
-	while (tmp->next)
+	while (tmp)
 	{
 		if (ft_strcmp(var, ((t_envl *)tmp->content)->key) == 0)
 			return ((t_envl *)tmp->content);

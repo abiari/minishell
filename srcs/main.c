@@ -3,26 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:06:25 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/08 08:00:50 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/24 08:49:07 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 t_globals	g_vars;
-
-void	msh_prompt(void)
-{
-	ft_putstr_fd("\033[0;36mmsh$:\033[0m ", STDOUT_FILENO);
-	ft_putstr_fd("\033[0;35m", STDOUT_FILENO);
-	ft_putstr_fd(getcwd(NULL, 0), STDOUT_FILENO);
-	ft_putstr_fd("\033[0m", STDOUT_FILENO);
-	ft_putstr_fd("\033[0;35m>>\033[0m ", STDOUT_FILENO);
-}
-
 
 void	msh_loop(char **line, t_list *envl)
 {
@@ -32,18 +22,24 @@ void	msh_loop(char **line, t_list *envl)
 	n = 1;
 	while (n)
 	{
-		msh_prompt();
-		n = get_next_line(STDIN_FILENO, line);
-		if (n == 0)
+		*line = readline("\033[0;36mmsh$:\033[0m ");
+		if (!(*line))
 		{
 			printf("exit\n");
+			free(*line);
+			*line = NULL;
 			break ;
 		}
-		cmd = main_lst(*line);
+		if (**line == '\0')
+		{
+			free(*line);
+			*line = NULL;
+			continue ;
+		}
+		add_history(*line);
+		cmd = main_lst(*line, &envl);
 		while (cmd != NULL)
 		{
-			//mini parser for each command separated by ";"
-			// wait for each command to execute then pass
 			exec(((t_cmd *)cmd->content)->pipes, &envl);
 			cmd = cmd->next;
 		}
