@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/24 20:03:40 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/06/25 11:07:15 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <string.h>
 # include <errno.h>
 # include <sys/wait.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # define S_QUOTE 9001
 # define D_QUOTE 9002
 # define OUT_R 9003
