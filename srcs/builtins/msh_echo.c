@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_echo.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 13:22:15 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/07 14:45:02 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/23 11:03:00 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ int	msh_echo(char **args, t_list *envl)
 			i = 1;
 		while (args[i])
 		{
-			ft_putstr_fd(args[i], 1);
-			if (args[i + 1] != NULL)
+			if (args[i][0] != '\0')
+				ft_putstr_fd(args[i], 1);
+			if (args[i + 1] != NULL && args[i + 1][0] != '\0')
 				write(1, " ", 1);
 			i++;
 		}
