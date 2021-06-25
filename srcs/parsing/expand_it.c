@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:54:07 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/24 20:11:20 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/06/25 11:47:52 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ int	dollar_finder(char *str, t_list **quotes)
 	while (str[i])
 	{
 		if (str[i] == '$' && (is_between_quotes(i, quotes) != S_QUOTE)
-			&& (str[i + 1] != '\0' && str[i + 1] != '\"'
-				&& str[i + 1] != '\'' && str[i + 1] != ' '))
+			&& (str[i + 1] != '\0' && str[i + 1] != ' '))
 			return (i);
 		i++;
 	}
@@ -118,23 +117,3 @@ char	*expand(char *tab, t_list **envl)
 	}
 	return (ret);
 }
-
-// char	**spank_it(char **tab, t_list **envl)
-// {
-// 	int		i;
-// 	char	**ret;
-// 	char	**final;
-
-// 	i = two_d_counter(tab);
-// 	// ret = (char **)malloc((i + 1) * sizeof(char *));
-// 	// i = -1;
-// 	// while (tab[++i])
-// 	// 	ret[i] = expand(tab[i], envl);
-// 	// ret[i] = NULL;
-// 	final = (char **)malloc((i + 1) * sizeof(char *));
-// 	i = -1;
-// 	while (ret[++i])
-// 		final[i] = magic_touch(ret[i]);
-// 	final[i] = NULL;
-// 	return (final);
-// }

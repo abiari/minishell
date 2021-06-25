@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 13:37:19 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/24 20:22:53 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/06/25 11:34:04 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int	check_pipes(char **pipe, char *cmd)
 	int		*pipe_arr;
 	t_list	*tmp;
 
+	if (pipe == NULL)
+		return(1);
 	tmp = NULL;
 	quotes_finder(cmd, &tmp);
 	pipe_arr = pipes(cmd, &tmp);
@@ -135,57 +137,17 @@ t_list		*main_lst(char *cmd, t_list **envl)
 {
 	char	**pipe;
 	char	*exp;
-	char	*final_cmd;
 	t_cmd	*cmd_list;
 	t_list	*main_list;
 
 	exp = NULL;
 	main_list = NULL;
 	exp = expand(cmd, envl);
-	final_cmd = magic_touch(exp);
-	pipe = pipe_it(final_cmd);
-	if (check_pipes(pipe, final_cmd) == 1)
+	pipe = pipe_it(exp);
+	if (check_pipes(pipe, exp) == 1)
 		return (NULL);
 	cmd_list = cmd_lst(pipe, envl);
 	lst_append(&main_list, cmd_list);
-	free(final_cmd);
+	free(exp);
 	return (main_list);
 }
-
-// int	main(void)
-// {
-// 	t_list	*cmd;
-// 	int		i;
-
-// 	i = -1;
-// 	cmd = main_lst();
-// 	if (cmd == NULL)
-// 		return (1);
-// 	while (cmd)
-// 	{
-// 		while (((t_cmd *)cmd->content)->pipes)
-// 		{
-// 			i = -1;
-// 			printf("command:\n");
-// 			while (((t_cmd *)cmd->content)->pipes->cmd[++i])
-// 				printf("|%s|", ((t_cmd *)cmd->content)->pipes->cmd[i]);
-// 			printf("\n");
-// 			if (((t_cmd *)cmd->content)->pipes->has_red)
-// 			{
-// 				printf("redirections:\n");
-// 				while (((t_cmd *)cmd->content)->pipes->redirections)
-// 				{
-// 					i = 0;
-// 					printf("|redirection type :|%d|%s|\n", ((t_cmd *)cmd->content)->pipes->redirections->type,((t_cmd *)cmd->content)->pipes->redirections->file);
-// 					((t_cmd *)cmd->content)->pipes->redirections = ((t_cmd *)cmd->content)->pipes->redirections->next;
-// 					i++;
-// 				}
-// 			}
-// 			printf("--------------------------------------------\n");
-// 			((t_cmd *)cmd->content)->pipes = ((t_cmd *)cmd->content)->pipes->next;
-// 		}
-// 		cmd = cmd->next;
-// 	}
-// 	while(1);
-// 	return (0);
-// }

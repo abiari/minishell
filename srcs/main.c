@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:06:25 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/24 08:49:07 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/25 11:35:39 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,8 @@ void	msh_loop(char **line, t_list *envl)
 		}
 		add_history(*line);
 		cmd = main_lst(*line, &envl);
-		while (cmd != NULL)
-		{
+		if (cmd != NULL)
 			exec(((t_cmd *)cmd->content)->pipes, &envl);
-			cmd = cmd->next;
-		}
 	}
 }
 
