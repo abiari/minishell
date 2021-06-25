@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 17:35:24 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/08 08:00:35 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/25 09:35:13 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ char	*check_exec(char *cmd, t_list *envl)
 	int		fd;
 
 	bin = cmd;
+	if (bin[0] == '\0')
+		return (bin);
 	fd = open(bin, O_RDONLY);
 	if (fd < 0)
-	{
 		bin = bin_path(bin, envl);
-		close(fd);
-	}
+	close(fd);
 	return (bin);
 }
 
@@ -54,8 +54,7 @@ void	spawn_proc(int in, int *fd, t_pipeline *cmd, t_list **envl)
 		{
 			envp = envl_to_envp(envl);
 			execve(cmd->cmd[0], (char *const *)cmd->cmd, envp);
-			ft_putstr_fd(strerror(errno), STDERR_FILENO);
-			write(2, "\n", 1);
+			ft_putendl_fd(strerror(errno), STDERR_FILENO);
 			exit(errno);
 		}
 	}
@@ -134,12 +133,11 @@ void	fork_pipes(t_pipeline *cmd, t_list **envl)
 			ft_putstr_fd(cmd->cmd[0], STDERR_FILENO);
 			if (errno == ENOENT)
 			{
-				ft_putstr_fd(": command not found", STDERR_FILENO);
+				ft_putendl_fd(": Command not found", STDERR_FILENO);
 				g_vars.exit_code = 127;
 			}
 			else
-				ft_putstr_fd(strerror(errno), STDERR_FILENO);
-			write(2, "\n", 1);
+				ft_putendl_fd(strerror(errno), STDERR_FILENO);
 			exit(errno);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 14:10:26 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/23 09:19:22 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/25 09:29:42 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,15 @@ void	heredoc(char *stop_value, int fd)
 
 	while (1)
 	{
-		write(1, "> ", 2);
-		if (get_next_line(0, &line) <= 0)
+		line = readline("> ");
+		if (*line == '\0')
+			*line = '\n';
+		if (!line)
+		{
+			free(line);
+			line = NULL;
 			break ;
+		}
 		if (!ft_strcmp(line, stop_value))
 		{
 			free(line);
