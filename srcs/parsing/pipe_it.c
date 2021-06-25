@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 13:43:03 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/17 11:10:52 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/06/25 11:37:05 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,14 @@ char	**pipe_spliter(int *pipe, char *cmd)
 		tab = (char **)malloc((i + 1) * sizeof(char *));
 		j = -1;
 		while (++j < i)
-			tab[j] = ft_strdup(fill_command(cmd, j, pipe));
+			tab[j] = magic_touch(ft_strdup(fill_command(cmd, j, pipe)));
 		tab[j] = NULL;
 		free(pipe);
 	}
 	else
 	{
 		tab = (char **)malloc((2) * sizeof(char *));
-		tab[0] = ft_strdup(cmd);
+		tab[0] = magic_touch(ft_strdup(cmd));
 		tab[1] = NULL;
 	}
 	return (tab);
@@ -71,7 +71,10 @@ char	**pipe_it(char *cmd)
 	pipe = NULL;
 	ret = quotes_finder(cmd, &tmp);
 	if (ret == -1)
-		printf("Multiple line: command\n");
+	{
+		ft_putstr_fd("Syntax error: Quote not closed\n", 2);
+		return (NULL);
+	}
 	pipe = pipes(cmd, &tmp);
 	tab = pipe_spliter(pipe, cmd);
 	ft_lstclear(&tmp, del_node);
