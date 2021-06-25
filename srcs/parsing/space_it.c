@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 17:56:13 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/18 16:13:34 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/06/24 19:58:32 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,13 +166,12 @@ char	*rm_dup_spaces(char	*str, t_list **quotes)
 	return (cmd);
 }
 
-char	**space_it(char *str, t_list **envl, int spank)
+char	**space_it(char *str)
 {
 	t_list	*tmp;
 	int		*space;
 	int		ret;
 	char	**tab;
-	char	**fin;
 	char	*cmd;
 	
 	tmp = NULL;
@@ -184,12 +183,12 @@ char	**space_it(char *str, t_list **envl, int spank)
 	ret = quotes_finder(cmd, &tmp);
 	space = spaces(cmd, &tmp);
 	tab = space_spliter(space, cmd);
-	if (spank == 1)
-	{
-		fin = spank_it(tab, envl);
-		ft_lstclear(&tmp, del_node);
-		return (fin);
-	}
+	// if (spank == 1)
+	// {
+	// 	fin = spank_it(tab, envl);
+	// 	ft_lstclear(&tmp, del_node);
+	// 	return (fin);
+	// }
 	ft_lstclear(&tmp, del_node);
 	return (tab);
 }

@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 10:37:52 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/18 16:14:42 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/06/24 20:03:31 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -301,7 +301,7 @@ char		*to_join(char **spaces)
 	return (cmd);
 }
 
-char		**check_red(char **red, t_list *quotes, char *cmd, t_list **envl)
+char		**check_red(char **red, t_list *quotes, char *cmd)
 {
 	char	**tab;
 	char	**spaces;
@@ -325,7 +325,7 @@ char		**check_red(char **red, t_list *quotes, char *cmd, t_list **envl)
 	{
 		if(i != 0)
 		{
-			spaces = space_it(red[i], envl, 0);
+			spaces = space_it(red[i]);
 			j = -1;
 			tab[i] = ft_strdup(spaces[0]);
 			if (two_d_counter(spaces) > 0)
@@ -339,7 +339,7 @@ char		**check_red(char **red, t_list *quotes, char *cmd, t_list **envl)
 	return (tab);
 }
 
-char	**reddit(char *cmd, t_list **envl)
+char	**reddit(char *cmd)
 {
 	t_list	*tmp;
 	t_list	*tp;
@@ -354,7 +354,7 @@ char	**reddit(char *cmd, t_list **envl)
 	ret = red_finder(cmd, &tp, &tmp);
 	red_arr = reds(cmd, &tmp);
 	red = red_spliter(red_arr, cmd, tmp);
-	ugh = check_red(red, tmp, cmd, envl);
+	ugh = check_red(red, tmp, cmd);
 	ft_lstclear(&tmp, del_node);
 	ft_lstclear(&tp, del_node_r);
 	return (ugh);
