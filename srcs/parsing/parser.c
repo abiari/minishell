@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 13:37:19 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/18 16:15:07 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/06/24 20:22:53 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_redirect	*red_lst(char **red, char *cmd, t_pipeline *pipe_lst, t_list **envl)
 	v = red_finder(cmd, &reds, &quotes);
 	v = 1;
 	red_list = malloc(sizeof(t_redirect));
-	red_list->file = expand(red[v], envl);
+	red_list->file = ft_strdup(red[v]);
 	red_list->type = red_type(&reds, v);
 	red_list->next = NULL;
 	lst_append_red(&(pipe_lst->redirections), red_list);
@@ -77,7 +77,7 @@ t_redirect	*red_lst(char **red, char *cmd, t_pipeline *pipe_lst, t_list **envl)
 	while (red[++v])
 	{
 		red_list = malloc(sizeof(t_redirect));
-		red_list->file = expand(red[v], envl);
+		red_list->file = ft_strdup(red[v]);
 		red_list->type = red_type(&reds, v);
 		red_list->next = NULL;
 		lst_append_red(&(pipe_lst->redirections), red_list);
@@ -105,16 +105,16 @@ t_pipeline	*pipe_lst(char **pipelist, t_cmd *cmd_list, t_list **envl)
 		pipe_list = malloc(sizeof(t_pipeline));
 		pipe_list->has_red = 0;
 		pipe_list->redirections = NULL;
-		red = reddit(pipelist[v], envl);
+		red = reddit(pipelist[v]);
 		if (red)
 		{
 			pipe_list->has_red = 1;
 			pipe_list->redirections = red_lst(red, pipelist[v], pipe_list, envl);
-			pipe_list->cmd	= space_it(red[0], envl, 1);
+			pipe_list->cmd	= space_it(red[0]);
 		}
 		else
 		{
-			pipe_list->cmd	= space_it(pipelist[v], envl, 1);
+			pipe_list->cmd	= space_it(pipelist[v]);
 			pipe_list->redirections = NULL;
 		}
 		pipe_list->next = NULL;
@@ -134,16 +134,21 @@ t_cmd	*cmd_lst(char **pipelist, t_list **envl)
 t_list		*main_lst(char *cmd, t_list **envl)
 {
 	char	**pipe;
+	char	*exp;
+	char	*final_cmd;
 	t_cmd	*cmd_list;
 	t_list	*main_list;
 
+	exp = NULL;
 	main_list = NULL;
-	pipe = pipe_it(cmd);
-	if (check_pipes(pipe, cmd) == 1)
+	exp = expand(cmd, envl);
+	final_cmd = magic_touch(exp);
+	pipe = pipe_it(final_cmd);
+	if (check_pipes(pipe, final_cmd) == 1)
 		return (NULL);
 	cmd_list = cmd_lst(pipe, envl);
 	lst_append(&main_list, cmd_list);
-	free(cmd);
+	free(final_cmd);
 	return (main_list);
 }
 

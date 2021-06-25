@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/21 13:54:52 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/06/24 20:03:40 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,10 +122,10 @@ int		space_counter(int *comma);
 int		two_d_counter(char **two_d);
 char	**space_spliter(int *space, char *cmd);
 int		*spaces(char *str, t_list **lst);
-char	**space_it(char *red, t_list **envl, int spank);
+char	**space_it(char *red);
 char	*split_ws(char *red);
 char	*get_cmd(char **red, char **pipelist);
-char	**reddit(char *cmd, t_list **envl);
+char	**reddit(char *cmd);
 int		red_i_init(int index, int *array, int last, char *cmd);
 int		red_type_check(char *str, int i);
 int		red_len_init(int index, int *array, int last, char *cmd);

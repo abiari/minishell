@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:54:07 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/21 14:38:42 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/06/24 20:11:20 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,16 @@ char	*magic_touch(char *str)
 	char	*ret_str;
 
 	tmp = NULL;
-	ret_str = ft_strdup("");
 	i = quotes_finder(str, &tmp);
+	if (i == -1)
+	{
+		ft_putstr_fd("Error: Quote not closed\n", 2);
+		return (NULL);
+	}
+	if (i == 0)
+		return (str);
 	i = -1;
+	ret_str = ft_strdup("");
 	while (str[++i])
 	{
 		if (str[i] == '\'' || str[i] == '\"')
@@ -112,22 +119,22 @@ char	*expand(char *tab, t_list **envl)
 	return (ret);
 }
 
-char	**spank_it(char **tab, t_list **envl)
-{
-	int		i;
-	char	**ret;
-	char	**final;
+// char	**spank_it(char **tab, t_list **envl)
+// {
+// 	int		i;
+// 	char	**ret;
+// 	char	**final;
 
-	i = two_d_counter(tab);
-	ret = (char **)malloc((i + 1) * sizeof(char *));
-	i = -1;
-	while (tab[++i])
-		ret[i] = expand(tab[i], envl);
-	ret[i] = NULL;
-	final = (char **)malloc((i + 1) * sizeof(char *));
-	i = -1;
-	while (ret[++i])
-		final[i] = magic_touch(ret[i]);
-	final[i] = NULL;
-	return (final);
-}
+// 	i = two_d_counter(tab);
+// 	// ret = (char **)malloc((i + 1) * sizeof(char *));
+// 	// i = -1;
+// 	// while (tab[++i])
+// 	// 	ret[i] = expand(tab[i], envl);
+// 	// ret[i] = NULL;
+// 	final = (char **)malloc((i + 1) * sizeof(char *));
+// 	i = -1;
+// 	while (ret[++i])
+// 		final[i] = magic_touch(ret[i]);
+// 	final[i] = NULL;
+// 	return (final);
+// }
