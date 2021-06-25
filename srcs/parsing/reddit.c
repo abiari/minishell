@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 10:37:52 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/24 20:03:31 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/06/25 12:14:06 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,6 +297,7 @@ char		*to_join(char **spaces)
 	while (spaces[++i])
 	{
 		cmd = my_strjoin(cmd, spaces[i]);
+		cmd = my_strjoin(cmd, " ");
 	}
 	return (cmd);
 }
