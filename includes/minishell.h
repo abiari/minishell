@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/25 11:07:15 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/25 11:44:53 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ typedef struct s_pipeline
 typedef struct s_cmd
 {
 	t_pipeline		*pipes;
-	//struct s_cmd	*next;
 }				t_cmd;
 
 typedef struct s_quotes
