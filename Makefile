@@ -6,14 +6,14 @@
 #    By: abiari <abiari@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/19 17:19:26 by abiari            #+#    #+#              #
-#    Updated: 2021/06/25 11:00:11 by abiari           ###   ########.fr        #
+#    Updated: 2021/06/25 11:07:34 by abiari           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = msh
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra -lreadline -g3 -fsanitize=address
-RDLFLAGS = -L /goinfre/$USER/.brew/opt/readline/lib -I /goinfre/$USER/.brew/opt/readline/include
+RDLFLAGS = -L /goinfre/abiari/.brew/opt/readline/lib -I /goinfre/abiari/.brew/opt/readline/include
 
 SRC = srcs/main.c srcs/builtins/msh_cd.c srcs/builtins/msh_pwd.c\
 srcs/utils/env_utils.c srcs/utils/envp_to_envl.c srcs/utils/lst_append.c\
