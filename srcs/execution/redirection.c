@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 14:10:26 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/25 14:03:58 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/26 12:06:02 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,52 +92,72 @@ void	create_file(t_pipeline *cmd)
 void	redirect(t_pipeline *cmd)
 {
 	t_redirect	*files;
-	t_redirect	*files_dup;
-	int			fd;
+	t_redirect	*in;
+	t_redirect	*out;
+	int			in_fd;
+	int			out_fd;
 
+	in_fd = 0;
+	out_fd = 1;
 	files = cmd->redirections;
 	while (files)
 	{
 		if (files->type == APP_R)
-			fd = open(files->file, O_CREAT | O_APPEND | O_WRONLY, S_IRUSR
+		{
+			if (out_fd != 1)
+				close(out_fd);
+			out_fd = open(files->file, O_CREAT | O_APPEND | O_WRONLY, S_IRUSR
 					| S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+		}
 		else if (files->type == IN_R)
-			fd = open(files->file, O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR
+		{
+			if (out_fd != 1)
+				close(out_fd);
+			out_fd = open(files->file, O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR
 					| S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+		}
 		else if (files->type == DOC_R)
-			heredoc_helper(files->file, &fd);
+		{
+			if (in_fd != 0)
+				close(in_fd);
+			heredoc_helper(files->file, &in_fd);
+		}
 		else
-			fd = open(files->file, O_RDONLY);
-		if (fd < 0)
+		{
+			if (in_fd != 0)
+				close(in_fd);
+			in_fd = open(files->file, O_RDONLY);
+		}
+		if (in_fd < 0 || out_fd < 0)
 		{
 			ft_putstr_fd(strerror(errno), 2);
 			write(2, "\n", 1);
 			exit(errno);
 		}
-		files_dup = files;
+		if (files->type == DOC_R || files->type == OUT_R)
+			in = files;
+		if (files->type == APP_R || files->type == IN_R)
+			out = files;
 		files = files->next;
 	}
-	if (files_dup->type == IN_R && fd > 2)
+	if (out->type == IN_R && out_fd > 2)
 	{
-		dup2(fd, STDOUT_FILENO);
-		close(fd);
-	}
-	else if (files_dup->type == OUT_R && fd > 2)
-	{
-		dup2(fd, STDIN_FILENO);
-		close(fd);
-	}
-	else if (files_dup->type == DOC_R && fd > 2)
-	{
-		dup2(fd, STDIN_FILENO);
-		close(fd);
+		dup2(out_fd, STDOUT_FILENO);
+		close(out_fd);
 	}
 	else
 	{
-		if (fd > 2)
-		{
-			dup2(fd, STDOUT_FILENO);
-			close(fd);
-		}
+		dup2(out_fd, STDOUT_FILENO);
+		close(out_fd);
+	}
+	if (in->type == OUT_R && in_fd > 2)
+	{
+		dup2(in_fd, STDIN_FILENO);
+		close(in_fd);
+	}
+	else
+	{
+		dup2(in_fd, STDIN_FILENO);
+		close(in_fd);
 	}
 }
