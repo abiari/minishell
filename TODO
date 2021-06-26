@@ -1,0 +1,5 @@
+cd '' => should keep you at the same directory
+unset HOME then cd segfault;
+multiple expantions to be checked
+env abnormal behavior
+exit long long : should not exit
