@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_cd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/05 16:08:37 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/08 07:49:30 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/26 14:32:40 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,14 @@ int	msh_cd(char **args, t_list *envl)
 	}
 	if (path == NULL || (ft_strcmp(path, "~") == 0))
 	{
-		home = find_env_var("HOME", &envl)->value;
+		if (!find_env_var("HOME", &envl))
+		{
+			ft_putendl_fd("msh : cd: HOME not set", 2);
+			free(old_path);
+			return (1);
+		}
+		else
+			home = find_env_var("HOME", &envl)->value;
 		if (home != NULL)
 			ret = chdir(home);
 		else
@@ -53,7 +60,10 @@ int	msh_cd(char **args, t_list *envl)
 	}
 	else
 	{
-		ft_putstr_fd(strerror(errno), STDERR_FILENO);
+		ft_putstr_fd("msh: ", 2);
+		ft_putstr_fd(path, 2);
+		ft_putstr_fd(" :", 2);
+		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 		free(old_path);
 		return (1);
 	}

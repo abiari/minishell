@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 13:37:19 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/25 11:34:04 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/06/26 15:24:48 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ int	check_pipes(char **pipe, char *cmd)
 	return (0);
 }
 
-void lst_append_red(t_redirect **list, t_redirect *param) {
+void lst_append_red(t_redirect **list, t_redirect *param)
+{
 	if ((*list))
 		lst_append_red(&(*list)->next, param);
 	else

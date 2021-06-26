@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/25 11:44:53 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/26 14:14:21 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	envl_clear(void *content);
 int		delete_env_var(char *var, t_list **envl);
 t_envl	*find_env_var(char *var, t_list **envl);
 char	*bin_path(char *cmd, t_list *envl);
-void	free_double(char **arr);
+void	free_double(char **arr, int i);
 void	fork_pipes(t_pipeline *cmd, t_list **envl);
 void	redirect(t_pipeline *cmd);
 void	sig_handler(int sign_num);

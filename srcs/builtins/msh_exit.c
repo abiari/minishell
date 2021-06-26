@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_exit.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 13:22:08 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/07 11:12:38 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/26 13:19:36 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ int	msh_exit(char **argv, t_list *envl)
 	code = 0;
 	while (argv[i] != NULL)
 		i++;
-	if (i > 2)
+	if (i >= 2)
 	{
-		ft_putstr_fd("msh: exit: too many arguments", 2);
+		ft_putendl_fd("msh: exit: too many arguments", 2);
 		return (g_vars.exit_code = 1);
 	}
 	else if (i == 0)

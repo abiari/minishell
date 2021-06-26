@@ -6,17 +6,14 @@
 /*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 11:43:08 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/25 12:57:08 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/26 14:09:27 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	free_double(char **arr)
+void	free_double(char **arr, int i)
 {
-	int	i;
-
-	i = 0;
 	while (arr[i])
 	{
 		free(arr[i]);
@@ -25,37 +22,48 @@ void	free_double(char **arr)
 	free(arr);
 }
 
-char	*bin_path(char *cmd, t_list *envl)
+char	*loop_path(char **split_path, char *cmd)
 {
-	char	**split_path;
 	char	*path;
 	int		bin_fd;
 	int		i;
 
 	i = 0;
-	split_path = ft_split((find_env_var("PATH", &envl))->value, ':');
-	if (!split_path)
-	{
-		ft_putstr_fd("msh: No such file or directory\n", 2);
-		return (NULL);
-	}
 	while (split_path[i])
 	{
-		split_path[i] = ft_strjoin(split_path[i], "/");
+		path = split_path[i];
+		split_path[i] = ft_strjoin(path, "/");
+		free(path);
 		path = ft_strjoin(split_path[i], cmd);
+		free(split_path[i]);
 		bin_fd = open(path, O_RDONLY);
 		if (bin_fd > 0)
 		{
-			path = ft_strdup(ft_strjoin(split_path[i], cmd));
-			free_double(split_path);
+			free_double(split_path, i + 1);
 			close(bin_fd);
 			return (path);
 		}
+		free(path);
 		i++;
 	}
-	ft_putstr_fd("msh: command not found\n", 2);
-	free_double(split_path);
-	return (NULL);
+	free(split_path);
+	return (cmd);
+}
+
+char	*bin_path(char *cmd, t_list *envl)
+{
+	char	**split_path;
+	int		i;
+	t_envl	*path;
+
+	i = 0;
+	path = find_env_var("PATH", &envl);
+	if (!path)
+		return (cmd);
+	split_path = ft_split(path->value, ':');
+	if (!split_path)
+		return (cmd);
+	return (loop_path(split_path, cmd));
 }
 
 int	exec_builtin(char **cmd, t_list **envl)

@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 17:35:24 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/25 09:35:13 by abiari           ###   ########.fr       */
+/*   Updated: 2021/06/26 14:16:46 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,15 @@ void	spawn_proc(int in, int *fd, t_pipeline *cmd, t_list **envl)
 		{
 			envp = envl_to_envp(envl);
 			execve(cmd->cmd[0], (char *const *)cmd->cmd, envp);
-			ft_putendl_fd(strerror(errno), STDERR_FILENO);
+			ft_putstr_fd("msh: ", STDERR_FILENO);
+			ft_putstr_fd(cmd->cmd[0], 2);
+			if (errno == ENOENT && find_env_var("PATH", envl))
+				ft_putendl_fd(": command not found", 2);
+			else
+			{
+				ft_putstr_fd(": ", 2);
+				ft_putendl_fd(strerror(errno), STDERR_FILENO);
+			}
 			exit(errno);
 		}
 	}
@@ -131,13 +139,16 @@ void	fork_pipes(t_pipeline *cmd, t_list **envl)
 			execve(cmd->cmd[0], (char *const *)cmd->cmd, envp);
 			ft_putstr_fd("msh: ", STDERR_FILENO);
 			ft_putstr_fd(cmd->cmd[0], STDERR_FILENO);
-			if (errno == ENOENT)
+			if (errno == ENOENT && find_env_var("PATH", envl))
 			{
-				ft_putendl_fd(": Command not found", STDERR_FILENO);
+				ft_putendl_fd(": command not found", STDERR_FILENO);
 				g_vars.exit_code = 127;
 			}
 			else
+			{
+				ft_putstr_fd(": ", 2);
 				ft_putendl_fd(strerror(errno), STDERR_FILENO);
+			}
 			exit(errno);
 		}
 	}
