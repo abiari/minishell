@@ -1,10 +1,17 @@
-cd '' => should keep you at the same directory > to be fixed in parser
+cd '' => should keep you at the same directory > to be fixed in parser > SENDING NULL NOW RECEIVING THE NO SUCH FILE OR DIRECTORY PROBLEM
 unset HOME then cd segfault; > fixed
-multiple expantions to be checked
+multiple expantions -> fixed
+multiple expantions back to back -> fixed might need more testing
 env abnormal behavior
 exit long long : should not exit
 if path unset, builtins MAJ should print no such file or directory
-export HOME=$USER env var do not expand
+export HOME=$USER env var do not expand -> FIXED
 mkdir folde cd folder rm folder cd . pwd
 digit or char in export
  echo -n -n -n test tout should skip -n
+return values ($?) ??????
+<< stop cat -e ---> segfault
+unset first env variable segfault a weld l97ba
+when expanding only empty variable/s send NULL 
+unexpected token error for redirections
+

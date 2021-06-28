@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:54:07 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/25 11:47:52 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/06/27 21:51:45 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ char	*join_one(char *str, char c)
 	int		i;
 
 	i = -1;
+	if (!str)
+		return (NULL);
 	ret = malloc(sizeof(char) * (ft_strlen(str) + 2));
 	while (str[++i])
 		ret[i] = str[i];
@@ -96,21 +98,22 @@ char	*expand(char *tab, t_list **envl)
 	{
 		if (tab[tmp[2]] == '$')
 		{
+			tmp[2]++;
 			tmp[0] = tmp[2];
 			while ((tab[tmp[2]] != ' ' && tab[tmp[2]] != '\"'
-					&& tab[tmp[2]] != '\'')
+					&& tab[tmp[2]] != '\'' && tab[tmp[2]] != '$')
 				&& tab[tmp[2]])
 				tmp[2]++;
-			key = ft_substr(tab, tmp[0] + 1, tmp[2] - (tmp[0] + 1));
+			key = ft_substr(tab, tmp[0], tmp[2] - (tmp[0]));
 			var = find_env_var(key, envl);
-			ret = ft_strndup(tab, tmp[0]);
+			ret = ft_strndup(tab, tmp[0] - 1);
 			if (var)
 				ret = ft_strjoin(ret, var->value);
 			ret = ft_strjoin(ret, &tab[tmp[2]]);
 			ft_lstclear(&quotes, del_node);
 			tmp[1] = quotes_finder(ret, &quotes);
 			if (dollar_finder(ret, &quotes) >= 0)
-				expand(ret, envl);
+				ret = expand(ret, envl);
 			if (tab[tmp[2]] == '\0')
 				return (ret);
 		}
