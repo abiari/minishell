@@ -14,4 +14,11 @@ return values ($?) ??????
 unset first env variable segfault a weld l97ba
 when expanding only empty variable/s send NULL 
 unexpected token error for redirections
-
+cat < Makefile Segfault
+echo '' '' '' | cat -e should print spaces
+https://pubs.opengroup.org/onlinepubs/009604499/utilities/xcu_chap02.html#tag_02_09_01_01
+GTX 1050 TI
+I7 9TH GEN 9750H
+16 GB RAM DDR4
+256 SSD
+1 TB HDD
