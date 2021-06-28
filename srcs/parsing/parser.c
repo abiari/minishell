@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 13:37:19 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/27 21:18:58 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/06/28 13:29:12 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,14 +136,24 @@ t_cmd	*cmd_lst(char **pipelist, t_list **envl)
 
 t_list		*main_lst(char *cmd, t_list **envl)
 {
+	t_list	*tmp;
+	t_list	*tp;
 	char	**pipe;
 	char	*exp;
 	t_cmd	*cmd_list;
 	t_list	*main_list;
+	int		ret;
 
+	ret = 0;
 	exp = NULL;
+	tmp = NULL;
+	tp = NULL;
 	main_list = NULL;
 	exp = expand(cmd, envl);
+	ret = quotes_finder(cmd, &tmp);
+	ret = red_finder(exp, &tp, &tmp);
+	if (ret == -1)
+		return (NULL);
 	pipe = pipe_it(exp);
 	if (check_pipes(pipe, exp) == 1)
 		return (NULL);

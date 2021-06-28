@@ -16,6 +16,7 @@ when expanding only empty variable/s send NULL
 unexpected token error for redirections
 cat < Makefile Segfault
 echo '' '' '' | cat -e should print spaces
+echo < file teasdasd segfault
 https://pubs.opengroup.org/onlinepubs/009604499/utilities/xcu_chap02.html#tag_02_09_01_01
 GTX 1050 TI
 I7 9TH GEN 9750H

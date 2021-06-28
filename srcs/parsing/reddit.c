@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 10:37:52 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/25 12:14:06 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/06/28 13:30:53 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,8 +149,6 @@ int		red_finder(char *str, t_list **redi, t_list **tp)
 	count = 0;
 	while (str[++i])
 	{
-		if (str[i] == '\\' && (i++))
-			continue ;
 		if (str[i] == '>' || str[i] == '<')
 		{
 			if (validate_red(str, i, tmp) == 1 || validate_red(str, i, tmp) == 2)
@@ -163,6 +161,11 @@ int		red_finder(char *str, t_list **redi, t_list **tp)
 				if (validate_red(str, i, tmp) == 2)
 					i++;
 				lst_append(redi, red);
+			}
+			else
+			{
+				ft_putstr_fd("bash: syntax error near unexpected token `>'\n", 2);
+				return (-1);
 			}
 		}
 	}
@@ -182,53 +185,6 @@ int	red_type(t_list **red, int id)
 	}
 	return (0);
 }
-
-void print_list(t_list *list)
-{
-	if (list)
-	{
-		printf("FROM PRINT_LIST %d | %d | %d\n", ((t_red*)list->content)->id, ((t_red*)list->content)->index, ((t_red*)list->content)->type);
-		print_list(list->next);
-	}
-}
-
-// char	*fill_red(int id, int index, char *cmd, t_list *red, t_list *quotes)
-// {
-// 	//char	*str;
-// 	int		start;
-// 	int		end;
-// 	int		i;
-// 	t_list	*tmp;
-
-// 	(void)cmd;
-// 	tmp = red;
-// 	start = index;
-// 	while (((t_red*)tmp->content)->id <= red_counter(cmd, quotes))
-// 	{
-
-// 		tmp = tmp->next;
-// 	}
-
-// }
-
-// void	split_red(char *cmd, t_list *reds, t_list *quotes)
-// {
-// 	int		red_count;
-// 	char	**meh;
-// 	t_list	*tmp;
-// 	int		i;
-
-// 	(void)cmd;
-// 	i = 0;
-// 	tmp = reds;
-// 	red_count = red_counter(cmd, quotes);
-// 	meh = (char**)malloc(sizeof(char*) * (red_count + 2));
-// 	while (tmp->next)
-// 	{
-// 		meh[i] = ft_strdup(fill_red(((t_red*)tmp->content)->id, ((t_red*)tmp->content)->index, cmd, reds, quotes));
-// 		tmp = tmp->next;
-// 	}
-// }
 
 char	**red_spliter(int *red_arr, char *cmd, t_list *quotes)
 {
