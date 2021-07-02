@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 19:33:40 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/24 08:58:16 by abiari           ###   ########.fr       */
+/*   Updated: 2021/07/01 17:57:38 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	mod_env_var(char *var, char *new_value, t_list **envl)
 			tmp_var->value = ft_strdup(new_value);
 			tmp_str = ft_strjoin(tmp_var->key, "=");
 			tmp_var->var = ft_strjoin(tmp_str, tmp_var->value);
+			tmp_var->env_printable = 1;
 			free(tmp_str);
 			break ;
 		}
@@ -51,6 +52,7 @@ void	add_env_var(char *var, char *value, t_list **envl)
 	env->value = ft_strdup(value);
 	tmp_str = ft_strjoin(env->key, "=");
 	env->var = ft_strjoin(tmp_str, env->value);
+	env->env_printable = 1;
 	free(tmp_str);
 	lst_append(envl, env);
 }
@@ -87,6 +89,7 @@ int	delete_env_var(char *var, t_list **envl)
 	{
 		*envl = tmp->next;
 		ft_lstdelone(tmp, envl_clear);
+		tmp = NULL;
 		return (0);
 	}
 	while (tmp->next != NULL)

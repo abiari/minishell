@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 13:37:19 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/28 13:29:12 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/07/01 16:59:25 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,6 @@ t_list		*main_lst(char *cmd, t_list **envl)
 		return (NULL);
 	cmd_list = cmd_lst(pipe, envl);
 	lst_append(&main_list, cmd_list);
-	free(exp);
+	// free(exp);
 	return (main_list);
 }

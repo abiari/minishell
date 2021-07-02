@@ -1,25 +1,21 @@
-cd '' => should keep you at the same directory > to be fixed in parser > SENDING NULL NOW RECEIVING THE NO SUCH FILE OR DIRECTORY PROBLEM
+cd '' => should keep you at the same directory > SENDING NULL NOW RECEIVING THE NO SUCH FILE OR DIRECTORY PROBLEM -> fixed
 unset HOME then cd segfault; > fixed
 multiple expantions -> fixed
-multiple expantions back to back -> fixed might need more testing
+multiple expantions back to back -> fixed might need more testing -> fixed
+if path unset, builtins MAJ should print no such file or directory // should be ignored since their binaries are ignored from the start
+digit or char in export -> fixed
+echo -n -n -n test tout should skip -n -> fixed
+export HOME=$USER env var do not expand -> FIXED
+mkdir folde cd folder rm folder cd . pwd -> fixed
+unset first env variable segfault a weld l97ba
 env abnormal behavior
 exit long long : should not exit
-if path unset, builtins MAJ should print no such file or directory
-export HOME=$USER env var do not expand -> FIXED
-mkdir folde cd folder rm folder cd . pwd
-digit or char in export
- echo -n -n -n test tout should skip -n
 return values ($?) ??????
 << stop cat -e ---> segfault
-unset first env variable segfault a weld l97ba
 when expanding only empty variable/s send NULL 
 unexpected token error for redirections
 cat < Makefile Segfault
 echo '' '' '' | cat -e should print spaces
 echo < file teasdasd segfault
+_ var fixed but not working on terminal ????
 https://pubs.opengroup.org/onlinepubs/009604499/utilities/xcu_chap02.html#tag_02_09_01_01
-GTX 1050 TI
-I7 9TH GEN 9750H
-16 GB RAM DDR4
-256 SSD
-1 TB HDD
