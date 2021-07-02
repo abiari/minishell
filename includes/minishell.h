@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/26 14:14:21 by abiari           ###   ########.fr       */
+/*   Updated: 2021/07/02 12:51:16 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,13 +88,13 @@ char	*find_env_key(const char *envp);
 char	*find_env_value(const char *envp);
 t_list	*envp_to_envl(char *envp[]);
 char	**envl_to_envp(t_list **envl);
-int		msh_cd(char **args, t_list *envl);
-int		msh_pwd(char **args, t_list *envl);
-int		msh_unset(char **args, t_list *envl);
-int		msh_env(char **args, t_list *envl);
-int		msh_export(char **args, t_list *envl);
-int		msh_exit(char **args, t_list *envl);
-int		msh_echo(char **args, t_list *envl);
+int		msh_cd(char **args, t_list **envl);
+int		msh_pwd(char **args, t_list **envl);
+int		msh_unset(char **args, t_list **envl);
+int		msh_env(char **args, t_list **envl);
+int		msh_export(char **args, t_list **envl);
+int		msh_exit(char **args, t_list **envl);
+int		msh_echo(char **args, t_list **envl);
 void	lst_append(t_list **lst, void *content);
 void	mod_env_var(char *var, char *new_value, t_list **envl);
 void	add_env_var(char *var, char *value, t_list **envl);

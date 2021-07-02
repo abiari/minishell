@@ -6,8 +6,9 @@ if path unset, builtins MAJ should print no such file or directory // should be 
 digit or char in export -> fixed
 echo -n -n -n test tout should skip -n -> fixed
 export HOME=$USER env var do not expand -> FIXED
-mkdir folde cd folder rm folder cd . pwd -> fixed
-unset first env variable segfault a weld l97ba
+mkdir folde cd folder rm folder cd . pwd -> fixed -> oldpwd to be tested
+unset first env variable segfault a weld l97ba -> fixed a wld l97ba
+fix _ env var in parser, to be filled with last word in last command and expanded in parser
 env abnormal behavior
 exit long long : should not exit
 return values ($?) ??????
