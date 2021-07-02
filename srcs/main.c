@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:06:25 by abiari            #+#    #+#             */
-/*   Updated: 2021/07/01 16:59:41 by abiari           ###   ########.fr       */
+/*   Updated: 2021/07/02 12:57:33 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	msh_loop(char **line, t_list *envl)
 			printf("exit\n");
 			free(*line);
 			*line = NULL;
-			break ;
+			exit(g_vars.exit_code);
 		}
 		if (**line == '\0')
 		{
@@ -36,13 +36,14 @@ void	msh_loop(char **line, t_list *envl)
 			*line = NULL;
 			continue ;
 		}
+		g_vars.exit_code = 0;
 		add_history(*line);
 		cmd = main_lst(*line, &envl);
 		if (cmd != NULL)
 		{
 			/*mini parser for heredoc*/
-			exec(((t_cmd *)cmd->content)->pipes, &envl);
 			mod_env_var("_", *line, &envl);
+			exec(((t_cmd *)cmd->content)->pipes, &envl);
 			free(*line);
 			*line = NULL;
 		}

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   msh_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 15:56:18 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/07 11:04:26 by abiari           ###   ########.fr       */
+/*   Updated: 2021/07/02 12:49:24 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	msh_env(char **args, t_list *envl)
+int	msh_env(char **args, t_list **envl)
 {
 	int		ret;
 	t_envl	*tmp_cast;
@@ -24,7 +24,7 @@ int	msh_env(char **args, t_list *envl)
 		return (1);
 	}
 	ret = 0;
-	tmp = envl;
+	tmp = *envl;
 	while (tmp != NULL)
 	{
 		tmp_cast = ((t_envl *)(tmp)->content);

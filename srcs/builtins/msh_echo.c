@@ -6,13 +6,13 @@
 /*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 13:22:15 by abiari            #+#    #+#             */
-/*   Updated: 2021/07/01 18:00:59 by abiari           ###   ########.fr       */
+/*   Updated: 2021/07/02 12:49:10 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	msh_echo(char **args, t_list *envl)
+int	msh_echo(char **args, t_list **envl)
 {
 	int		i;
 

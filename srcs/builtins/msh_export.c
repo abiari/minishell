@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 12:32:04 by abiari            #+#    #+#             */
-/*   Updated: 2021/07/01 08:28:54 by abiari           ###   ########.fr       */
+/*   Updated: 2021/07/02 12:50:06 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	check_key(char *arg)
 	return (1);
 }
 
-int	msh_export(char **args, t_list *envl)
+int	msh_export(char **args, t_list **envl)
 {
 	int		i;
 	t_list	*tmp;
@@ -119,17 +119,17 @@ int	msh_export(char **args, t_list *envl)
 				return (1);
 			}
 			value = find_env_value(args[i]);
-			if (find_env_var(key, &envl))
-				export_mod(key, value, printable, &envl);
+			if (find_env_var(key, envl))
+				export_mod(key, value, printable, envl);
 			else
-				export_add(key, value, printable, &envl);
+				export_add(key, value, printable, envl);
 			free(key);
 			i++;
 		}
 	}
 	else
 	{
-		tmp = envl;
+		tmp = *envl;
 		while (tmp)
 		{
 			printf("declare -x %s\n", ((t_envl *)(tmp->content))->var);

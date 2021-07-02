@@ -6,13 +6,13 @@
 /*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/05 16:08:37 by abiari            #+#    #+#             */
-/*   Updated: 2021/07/02 08:54:47 by abiari           ###   ########.fr       */
+/*   Updated: 2021/07/02 12:51:33 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	msh_cd(char **args, t_list *envl)
+int	msh_cd(char **args, t_list **envl)
 {
 	int		ret;
 	char	*old_path;
@@ -32,7 +32,7 @@ int	msh_cd(char **args, t_list *envl)
 	{
 		if (errno == ENOENT)
 		{
-			env_var = find_env_var("PWD", &envl);
+			env_var = find_env_var("PWD", envl);
 			old_path = ft_strdup(env_var->value);
 		}
 		else
@@ -43,7 +43,7 @@ int	msh_cd(char **args, t_list *envl)
 	}
 	if (path == NULL || (ft_strcmp(path, "~") == 0))
 	{
-		env_var = find_env_var("HOME", &envl);
+		env_var = find_env_var("HOME", envl);
 		if (!env_var)
 		{
 			ft_putendl_fd("msh : cd: HOME not set", 2);
@@ -67,12 +67,7 @@ int	msh_cd(char **args, t_list *envl)
 	{
 		if (!ft_strcmp(path, "."))
 		{
-			env_var = find_env_var("PWD", &envl);
-			ret = chdir(env_var->value);
-		}
-		else if (!ft_strcmp(path, ".."))
-		{
-			env_var = find_env_var("OLDPWD", &envl);
+			env_var = find_env_var("PWD", envl);
 			ret = chdir(env_var->value);
 		}
 		else
@@ -81,24 +76,24 @@ int	msh_cd(char **args, t_list *envl)
 	if (ret != -1)
 	{
 		path = getcwd(NULL, 0);
-		mod_env_var("PWD", path, &envl);
+		mod_env_var("PWD", path, envl);
 		if (!getenv("OLDPWD"))
-			add_env_var("OLDPWD", old_path, &envl);
+			add_env_var("OLDPWD", old_path, envl);
 		else
-			mod_env_var("OLDPWD", old_path, &envl);
+			mod_env_var("OLDPWD", old_path, envl);
 	}
 	else
 	{
 		if (errno == ENOENT && !ft_strcmp(path, "."))
 		{
-			env_var = find_env_var("PWD", &envl);
+			env_var = find_env_var("PWD", envl);
 			ft_putendl_fd("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory", 2);
-			mod_env_var("PWD", ft_strjoin(env_var->value, "/."), &envl);
-			env_var = find_env_var("OLDPWD", &envl);
+			mod_env_var("PWD", ft_strjoin(env_var->value, "/."), envl);
+			env_var = find_env_var("OLDPWD", envl);
 			if (!env_var)
-				add_env_var("OLDPWD", old_path, &envl);
+				add_env_var("OLDPWD", old_path, envl);
 			else
-				mod_env_var("OLDPWD", old_path, &envl);
+				mod_env_var("OLDPWD", old_path, envl);
 		}
 		else
 		{

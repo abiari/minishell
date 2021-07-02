@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 13:22:08 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/26 13:19:36 by abiari           ###   ########.fr       */
+/*   Updated: 2021/07/02 12:49:37 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	ft_isnum(char *num)
 	return (1);
 }
 
-int	msh_exit(char **argv, t_list *envl)
+int	msh_exit(char **argv, t_list **envl)
 {
 	int	i;
 	int	code;

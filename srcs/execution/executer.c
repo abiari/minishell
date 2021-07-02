@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 11:43:08 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/26 14:09:27 by abiari           ###   ########.fr       */
+/*   Updated: 2021/07/02 12:51:00 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	exec_builtin(char **cmd, t_list **envl)
 {
 	static char	*builtin_str[7] = {
 	"echo", "cd", "pwd", "export", "unset", "env", "exit"};
-	static	int	(*builtin_func[7])(char **, t_list *) = {
+	static	int	(*builtin_func[7])(char **, t_list **) = {
 	&msh_echo, &msh_cd, &msh_pwd, &msh_export,
 	&msh_unset, &msh_env, &msh_exit};
 	int			j;
@@ -80,7 +80,7 @@ int	exec_builtin(char **cmd, t_list **envl)
 	{
 		if (strcmp(cmd[0], builtin_str[j]) == 0)
 		{
-			g_vars.exit_code = (*builtin_func[j])(&cmd[1], *envl);
+			g_vars.exit_code = (*builtin_func[j])(&cmd[1], envl);
 			return (g_vars.exit_code);
 		}
 		j++;

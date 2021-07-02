@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 19:33:40 by abiari            #+#    #+#             */
-/*   Updated: 2021/07/01 17:57:38 by abiari           ###   ########.fr       */
+/*   Updated: 2021/07/02 12:53:36 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,19 @@ void	envl_clear(void *content)
 	free(content);
 }
 
+void	ft_lstdelone2(t_list **lst, void (*del)(void *))
+{
+	t_list	*tmp;
+
+	if (*lst && del)
+	{
+		tmp = *lst;
+		del((*lst)->content);
+		*lst = (*lst)->next;
+		free(tmp);
+	}
+}
+
 int	delete_env_var(char *var, t_list **envl)
 {
 	t_list	*tmp;
@@ -87,9 +100,7 @@ int	delete_env_var(char *var, t_list **envl)
 	tmp = *envl;
 	if (tmp != NULL && (ft_strcmp(((t_envl *)tmp->content)->key, var) == 0))
 	{
-		*envl = tmp->next;
-		ft_lstdelone(tmp, envl_clear);
-		tmp = NULL;
+		ft_lstdelone2(envl, envl_clear);
 		return (0);
 	}
 	while (tmp->next != NULL)

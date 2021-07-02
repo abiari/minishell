@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 10:45:23 by abiari            #+#    #+#             */
-/*   Updated: 2021/07/01 17:48:49 by abiari           ###   ########.fr       */
+/*   Updated: 2021/07/02 12:50:25 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	is_alphanum(char *s)
 	return (1);
 }
 
-int	msh_unset(char **args, t_list *envl)
+int	msh_unset(char **args, t_list **envl)
 {
 	int		ret;
 	int		i;
@@ -43,7 +43,7 @@ int	msh_unset(char **args, t_list *envl)
 			ft_putstr_fd(args[i], 2);
 			ft_putstr_fd("': not a valid identifier\n", 2);
 		}
-		delete_env_var(args[i], &envl);
+		delete_env_var(args[i], envl);
 		i++;
 	}
 	return (ret);
