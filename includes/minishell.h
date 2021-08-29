@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/07/02 12:51:16 by abiari           ###   ########.fr       */
+/*   Updated: 2021/08/29 11:26:07 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ void	sig_handler(int sign_num);
 void	create_file(t_pipeline *cmd);
 int		is_builtin(char *cmd);
 int		exec_builtin(char **cmd, t_list **envl);
+char	*rand_str(void);
+char	*ft_ll_itoa(long long n);
 void	msh_prompt(void);
 
 char	*magic_touch(char *str);
