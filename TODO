@@ -8,15 +8,18 @@ echo -n -n -n test tout should skip -n -> fixed
 export HOME=$USER env var do not expand -> FIXED
 mkdir folde cd folder rm folder cd . pwd -> fixed -> oldpwd to be tested
 unset first env variable segfault a weld l97ba -> fixed a wld l97ba
-echo '' '' '' | cat -e should print spaces -> somehow working now xD
+cat < Makefile Segfault -> fixed
+echo '' '' '' | cat -e should print spaces -> fixed
+exit long long : should not exit -> fixed
+
+========================================================================================================================================
+fix is directory error msg when exec a dir
+add flag if a heredoc exists
 fix _ env var in parser, to be filled with last word in last command and expanded in parser
-//env abnormal behavior-> happened only once and never again
-exit long long : should not exit
+env abnormal behavior
 return values ($?) ??????
-<< stop cat -e ---> segfault
+<< stop cat -e ---> segfault -> heredoc to be reimplemented
 when expanding only empty variable/s send NULL 
 unexpected token error for redirections
-cat < Makefile Segfault
 echo < file teasdasd segfault
-_ var fixed but not working on terminal ????
 https://pubs.opengroup.org/onlinepubs/009604499/utilities/xcu_chap02.html#tag_02_09_01_01

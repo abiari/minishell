@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_exit.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 13:22:08 by abiari            #+#    #+#             */
-/*   Updated: 2021/07/02 12:49:37 by abiari           ###   ########.fr       */
+/*   Updated: 2021/08/29 11:44:29 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	ft_isnum(char *num)
 	i = 0;
 	while (num[i])
 	{
-		if (!ft_isdigit(num[i]))
+		if (!ft_isdigit(num[i]) && !(num[i] == '-' && i == 0))
 			return (0);
 		i++;
 	}
@@ -53,8 +53,9 @@ int	ft_isnum(char *num)
 
 int	msh_exit(char **argv, t_list **envl)
 {
-	int	i;
-	int	code;
+	int			i;
+	long long	code;
+	char		*str_code;
 
 	(void)envl;
 	i = 0;
@@ -70,10 +71,9 @@ int	msh_exit(char **argv, t_list **envl)
 		exit(0);
 	else
 	{
-		i = 0;
-		// while (argv[0][i] != '\0')
-		// {
-		if (ft_isnum(argv[i]) == 0)
+		code = ft_ll_atoi(argv[0]);
+		str_code = ft_ll_itoa(code);
+		if (ft_isnum(argv[0]) == 0 || ft_strcmp(argv[0], str_code))
 		{
 			printf("exit \n");
 			ft_putstr_fd("msh: exit: ", 2);
@@ -81,8 +81,6 @@ int	msh_exit(char **argv, t_list **envl)
 			ft_putstr_fd(": numeric argument required", 2);
 			exit(255);
 		}
-		// }
-		code = ft_ll_atoi(argv[0]);
 		printf("exit\n");
 		if (code > 255)
 			exit(code % 256);

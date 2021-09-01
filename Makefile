@@ -6,7 +6,7 @@
 #    By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/19 17:19:26 by abiari            #+#    #+#              #
-#    Updated: 2021/07/11 11:59:48 by ael-bagh         ###   ########.fr        #
+#    Updated: 2021/09/01 10:45:42 by ael-bagh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ srcs/parsing/quotes_helpers.c srcs/parsing/red_helper.c srcs/parsing/reddit.c\
 srcs/parsing/space_it.c srcs/parsing/utils.c srcs/parsing/expand_it.c srcs/execution/pipeline.c\
 srcs/execution/redirection.c srcs/execution/executer.c\
 srcs/signals/sig_handlers.c srcs/builtins/msh_echo.c srcs/builtins/msh_env.c\
-srcs/builtins/msh_exit.c srcs/builtins/msh_export.c srcs/builtins/msh_unset.c
+srcs/builtins/msh_exit.c srcs/builtins/msh_export.c srcs/builtins/msh_unset.c\
+srcs/utils/ft_ll_itoa.c
 
 all: $(NAME)
 
