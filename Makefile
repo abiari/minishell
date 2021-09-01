@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: abiari <abiari@student.42.fr>              +#+  +:+       +#+         #
+#    By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/19 17:19:26 by abiari            #+#    #+#              #
-#    Updated: 2021/06/25 11:57:30 by abiari           ###   ########.fr        #
+#    Updated: 2021/07/11 11:59:48 by ael-bagh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ srcs/builtins/msh_exit.c srcs/builtins/msh_export.c srcs/builtins/msh_unset.c
 all: $(NAME)
 
 $(NAME):
-	make -C ./libft && make bonus -C ./libft && make clean -C ./libft
+	make fclean -C ./libft && make -C ./libft && make bonus -C ./libft && make clean -C ./libft
 	$(CC) $(CFLAGS) $(RDLFLAGS) $(SRC) libft/libft.a -o $(NAME)
 
 clean:
