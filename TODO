@@ -11,15 +11,23 @@ unset first env variable segfault a weld l97ba -> fixed a wld l97ba
 cat < Makefile Segfault -> fixed
 echo '' '' '' | cat -e should print spaces -> fixed
 exit long long : should not exit -> fixed
+echo < file teasdasd segfault -> fixed
+fix is directory error msg when exec a dir -> fixed
+env abnormal behavior -> fixed
 
 ========================================================================================================================================
-fix is directory error msg when exec a dir
+red t3mar d linked list iterative a wld l97ba ra long pipelines kithungaw
+\ triggers heap buffer overflow
+echo > < >> print syntax error a l7mar o > bo7dha and < bo7dha layn3lzxamlbouk, zid ta "chi 9lawa" >
+echo "$TEST=$TEST=lol$USER" >> ==lolabiari
+echo "$"
+exec relative path to be checked, ./file exmple
+remove "" and '' in export "var"/'var'=test
 add flag if a heredoc exists
-fix _ env var in parser, to be filled with last word in last command and expanded in parser
-env abnormal behavior
+fix _ env var in parser, to be filled with last arg of last command or last simple command   and expanded in parser
 return values ($?) ??????
 << stop cat -e ---> segfault -> heredoc to be reimplemented
 when expanding only empty variable/s send NULL 
 unexpected token error for redirections
-echo < file teasdasd segfault
+cat > file2>file3 -> fix code after heredoc removal
 https://pubs.opengroup.org/onlinepubs/009604499/utilities/xcu_chap02.html#tag_02_09_01_01

@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/08/29 11:26:07 by abiari           ###   ########.fr       */
+/*   Updated: 2021/08/30 10:57:19 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <signal.h>
 # include <string.h>
 # include <errno.h>
+# include <dirent.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>

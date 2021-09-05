@@ -3,14 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 17:35:24 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/26 14:16:46 by abiari           ###   ########.fr       */
+/*   Updated: 2021/08/31 17:26:09 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	is_dir(char *exec)
+{
+	DIR	*dir_name;
+
+	dir_name = opendir(exec);
+	if (dir_name)
+	{
+		if (closedir(dir_name) == -1)
+		{
+			ft_putstr_fd(strerror(errno), 2);
+			return (-1);
+		}
+		return (1);
+	}
+	return (0);
+}
 
 char	*check_exec(char *cmd, t_list *envl)
 {
@@ -52,6 +69,13 @@ void	spawn_proc(int in, int *fd, t_pipeline *cmd, t_list **envl)
 			exit(exec_builtin(cmd->cmd, envl));
 		else
 		{
+			if (is_dir(cmd->cmd[0]))
+			{
+				ft_putstr_fd("msh: ", 2);
+				ft_putstr_fd(cmd->cmd[0], 2);
+				ft_putstr_fd(": is a directory\n", 2);
+				exit(126);
+			}
 			envp = envl_to_envp(envl);
 			execve(cmd->cmd[0], (char *const *)cmd->cmd, envp);
 			ft_putstr_fd("msh: ", STDERR_FILENO);
@@ -120,6 +144,7 @@ void	fork_pipes(t_pipeline *cmd, t_list **envl)
 			return ;
 	}
 	g_vars.pid = fork();
+	// g_vars.pid = 0;
 	if (g_vars.pid == 0)
 	{
 		if (in != 0)
@@ -135,6 +160,13 @@ void	fork_pipes(t_pipeline *cmd, t_list **envl)
 			exit(exec_builtin(cmd->cmd, envl));
 		else
 		{
+			if (is_dir(cmd->cmd[0]))
+			{
+				ft_putstr_fd("msh: ", 2);
+				ft_putstr_fd(cmd->cmd[0], 2);
+				ft_putstr_fd(": is a directory\n", 2);
+				exit(126);
+			}
 			envp = envl_to_envp(envl);
 			execve(cmd->cmd[0], (char *const *)cmd->cmd, envp);
 			ft_putstr_fd("msh: ", STDERR_FILENO);

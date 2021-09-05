@@ -6,7 +6,7 @@
 #    By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/19 17:19:26 by abiari            #+#    #+#              #
-#    Updated: 2021/08/29 11:30:43 by abiari           ###   ########.fr        #
+#    Updated: 2021/08/29 14:02:32 by abiari           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ srcs/utils/ft_ll_itoa.c
 
 all: $(NAME)
 
-$(NAME):
+$(NAME): $(SRC)
 	make -C ./libft && make bonus -C ./libft && make clean -C ./libft
 	$(CC) $(CFLAGS) $(RDLFLAGS) $(SRC) libft/libft.a -o $(NAME)
 
