@@ -3,14 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+         #
+#    By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/19 17:19:26 by abiari            #+#    #+#              #
-#    Updated: 2021/08/29 14:02:32 by abiari           ###   ########.fr        #
 #                                                                              #
-# **************************************************************************** #
-
-NAME = msh
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra -lreadline -g3 -fsanitize=address
 RDLFLAGS = -L ~/goinfre/.brew/opt/readline/lib -I ~/goinfre/.brew/opt/readline/include

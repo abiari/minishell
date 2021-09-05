@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+         #
+#    By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/12 15:27:47 by abiari            #+#    #+#              #
-#    Updated: 2021/05/31 10:23:59 by abiari           ###   ########.fr        #
+#    Updated: 2021/07/11 11:57:17 by ael-bagh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ OBJ_BONUS = $(SRC_BONUS:.c=.o)
 
 all: $(NAME)
 
-$(NAME):
+$(NAME): $(SRC)
 	gcc -Wall -Werror -Wextra -c $(SRC)
 	ar rc $(NAME) $(OBJ)
 	ranlib $(NAME)
