@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 11:36:40 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/10 23:28:49 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/07 12:10:34 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_zero(void)
+char	*ft_zeroo(void)
 {
 	char	*ret;
 
@@ -22,7 +22,7 @@ char	*ft_zero(void)
 	return (ret);
 }
 
-int	ft_len(unsigned int n)
+int	ft_len2(unsigned int n)
 {
 	int	i;
 
@@ -35,7 +35,7 @@ int	ft_len(unsigned int n)
 	return (i);
 }
 
-int	ft_neg(unsigned int *tmp, int n)
+int	ft_nega(unsigned int *tmp, int n)
 {
 	if (n < 0)
 	{
@@ -57,10 +57,10 @@ char	*ft_itoa(int n)
 	signe = 0;
 	tmp = n;
 	if (n == 0)
-		return (ret = ft_zero());
+		return (ret = ft_zeroo());
 	else
-		signe = ft_neg(&tmp, n);
-	len = ft_len(tmp);
+		signe = ft_nega(&tmp, n);
+	len = ft_len2(tmp);
 	if (!(ret = (char *)malloc(len + signe + 1)))
 		return (NULL);
 	*(ret + len-- + signe) = '\0';
