@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 13:37:19 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/07/01 16:59:25 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/06 14:41:10 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,30 @@ t_cmd	*cmd_lst(char **pipelist, t_list **envl)
 	return(cmd_list);
 }
 
+int		check_reds(char **pipe)
+{
+	int	i;
+	int	j;
+	char **red;
+	
+	i = -1;
+	while (pipe[++i])
+	{
+		red = reddit(pipe[i]);
+		j = -1;
+		if (red)
+			while (red[++j])
+			{
+				if (only_char(' ', red[j]))
+				{
+					ft_putstr_fd("bash: syntax error near unexpected token `>'\n", 2);
+					return (0);
+				}
+			}
+	}
+	return (1);
+}
+
 t_list		*main_lst(char *cmd, t_list **envl)
 {
 	t_list	*tmp;
@@ -157,7 +181,11 @@ t_list		*main_lst(char *cmd, t_list **envl)
 	pipe = pipe_it(exp);
 	if (check_pipes(pipe, exp) == 1)
 		return (NULL);
+	if (check_reds(pipe) == 0)
+		return (NULL);
 	cmd_list = cmd_lst(pipe, envl);
+	if (!cmd_list && ret >= 1)
+		return (NULL);
 	lst_append(&main_list, cmd_list);
 	// free(exp);
 	return (main_list);

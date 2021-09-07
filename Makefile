@@ -6,7 +6,11 @@
 #    By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/19 17:19:26 by abiari            #+#    #+#              #
+#    Updated: 2021/09/06 11:44:58 by ael-bagh         ###   ########.fr        #
 #                                                                              #
+# **************************************************************************** #
+
+NAME = msh
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra -lreadline -g3 -fsanitize=address
 RDLFLAGS = -L ~/goinfre/.brew/opt/readline/lib -I ~/goinfre/.brew/opt/readline/include

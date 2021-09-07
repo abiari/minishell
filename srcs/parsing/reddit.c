@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 10:37:52 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/28 13:30:53 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/06 14:01:26 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ int	red_counter(char *str, t_list *tmp)
 	count = 0;
 	while (str[++i])
 	{
-		if (str[i] == '\\' && (i++))
-			continue ;
 		if (str[i] == '>' || str[i] == '<')
 		{
 			if (validate_red(str, i, tmp) == 1)
@@ -100,8 +98,6 @@ void	red_array(int *array, char *str, t_list *tmp)
 	count = 0;
 	while (str[++i])
 	{
-		if (str[i] == '\\' && (i++))
-			continue ;
 		if (str[i] == '>' || str[i] == '<')
 		{
 			if (validate_red(str, i, tmp) == 1)
@@ -215,7 +211,7 @@ int manage_red(char **red)
 {
 	int	i;
 
-	i = -1;
+	i = 0;
 	while (red[++i])
 	{
 		if (only_char(' ', red[i]))

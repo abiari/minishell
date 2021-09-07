@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 17:56:13 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/27 21:22:45 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/06 13:06:35 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ void	spaces_array(int *spaces,char *str, t_list *tmp, char c)
 	count = 0;
 	while (str[++i])
 	{
-		if (str[i] == '\\' && (i++))
-			continue ;
 		if (str[i] == c && is_between_quotes(i, &tmp) == 0)
 		{
 			while (str[i] == c && is_between_quotes(i, &tmp) == 0)
@@ -43,8 +41,6 @@ int	spaces_count(char *str, t_list *tmp, char c)
 	count = 0;
 	while (str[++i])
 	{
-		if (str[i] == '\\' && (i++))
-			continue ;
 		if (str[i] == c && is_between_quotes(i, &tmp) == 0)
 		{
 			while (str[i] == c && is_between_quotes(i, &tmp) == 0)
@@ -147,8 +143,6 @@ char	*rm_dup_spaces(char	*str, t_list **quotes)
 	tmp_str = NULL;
 	while (str[i])
 	{
-		if (str[i] == '\\' && (i++))
-			continue ;
 		while (str[i] && str[i] == ' ' && is_between_quotes(i, &tmp) == 0)
 			i++;
 		start = i;

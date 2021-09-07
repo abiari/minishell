@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 09:43:58 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/18 10:35:55 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/06 11:52:02 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,6 @@ int	quotes_finder(char *str, t_list **lst)
 	while (str[++i])
 	{
 		flag = 0;
-		if (str[i] == '\\')
-		{
-			i++;
-			continue ;
-		}
 		if (str[i] == '\'' || str[i] == '\"')
 		{
 			if (s_d_quote(quotes, lst, i, str) == -1)

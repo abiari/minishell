@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:54:07 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/28 11:42:29 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/06 11:43:18 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int	dollar_finder(char *str, t_list **quotes)
 	while (str[i])
 	{
 		if (str[i] == '$' && (is_between_quotes(i, quotes) != S_QUOTE)
-			&& (str[i + 1] != '\0' && str[i + 1] != ' '))
+			&& (str[i + 1] != '\0' && str[i + 1] != ' ' && str[i + 1] != '\"'))
+			// && (str[i + 1] != '='))
 			return (i);
 		i++;
 	}
@@ -99,7 +100,7 @@ char	*expand(char *tab, t_list **envl)
 		tmp[2]++;
 		tmp[0] = tmp[2];
 		while ((tab[tmp[2]] != ' ' && tab[tmp[2]] != '\"'
-				&& tab[tmp[2]] != '\'' && tab[tmp[2]] != '$')
+				&& tab[tmp[2]] != '\'' && tab[tmp[2]] != '$' && tab[tmp[2]] != '=')
 			&& tab[tmp[2]])
 			tmp[2]++;
 		key = ft_substr(tab, tmp[0], tmp[2] - (tmp[0]));
