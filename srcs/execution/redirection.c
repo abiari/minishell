@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 14:10:26 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/08 14:30:10 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/08 16:15:09 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,13 @@ void	create_file(t_pipeline *cmd)
 	}
 }
 
-void	in_redirect(t_redirect * red)
+void	in_redirect(t_redirect *red)
 {
-	t_redirect *tmp;
+	t_redirect	*tmp;
 	int			fd;
-	
+
 	tmp = red;
 	fd = -1;
-	
 	while (tmp)
 	{
 		if (fd > 2 && (tmp->type == IN_R || tmp->type == DOC_R))
@@ -74,14 +73,13 @@ void	in_redirect(t_redirect * red)
 	}
 }
 
-void	out_redirect(t_redirect * red)
+void	out_redirect(t_redirect *red)
 {
-	t_redirect *tmp;
+	t_redirect	*tmp;
 	int			fd;
-	
+
 	tmp = red;
 	fd = -1;
-	
 	while (tmp)
 	{
 		if (fd > 2 && (tmp->type == OUT_R || tmp->type == APP_R))

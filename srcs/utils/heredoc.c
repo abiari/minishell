@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 15:26:14 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/08 11:55:15 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/08 16:21:07 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ char 	*heredoc_helper(char *stop_value)
 	return (filename);
 }
 
-int		heredoc_count(t_redirect *reds)
+int	heredoc_count(t_redirect *reds)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	while (reds)
@@ -82,7 +82,7 @@ void	heredoc_spawn(t_pipeline *cmd)
 	int			reds_count;
 
 	if (!cmd->redirections)
-		return;
+		return ;
 	cmd_tmp = cmd;
 	while (cmd_tmp)
 	{
@@ -94,7 +94,7 @@ void	heredoc_spawn(t_pipeline *cmd)
 			{
 				if (reds_tmp->type == DOC_R)
 				{
-					tmp = reds_tmp->file; 
+					tmp = reds_tmp->file;
 					filename = heredoc_helper(reds_tmp->file);
 					reds_tmp->file = filename;
 					free(tmp);
