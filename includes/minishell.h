@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/07 12:02:23 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/08 14:32:06 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ typedef struct s_globals
 	int		exit_code;
 }				t_globals;
 
-extern t_globals	g_vars;
+t_globals	g_vars;
 
 char	*find_env_key(const char *envp);
 char	*find_env_value(const char *envp);
@@ -115,6 +115,10 @@ int		is_builtin(char *cmd);
 int		exec_builtin(char **cmd, t_list **envl);
 char	*rand_str(void);
 char	*ft_ll_itoa(long long n);
+void	heredoc_spawn(t_pipeline *cmd);
+void	heredoc(char *stop_value, int fd);
+char 	*heredoc_helper(char *stop_value);
+
 void	msh_prompt(void);
 
 char	*magic_touch(char *str);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reddit.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 10:37:52 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/06 14:01:26 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/08 11:04:01 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	red_type_check(char *str, int i)
 		if (count > 2)
 			return (-1);
 		if (count == 1)
-			return (IN_R);
+			return (OUT_R);
 		if (count == 2)
 			return (APP_R);
 	}
@@ -41,7 +41,7 @@ int	red_type_check(char *str, int i)
 		if (count > 2)
 			return (-1);
 		if (count == 1)
-			return (OUT_R);
+			return (IN_R);
 		if (count == 2)
 			return (DOC_R);
 	}

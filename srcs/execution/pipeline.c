@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 17:35:24 by abiari            #+#    #+#             */
-/*   Updated: 2021/08/31 17:26:09 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/08 14:37:11 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,10 @@ void	spawn_proc(int in, int *fd, t_pipeline *cmd, t_list **envl)
 			ft_putstr_fd("msh: ", STDERR_FILENO);
 			ft_putstr_fd(cmd->cmd[0], 2);
 			if (errno == ENOENT && find_env_var("PATH", envl))
+			{
 				ft_putendl_fd(": command not found", 2);
+				exit(127);
+			}
 			else
 			{
 				ft_putstr_fd(": ", 2);
@@ -174,7 +177,7 @@ void	fork_pipes(t_pipeline *cmd, t_list **envl)
 			if (errno == ENOENT && find_env_var("PATH", envl))
 			{
 				ft_putendl_fd(": command not found", STDERR_FILENO);
-				g_vars.exit_code = 127;
+				exit(127);
 			}
 			else
 			{
