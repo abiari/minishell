@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:06:25 by abiari            #+#    #+#             */
-/*   Updated: 2021/07/05 15:40:53 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/08 14:34:46 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ void	msh_loop(char **line, t_list *envl)
 			*line = NULL;
 			continue ;
 		}
-		g_vars.exit_code = 0;
+		// g_vars.exit_code = 0;
 		add_history(*line);
 		cmd = main_lst(*line, &envl);
 		if (cmd != NULL)
 		{
-			/*mini parser for heredoc*/
+			heredoc_spawn(((t_cmd *)cmd->content)->pipes);
 			exec(((t_cmd *)cmd->content)->pipes, &envl);
 			free(*line);
 			*line = NULL;
