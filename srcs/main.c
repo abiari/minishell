@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:06:25 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/08 14:34:46 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/09 14:59:53 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,9 @@ t_globals	g_vars;
 
 void	msh_loop(char **line, t_list *envl)
 {
-	int		n;
 	t_list	*cmd;
 
-	n = 1;
-	while (n)
+	while (1)
 	{
 		*line = readline("\033[0;36mmsh$:\033[0m ");
 		if (!(*line))
@@ -37,7 +35,6 @@ void	msh_loop(char **line, t_list *envl)
 			*line = NULL;
 			continue ;
 		}
-		// g_vars.exit_code = 0;
 		add_history(*line);
 		cmd = main_lst(*line, &envl);
 		if (cmd != NULL)
