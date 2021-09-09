@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 13:37:19 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/06 14:41:10 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/08 10:58:10 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,13 +147,11 @@ int		check_reds(char **pipe)
 		j = -1;
 		if (red)
 			while (red[++j])
-			{
 				if (only_char(' ', red[j]))
 				{
 					ft_putstr_fd("bash: syntax error near unexpected token `>'\n", 2);
 					return (0);
 				}
-			}
 	}
 	return (1);
 }
