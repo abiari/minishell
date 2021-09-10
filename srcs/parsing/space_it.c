@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 17:56:13 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/10 11:13:23 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/10 15:31:31 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,18 @@ int	*spaces(char *str, t_list **lst)
 	tmp = *lst;
 	count = spaces_count(str, tmp, ' ');
 	if (count == 0)
+	{
+		ft_lstclear(&tmp, del_node);
 		return (NULL);
+	}
 	spaces = malloc((sizeof(int) * count) + sizeof(int));
 	if (!spaces)
+	{
+		ft_lstclear(&tmp, del_node);
 		return (NULL);
+	}
 	spaces_array(spaces, str, tmp, ' ');
+	ft_lstclear(&tmp, del_node);
 	return (spaces);
 }
 
@@ -115,7 +122,7 @@ char	**space_spliter(int *space, char *cmd)
 		tab = (char **)malloc((i + 1) * sizeof(char *));
 		j = -1;
 		while (++j < i)
-			tab[j] = ft_strdup(between_valid_spaces(cmd, j, space));
+			tab[j] = between_valid_spaces(cmd, j, space);
 		tab[j] = NULL;
 		free(space);
 	}
@@ -131,6 +138,7 @@ char	**space_spliter(int *space, char *cmd)
 char	*rm_dup_spaces(char	*str, t_list **quotes)
 {
 	t_list	*tmp;
+	char	*lol;
 	char	*tmp_str;
 	char	*cmd;
 	int		i;
@@ -152,11 +160,14 @@ char	*rm_dup_spaces(char	*str, t_list **quotes)
 		if (start != end)
 		{
 			tmp_str = ft_strjoin(cmd, " ");
-			cmd = tmp_str;
-			cmd = ft_strjoin(cmd, ft_substr(str, start, end - start));
+			free(cmd);
+			lol = ft_substr(str, start, end - start);
+			cmd = ft_strjoin(tmp_str, lol);
+			free(lol);
 			free(tmp_str);
 		}
 	}
+	ft_lstclear(&tmp, del_node);
 	return (cmd);
 }
 
@@ -185,44 +196,3 @@ char	**space_it(char *str)
 	free(cmd);
 	return (tab);
 }
-
-// char	*split_ws(char *red, t_list **envl)
-// {
-// 	char **tab;
-// 	int		i;
-// 	char *cmd;
-
-// 	i = -1;
-// 	tab = NULL;
-// 	cmd = NULL;
-// 	tab = space_it(red, &envl);
-// 	if (tab)
-// 		if (two_d_counter(tab) > 1)
-// 			while (tab[++i])
-// 			{
-// 				cmd = ft_strjoin(cmd, tab[i]);
-// 			}
-// 	return (cmd);
-// }
-
-// char		*get_cmd(char **red, char **pipelist)
-// {
-// 	int	i;
-// 	int ret;
-// 	char	*cmd;
-
-// 	(void)pipelist;
-// 	i = -1;
-// 	ret = 0;
-// 	cmd = NULL;
-// 	if (red)
-// 	{
-// 		while(red[++i])
-// 		{
-// 			if ((only_char(' ', red[i]) && i == 0) || red[1] == NULL)
-// 				return (NULL);
-// 			cmd = split_ws(red[i]);
-// 		}
-// 	}
-// 	return (cmd);
-// }

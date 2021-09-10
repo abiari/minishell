@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+         #
+#    By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/19 17:19:26 by abiari            #+#    #+#              #
-#    Updated: 2021/09/10 11:14:43 by abiari           ###   ########.fr        #
+#    Updated: 2021/09/10 12:05:05 by ael-bagh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = msh
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -lreadline -g3 -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -lreadline
 RDLFLAGS = -L ~/goinfre/.brew/opt/readline/lib -I ~/goinfre/.brew/opt/readline/include
 
 SRC = srcs/main.c srcs/builtins/msh_cd.c srcs/builtins/msh_pwd.c\

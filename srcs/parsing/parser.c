@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 13:37:19 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/08 10:58:10 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/10 15:34:00 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,7 @@ t_list		*main_lst(char *cmd, t_list **envl)
 	tmp = NULL;
 	tp = NULL;
 	main_list = NULL;
+	pipe = NULL;
 	exp = expand(cmd, envl);
 	ret = quotes_finder(cmd, &tmp);
 	ret = red_finder(exp, &tp, &tmp);
@@ -182,6 +183,8 @@ t_list		*main_lst(char *cmd, t_list **envl)
 	if (check_reds(pipe) == 0)
 		return (NULL);
 	cmd_list = cmd_lst(pipe, envl);
+	if (pipe)
+		free_chard(pipe);
 	if (!cmd_list && ret >= 1)
 		return (NULL);
 	lst_append(&main_list, cmd_list);
