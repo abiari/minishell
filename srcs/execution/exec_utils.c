@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 11:13:07 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/10 11:15:31 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/10 11:34:16 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,15 @@ int	is_builtin(char *cmd)
 
 int	check_if_builtin(t_pipeline *cmd, t_list **envl)
 {
-	int	ret;
+	int		ret;
+	char	*tmp;
 
 	ret = is_builtin(cmd->cmd[0]);
 	if (ret != 1)
 	{
+		tmp = cmd->cmd[0];
 		cmd->cmd[0] = check_exec(cmd->cmd[0], *envl);
+		free(tmp);
 		if (cmd->cmd[0] == NULL)
 			return (1);
 	}
