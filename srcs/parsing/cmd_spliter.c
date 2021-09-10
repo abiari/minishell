@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 11:53:48 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/06 16:06:45 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/09 13:39:45 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ char	**cmds_spliter(int *comma, char *cmd)
 	char	**tab;
 	int		i;
 	int		j;
+	char	*trash;
 
 	j = -1;
 	i = 0;
@@ -85,7 +86,11 @@ char	**cmds_spliter(int *comma, char *cmd)
 		tab = (char **)malloc((i + 1) * sizeof(char *));
 		j = -1;
 		while (++j < i)
-			tab[j] = ft_strdup(fill_command(cmd, j, comma));
+		{
+			trash = fill_command(cmd, j, comma);
+			tab[j] = ft_strdup(trash);
+			free(trash);
+		}
 		tab[j] = NULL;
 		free(comma);
 	}

@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 17:56:13 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/06 13:06:35 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/10 11:13:23 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,7 @@ char	**space_it(char *str)
 	while (tab[++i])
 		tab[i] = magic_touch(tab[i]);
 	ft_lstclear(&tmp, del_node);
+	free(cmd);
 	return (tab);
 }
 
