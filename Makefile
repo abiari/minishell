@@ -6,7 +6,7 @@
 #    By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/19 17:19:26 by abiari            #+#    #+#              #
-#    Updated: 2021/09/07 17:45:11 by abiari           ###   ########.fr        #
+#    Updated: 2021/09/10 11:14:43 by abiari           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ srcs/parsing/space_it.c srcs/parsing/utils.c srcs/parsing/expand_it.c srcs/execu
 srcs/execution/redirection.c srcs/execution/executer.c\
 srcs/signals/sig_handlers.c srcs/builtins/msh_echo.c srcs/builtins/msh_env.c\
 srcs/builtins/msh_exit.c srcs/builtins/msh_export.c srcs/builtins/msh_unset.c\
-srcs/utils/ft_ll_itoa.c srcs/utils/heredoc.c srcs/utils/rand_gen.c
+srcs/utils/ft_ll_itoa.c srcs/utils/heredoc.c srcs/utils/rand_gen.c\
+srcs/utils/delete_env_var.c srcs/execution/exec_utils.c
 
 all: $(NAME)
 
