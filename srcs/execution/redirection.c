@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 14:10:26 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/08 16:15:09 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/10 11:06:48 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,15 @@ void	create_file(t_pipeline *cmd)
 	}
 }
 
+void	print_error(char *file)
+{
+	ft_putstr_fd("msh: ", 2);
+	ft_putstr_fd(file, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putendl_fd(strerror(errno), 2);
+	exit(1);
+}
+
 void	in_redirect(t_redirect *red)
 {
 	t_redirect	*tmp;
@@ -56,13 +65,7 @@ void	in_redirect(t_redirect *red)
 		{
 			fd = open(tmp->file, O_RDONLY);
 			if (fd == -1)
-			{	
-				ft_putstr_fd("msh: ", 2);
-				ft_putstr_fd(tmp->file, 2);
-				ft_putstr_fd(": ", 2);
-				ft_putendl_fd(strerror(errno), 2);
-				exit(1);
-			}
+				print_error(tmp->file);
 		}
 		tmp = tmp->next;
 	}

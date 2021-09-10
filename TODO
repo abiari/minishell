@@ -21,12 +21,11 @@ remove "" and '' in export "var"/'var'=test ->fixed (treating backslashes as nor
 echo > < >> print syntax error a l7mar o > bo7dha and < bo7dha layn3lzxamlbouk, zid ta "chi 9lawa" > -> fixed I GUESS needs more testing
 cat > file2>file3 -> fix code after heredoc removal ->fixed
 when expanding only empty variable/s send NULL -> fixed
+<< stop cat -e ---> segfault -> heredoc to be reimplemented -> fixed
+for later //return values ($?) ?????? -> fixed
 ========================================================================================================================================
 
 for later // red t3mar d linked list iterative a wld l97ba ra long pipelines kithungaw
 //exec relative path to be checked, ./file exmple
-//add flag if a heredoc exists/
 fix _ env var in parser, to be filled with last arg of last command or last simple command   and expanded in parser
-for later //return values ($?) ??????
-<< stop cat -e ---> segfault -> heredoc to be reimplemented
 https://pubs.opengroup.org/onlinepubs/009604499/utilities/xcu_chap02.html#tag_02_09_01_01

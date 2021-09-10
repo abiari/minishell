@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/09 12:40:47 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/10 11:15:39 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,10 @@ char	*ft_ll_itoa(long long n);
 void	heredoc_spawn(t_pipeline *cmd);
 void	heredoc(char *stop_value, int fd);
 char 	*heredoc_helper(char *stop_value);
+int		is_dir(char *exec);
+char	*check_exec(char *cmd, t_list *envl);
+int		is_builtin(char *cmd);
+int		check_if_builtin(t_pipeline *cmd, t_list **envl);
 
 void	msh_prompt(void);
 
