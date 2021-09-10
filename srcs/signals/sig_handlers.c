@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 15:08:56 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/10 11:06:10 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/10 15:51:48 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	process(int sign_num)
 		if (sign_num == SIGQUIT)
 		{
 			ft_putstr_fd("Quit: 3\n", 1);
-			g_vars.exit_code = 131; // WIFSIGNALED && WTERMSIG
+			g_vars.exit_code = 131;
 		}
 		else if (sign_num == SIGINT)
 		{

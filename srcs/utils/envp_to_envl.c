@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:28:27 by abiari            #+#    #+#             */
-/*   Updated: 2021/06/08 07:57:56 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/10 15:46:51 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ t_list	*envp_to_envl(char *envp[])
 		env->value = ft_strdup(find_env_value(envp[i]));
 		env->var = ft_strdup(envp[i]);
 		env->key = find_env_key(envp[i]);
+		env->env_printable = 1;
 		lst_append(&envl, env);
 		i++;
 	}
