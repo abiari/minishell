@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:06:25 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/10 14:34:49 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/11 15:42:31 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,26 @@ void	free_chard(char **str)
 	str = NULL;
 }
 
-void	free_mainlst(t_pipeline *lst)
+void	free_mainlst(t_pipeline **lst)
 {
 	t_pipeline *tmp;
 	t_redirect *rd;
 	
-	while(lst)
+	while(*lst)
 	{
-		free_chard(lst->cmd);
-		if (lst->has_red)
+		free_chard((*lst)->cmd);
+		if ((*lst)->has_red)
 		{
-			while(lst->redirections)
+			while((*lst)->redirections)
 			{
-				free(lst->redirections->file);
-				rd = lst->redirections->next;
-				free(lst->redirections);
-				lst->redirections = rd;
+				free((*lst)->redirections->file);
+				rd = (*lst)->redirections->next;
+				free((*lst)->redirections);
+				(*lst)->redirections = rd;
 			}
 		}
-		tmp = lst;
-		lst = lst->next;
+		tmp = *lst;
+		*lst = (*lst)->next;
 		free(tmp);
 	}
 }
@@ -82,7 +82,7 @@ void	msh_loop(char **line, t_list *envl)
 			exec(((t_cmd *)cmd->content)->pipes, &envl);
 			free(*line);
 			*line = NULL;
-			free_mainlst(((t_cmd *)cmd->content)->pipes);
+			free_mainlst(&(((t_cmd *)cmd->content)->pipes));
 			if (!isatty(0))
 				exit(0);
 		}

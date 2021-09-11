@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 13:37:19 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/10 15:34:00 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/11 15:24:44 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	check_pipes(char **pipe, char *cmd)
 	pipe_arr = pipes(cmd, &tmp);
 	if (pipe_arr != NULL)
 		return (check_pipes_helper(pipe, cmd, tmp, pipe_arr));
+	ft_lstclear(&tmp, del_node);
 	return (0);
 }
 
@@ -188,6 +189,7 @@ t_list		*main_lst(char *cmd, t_list **envl)
 	if (!cmd_list && ret >= 1)
 		return (NULL);
 	lst_append(&main_list, cmd_list);
+	ft_lstclear(&tmp, del_node);
 	// free(exp);
 	return (main_list);
 }

@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:54:07 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/07 12:01:02 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/11 15:20:09 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ char	*magic_touch(char *str)
 		else
 			ret_str = join_one(ret_str, str[i]);
 	}
+	ft_lstclear(&tmp, del_node);
 	return (ret_str);
 }
 
@@ -94,7 +95,10 @@ char	*expand(char *tab, t_list **envl)
 	tmp[1] = 0;
 	tmp[2] = dollar_finder(tab, &quotes);
 	if (tmp[2] == -1)
+	{
+		ft_lstclear(&quotes, del_node);
 		return (tab);
+	}
 	else
 	{
 		tmp[2]++;

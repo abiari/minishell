@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 17:56:13 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/11 14:37:56 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/11 16:29:30 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ int	*spaces(char *str, t_list **lst)
 char	**space_spliter(int *space, char *cmd)
 {
 	char	**tab;
-	char	*tmp;
 	int		i;
 	int		j;
 
@@ -124,9 +123,7 @@ char	**space_spliter(int *space, char *cmd)
 		j = -1;
 		while (++j < i)
 		{
-			tmp = between_valid_spaces(cmd, j, space);
-			tab[j] = ft_strdup(tmp);
-			free(tmp);
+			tab[j] = between_valid_spaces(cmd, j, space);
 		}
 		tab[j] = NULL;
 		free(space);
@@ -184,6 +181,7 @@ char	**space_it(char *str)
 	char	**tab;
 	char	*cmd;
 	int		i;
+	char	*tmp2;
 	
 	tmp = NULL;
 	ret = quotes_finder(str, &tmp);
@@ -193,10 +191,16 @@ char	**space_it(char *str)
 	space = NULL;
 	ret = quotes_finder(cmd, &tmp);
 	space = spaces(cmd, &tmp);
+	// ft_lstclear(&tmp, del_node);
 	tab = space_spliter(space, cmd);
 	i = -1;
 	while (tab[++i])
+	{
+		tmp2 = tab[i];
 		tab[i] = magic_touch(tab[i]);
+		if (ft_strchr(tmp2, '\"') || ft_strchr(tmp2, '\''))
+			free(tmp2);
+	}
 	free(cmd);
 	return (tab);
 }
