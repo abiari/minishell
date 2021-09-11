@@ -5,48 +5,48 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/11 21:05:33 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/10 23:28:37 by abiari           ###   ########.fr       */
+/*   Created: 2021/09/10 16:09:04 by abiari            #+#    #+#             */
+/*   Updated: 2021/09/10 16:09:23 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	findset(char c, char const *set)
+static int	ft_set(char c, const char *str)
 {
 	int	i;
 
 	i = 0;
-	while (set[i] != '\0')
-		if (set[i++] == c)
+	while (str[i] != '\0')
+	{
+		if (str[i] == c)
 			return (1);
+		i++;
+	}
 	return (0);
 }
 
-char	*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char const *s1, const char *set)
 {
-	// int		setlen;
-	int		slen;
-	int		srt;
-	int		end;
-	char	*p;
+	size_t	begin;
+	size_t	end;
+	size_t	len;
+	char	*s2;
 
-	srt = 0;
-	end = 0;
-	if (!s1 || !set)
+	begin = 0;
+	if (set == NULL)
+		return ((char *)s1);
+	if (s1 == NULL)
 		return (NULL);
-	// setlen = ft_strlen(set);
-	slen = ft_strlen(s1);
-	while (findset(s1[srt], set))
-		srt++;
-	while (findset(s1[slen - 1 - end], set))
-		end++;
-	if ((srt + end) >= slen)
-	{
-		if (!(p = (char *)malloc(1)))
-			return (NULL);
-		*p = '\0';
-		return (p);
-	}
-	return (ft_substr(s1, srt, slen - end - srt));
+	while (s1[begin] != '\0' && ft_set(s1[begin], set))
+		begin++;
+	end = ft_strlen((char *)s1);
+	while (begin < end && ft_set(s1[end - 1], set))
+		end--;
+	len = end - begin;
+	s2 = ft_substr(s1, begin, len);
+	if (!s2)
+		return (NULL);
+	free((void *)s1);
+	return (s2);
 }

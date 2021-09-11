@@ -3,74 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 11:36:40 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/07 12:10:34 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/10 16:05:47 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_zeroo(void)
+static int	len_nmbr(int n)
 {
-	char	*ret;
+	int	len;
 
-	ret = (char *)malloc(2);
-	ret[0] = '0';
-	ret[1] = '\0';
-	return (ret);
-}
-
-int	ft_len2(unsigned int n)
-{
-	int	i;
-
-	i = 0;
-	while (n > 0)
-	{
-		i++;
-		n /= 10;
-	}
-	return (i);
-}
-
-int	ft_nega(unsigned int *tmp, int n)
-{
+	len = 0;
+	if (n == 0)
+		return (1);
 	if (n < 0)
 	{
-		*tmp = -n;
-		return (1);
+		n = n * -1;
+		len++;
 	}
-	*tmp = (unsigned int)n;
-	return (0);
+	while (n > 0)
+	{
+		n = n / 10;
+		len++;
+	}
+	return (len);
 }
 
 char	*ft_itoa(int n)
 {
-	int				len;
-	int				signe;
-	unsigned int	tmp;
-	char			*ret;
+	int		nb;
+	char	*str;
+	int		len;
 
-	len = 0;
-	signe = 0;
-	tmp = n;
-	if (n == 0)
-		return (ret = ft_zeroo());
-	else
-		signe = ft_nega(&tmp, n);
-	len = ft_len2(tmp);
-	if (!(ret = (char *)malloc(len + signe + 1)))
-		return (NULL);
-	*(ret + len-- + signe) = '\0';
-	while (tmp > 0)
+	nb = n;
+	len = len_nmbr(nb);
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	str[len--] = '\0';
+	if (nb == 0)
 	{
-		*(ret + len + signe) = tmp % 10 + '0';
-		len--;
-		tmp /= 10;
+		str[0] = '0';
+		return (str);
 	}
-	if (signe)
-		*ret = '-';
-	return (ret);
+	if (nb < 0)
+	{
+		str[0] = '-';
+		nb = nb * -1;
+	}
+	while (nb > 0)
+	{
+		str[len] = '0' + (nb % 10);
+		nb = nb / 10;
+		len--;
+	}
+	return (str);
 }

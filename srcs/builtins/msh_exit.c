@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 13:22:08 by abiari            #+#    #+#             */
-/*   Updated: 2021/08/29 11:44:29 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/10 18:15:22 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,32 @@ int	ft_isnum(char *num)
 	return (1);
 }
 
+void	exit_code(char *exit_code)
+{
+	char		*str_code;
+	long long	code;
+
+	code = 0;
+	code = ft_ll_atoi(exit_code);
+	str_code = ft_ll_itoa(code);
+	if (ft_isnum(exit_code) == 0 || ft_strcmp(exit_code, str_code))
+	{
+		printf("exit\n");
+		ft_putstr_fd("msh: exit: ", 2);
+		ft_putstr_fd(exit_code, 2);
+		ft_putstr_fd(": numeric argument required", 2);
+		exit(255);
+	}
+	printf("exit\n");
+	exit(code);
+}
+
 int	msh_exit(char **argv, t_list **envl)
 {
 	int			i;
-	long long	code;
-	char		*str_code;
 
 	(void)envl;
 	i = 0;
-	code = 0;
 	while (argv[i] != NULL)
 		i++;
 	if (i >= 2)
@@ -70,23 +87,6 @@ int	msh_exit(char **argv, t_list **envl)
 	else if (i == 0)
 		exit(0);
 	else
-	{
-		code = ft_ll_atoi(argv[0]);
-		str_code = ft_ll_itoa(code);
-		if (ft_isnum(argv[0]) == 0 || ft_strcmp(argv[0], str_code))
-		{
-			printf("exit \n");
-			ft_putstr_fd("msh: exit: ", 2);
-			ft_putstr_fd(argv[0], 2);
-			ft_putstr_fd(": numeric argument required", 2);
-			exit(255);
-		}
-		printf("exit\n");
-		if (code > 255)
-			exit(code % 256);
-		else if (code < 0)
-			exit(code % 256 + 256);
-		else
-			exit(code);
-	}
+		exit_code(argv[0]);
+	return (0);
 }

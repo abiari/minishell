@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+         #
+#    By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/12 15:27:47 by abiari            #+#    #+#              #
-#    Updated: 2021/07/11 11:57:17 by ael-bagh         ###   ########.fr        #
+#    Updated: 2021/09/10 15:58:07 by abiari           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,6 @@ ft_strncmp.c ft_strnstr.c ft_strrchr.c ft_strtrim.c\
 ft_tolower.c ft_toupper.c ft_bzero.c ft_atoi.c\
 ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isdigit.c\
 ft_isprint.c ft_itoa.c ft_isascii.c ft_substr.c ft_strcmp.c\
-get_next_line.c\
 
 OBJ = $(SRC:.c=.o)
 

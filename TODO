@@ -25,6 +25,7 @@ when expanding only empty variable/s send NULL -> fixed
 for later //return values ($?) ?????? -> fixed
 ========================================================================================================================================
 
+echo "" double free
 for later // red t3mar d linked list iterative a wld l97ba ra long pipelines kithungaw
 //exec relative path to be checked, ./file exmple
 fix _ env var in parser, to be filled with last arg of last command or last simple command   and expanded in parser

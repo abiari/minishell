@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/11 18:32:40 by abiari            #+#    #+#             */
-/*   Updated: 2021/05/06 12:39:33 by abiari           ###   ########.fr       */
+/*   Created: 2021/09/10 16:09:09 by abiari            #+#    #+#             */
+/*   Updated: 2021/09/10 16:09:13 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,19 @@
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*p;
+	char	*newstr;
 	size_t	i;
 
 	i = 0;
-	if (!s)
+	newstr = (char *)malloc(sizeof(char) * (len + 1));
+	if (newstr == NULL)
 		return (NULL);
-	if (start > ft_strlen(s))
+	while (s[i] && len > i)
 	{
-		if (!(p = (char *)malloc(1)))
-			return (NULL);
-		p[0] = '\0';
-		return (p);
-	}
-	p = (char *)malloc(len + 1);
-	if (!p)
-		return (NULL);
-	while (s[start + i] != '\0' && i < len)
-	{
-		p[i] = s[start + i];
+		newstr[i] = s[start];
 		i++;
+		start++;
 	}
-	p[i] = '\0';
-	return (p);
+	newstr[i] = '\0';
+	return (newstr);
 }

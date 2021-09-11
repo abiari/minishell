@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   msh_export.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 12:32:04 by abiari            #+#    #+#             */
-/*   Updated: 2021/07/02 12:50:06 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/10 16:40:24 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	fill_env(int print, char *new_value, char **tmp_str, t_envl **tmp_var)
+{
+	if (print)
+	{
+		(*tmp_var)->value = ft_strdup(new_value);
+		*tmp_str = ft_strjoin((*tmp_var)->key, "=");
+		(*tmp_var)->var = ft_strjoin(*tmp_str, (*tmp_var)->value);
+	}
+	else
+	{
+		(*tmp_var)->value = NULL;
+		(*tmp_var)->var = ft_strdup((*tmp_var)->key);
+	}
+}
 
 void	export_mod(char *var, char *new_value, int printable, t_list **envl)
 {
@@ -29,17 +44,7 @@ void	export_mod(char *var, char *new_value, int printable, t_list **envl)
 			if (tmp_var->value)
 				free(tmp_var->value);
 			free(tmp_var->var);
-			if (printable)
-			{
-				tmp_var->value = ft_strdup(new_value);
-				tmp_str = ft_strjoin(tmp_var->key, "=");
-				tmp_var->var = ft_strjoin(tmp_str, tmp_var->value);
-			}
-			else
-			{
-				tmp_var->value = NULL;
-				tmp_var->var = ft_strdup(tmp_var->key);
-			}
+			fill_env(printable, new_value, &tmp_str, &tmp_var);
 			tmp_var->env_printable = printable;
 			free(tmp_str);
 			break ;
