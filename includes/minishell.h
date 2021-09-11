@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/10 15:02:26 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/11 13:51:17 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,11 @@ int		is_dir(char *exec);
 char	*check_exec(char *cmd, t_list *envl);
 int		is_builtin(char *cmd);
 int		check_if_builtin(t_pipeline *cmd, t_list **envl);
+void	export_err(char *str);
+void	print_env(t_list **envl);
+void	is_printable(int *prnt, char *haystack);
+int		check_key(char *arg);
+
 
 void	msh_prompt(void);
 
