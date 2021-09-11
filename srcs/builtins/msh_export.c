@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 12:32:04 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/10 16:40:24 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/11 13:50:50 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,13 @@ void	fill_env(int print, char *new_value, char **tmp_str, t_envl **tmp_var)
 	}
 }
 
-void	export_mod(char *var, char *new_value, int printable, t_list **envl)
+void	export_mod(char *var, char *new_value, int printable, t_list ***envl)
 {
 	t_list	*tmp;
 	t_envl	*tmp_var;
 	char	*tmp_str;
 
-	tmp = *envl;
-	tmp_var = (t_envl *)(*envl);
+	tmp = **envl;
 	tmp_str = NULL;
 	while (tmp)
 	{
@@ -53,7 +52,7 @@ void	export_mod(char *var, char *new_value, int printable, t_list **envl)
 	}
 }
 
-void	export_add(char *var, char *value, int printable, t_list **envl)
+void	export_add(char *var, char *value, int printable, t_list ***envl)
 {
 	t_envl	*env;
 	char	*tmp_str;
@@ -79,67 +78,45 @@ void	export_add(char *var, char *value, int printable, t_list **envl)
 	}
 	env->env_printable = printable;
 	free(tmp_str);
-	lst_append(envl, env);
+	lst_append(*envl, env);
 }
 
-int	check_key(char *arg)
-{
-	int	i;
-
-	i = 1;
-	if (arg[0] != '_' && !ft_isalpha(arg[0]))
-		return (0);
-	while (arg[i])
-	{
-		if (!ft_isalpha(arg[i]) && !ft_isdigit(arg[i]) && arg[0] != '_')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-int	msh_export(char **args, t_list **envl)
+int	_export(char **args, t_list ***envl)
 {
 	int		i;
-	t_list	*tmp;
 	int		printable;
 	char	*key;
 	char	*value;
 
 	i = 0;
+	while (args[i] != NULL)
+	{
+		is_printable(&printable, args[i]);
+		key = find_env_key(args[i]);
+		if (!check_key(key))
+		{
+			export_err(args[i]);
+			return (1);
+		}
+		value = find_env_value(args[i]);
+		if (find_env_var(key, *envl))
+			export_mod(key, value, printable, envl);
+		else
+			export_add(key, value, printable, envl);
+		free(key);
+		i++;
+	}
+	return (0);
+}
+
+int	msh_export(char **args, t_list **envl)
+{
 	if (args[0] != NULL)
 	{
-		while (args[i] != NULL)
-		{
-			if (ft_strchr(args[i], '=') != NULL)
-				printable = 1;
-			else
-				printable = 0;
-			key = find_env_key(args[i]);
-			if (!check_key(key))
-			{
-				ft_putstr_fd("msh: export: `", 2);
-				ft_putstr_fd(args[i], 2);
-				ft_putendl_fd("': not a valid identifier", 2);
-				return (1);
-			}
-			value = find_env_value(args[i]);
-			if (find_env_var(key, envl))
-				export_mod(key, value, printable, envl);
-			else
-				export_add(key, value, printable, envl);
-			free(key);
-			i++;
-		}
+		if (_export(args, &envl))
+			return (1);
 	}
 	else
-	{
-		tmp = *envl;
-		while (tmp)
-		{
-			printf("declare -x %s\n", ((t_envl *)(tmp->content))->var);
-			tmp = tmp->next;
-		}
-	}
+		print_env(envl);
 	return (0);
 }

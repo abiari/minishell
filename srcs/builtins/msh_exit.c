@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 13:22:08 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/10 18:15:22 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/11 10:51:43 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,13 @@ void	exit_code(char *exit_code)
 	str_code = ft_ll_itoa(code);
 	if (ft_isnum(exit_code) == 0 || ft_strcmp(exit_code, str_code))
 	{
-		printf("exit\n");
+		ft_putstr_fd("exit\n", 2);
 		ft_putstr_fd("msh: exit: ", 2);
 		ft_putstr_fd(exit_code, 2);
 		ft_putstr_fd(": numeric argument required", 2);
 		exit(255);
 	}
-	printf("exit\n");
+	ft_putstr_fd("exit\n", 2);
 	exit(code);
 }
 
