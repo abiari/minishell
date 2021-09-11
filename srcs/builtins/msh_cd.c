@@ -6,13 +6,13 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/05 16:08:37 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/11 14:19:24 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/11 14:53:47 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	cd_err(char *path, char **old_path, t_list ***envl)
+int	cd_err(char *path, char **old_path, t_list ***envl)
 {
 	t_envl	*env_var;
 
@@ -25,9 +25,9 @@ void	cd_err(char *path, char **old_path, t_list ***envl)
 		mod_env_var("PWD", ft_strjoin(env_var->value, "/."), *envl);
 		env_var = find_env_var("OLDPWD", *envl);
 		if (!env_var)
-			add_env_var("OLDPWD", old_path, *envl);
+			add_env_var("OLDPWD", *old_path, *envl);
 		else
-			mod_env_var("OLDPWD", old_path, *envl);
+			mod_env_var("OLDPWD", *old_path, *envl);
 	}
 	else
 	{
@@ -38,6 +38,7 @@ void	cd_err(char *path, char **old_path, t_list ***envl)
 		free(*old_path);
 		return (1);
 	}
+	return (0);
 }
 
 int	msh_cd(char **args, t_list **envl)
@@ -109,6 +110,9 @@ int	msh_cd(char **args, t_list **envl)
 			mod_env_var("OLDPWD", old_path, envl);
 	}
 	else
-		cd_err(path, &old_path, &envl);
+	{
+		if (cd_err(path, &old_path, &envl))
+			return (1);
+	}
 	return (ret);
 }
