@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 13:43:03 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/10 14:57:24 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/11 13:49:40 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	*pipes(char *str, t_list **lst)
 char	**pipe_spliter(int *pipe, char *cmd)
 {
 	char	**tab;
+	char	*tmp;
 	int		i;
 	int		j;
 
@@ -47,7 +48,11 @@ char	**pipe_spliter(int *pipe, char *cmd)
 		tab = (char **)malloc((i + 1) * sizeof(char *));
 		j = -1;
 		while (++j < i)
-			tab[j] = fill_command(cmd, j, pipe);
+		{
+			tmp = fill_command(cmd, j, pipe);
+			tab[j] = tmp;
+			free(tmp);
+		}
 		tab[j] = NULL;
 		free(pipe);
 	}

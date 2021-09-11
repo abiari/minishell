@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 17:56:13 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/10 15:31:31 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/11 14:37:56 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ int	*spaces(char *str, t_list **lst)
 char	**space_spliter(int *space, char *cmd)
 {
 	char	**tab;
+	char	*tmp;
 	int		i;
 	int		j;
 
@@ -122,7 +123,11 @@ char	**space_spliter(int *space, char *cmd)
 		tab = (char **)malloc((i + 1) * sizeof(char *));
 		j = -1;
 		while (++j < i)
-			tab[j] = between_valid_spaces(cmd, j, space);
+		{
+			tmp = between_valid_spaces(cmd, j, space);
+			tab[j] = ft_strdup(tmp);
+			free(tmp);
+		}
 		tab[j] = NULL;
 		free(space);
 	}
@@ -167,7 +172,7 @@ char	*rm_dup_spaces(char	*str, t_list **quotes)
 			free(tmp_str);
 		}
 	}
-	ft_lstclear(&tmp, del_node);
+	//ft_lstclear(&tmp, del_node);
 	return (cmd);
 }
 
@@ -192,7 +197,6 @@ char	**space_it(char *str)
 	i = -1;
 	while (tab[++i])
 		tab[i] = magic_touch(tab[i]);
-	ft_lstclear(&tmp, del_node);
 	free(cmd);
 	return (tab);
 }

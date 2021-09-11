@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reddit.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 10:37:52 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/08 11:04:01 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/11 13:20:03 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ char	**red_spliter(int *red_arr, char *cmd, t_list *quotes)
 		tab = (char **)malloc((i + 1) * sizeof(char *));
 		j = -1;
 		while (++j < i)
-			tab[j] = ft_strdup(fill_red(cmd, j, red_arr));
+			tab[j] = fill_red(cmd, j, red_arr);
 		tab[j] = NULL;
 		free(red_arr);
 	}
@@ -236,6 +236,7 @@ char	*my_strjoin(char *s1, char const *s2)
 		return (ret);
 	ft_strlcpy(ret, s1, size + 1);
 	ft_strlcpy(ret + ft_strlen(s1), s2, size + 1);
+	free(s1);
 	return (ret);
 }
 
@@ -258,6 +259,7 @@ char		**check_red(char **red, t_list *quotes, char *cmd)
 {
 	char	**tab;
 	char	**spaces;
+	char	*tmp;
 	int		i;
 	int j;
 
@@ -283,8 +285,10 @@ char		**check_red(char **red, t_list *quotes, char *cmd)
 			tab[i] = ft_strdup(spaces[0]);
 			if (two_d_counter(spaces) > 0)
 			{
-				tab[0] = my_strjoin(tab[0], to_join(spaces));
+				tmp = to_join(spaces);
+				tab[0] = my_strjoin(tab[0], tmp);
 				tab[0] = my_strjoin(tab[0]," ");
+				free(tmp);
 			}
 		}
 	}
@@ -308,6 +312,8 @@ char	**reddit(char *cmd)
 	red_arr = reds(cmd, &tmp);
 	red = red_spliter(red_arr, cmd, tmp);
 	ugh = check_red(red, tmp, cmd);
+	if (red)
+		free_chard(red);
 	ft_lstclear(&tmp, del_node);
 	ft_lstclear(&tp, del_node_r);
 	return (ugh);
