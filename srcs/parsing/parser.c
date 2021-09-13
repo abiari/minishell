@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 13:37:19 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/11 15:24:44 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/12 16:04:29 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,8 @@ t_pipeline	*pipe_lst(char **pipelist, t_cmd *cmd_list, t_list **envl)
 			pipe_list->cmd	= space_it(pipelist[v]);
 			pipe_list->redirections = NULL;
 		}
+		if (red)
+			free_chard(red);
 		pipe_list->next = NULL;
 		lst_append_pipe(&(cmd_list->pipes), pipe_list);
 	}
@@ -147,12 +149,16 @@ int		check_reds(char **pipe)
 		red = reddit(pipe[i]);
 		j = -1;
 		if (red)
+		{
 			while (red[++j])
 				if (only_char(' ', red[j]))
 				{
+					free_chard(red);
 					ft_putstr_fd("bash: syntax error near unexpected token `>'\n", 2);
 					return (0);
 				}
+			free_chard(red);
+		}
 	}
 	return (1);
 }
