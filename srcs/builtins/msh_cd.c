@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/05 16:08:37 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/12 16:00:13 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/14 10:48:47 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,45 @@ int	cd_home(char **old_path, int *ret, t_list **envl)
 	return (0);
 }
 
+void	mod_wd(char **path, char *old_path, t_list ***envl)
+{
+	*path = getcwd(NULL, 0);
+	mod_env_var("PWD", *path, *envl);
+	if (!getenv("OLDPWD"))
+		add_env_var("OLDPWD", old_path, *envl);
+	else
+		mod_env_var("OLDPWD", old_path, *envl);
+}
+
+int	set_old_path(char **old_path, t_list **envl)
+{
+	*old_path = getcwd(NULL, 0);
+	if (*old_path == NULL)
+	{
+		if (errno == ENOENT)
+			*old_path = ft_strdup(find_env_var("PWD", envl)->value);
+		else
+		{
+			ft_putendl_fd(strerror(errno), STDERR_FILENO);
+			return (1);
+		}
+	}
+	return (0);
+}
+
+void	chdir_to_path(int *ret, char *path, t_list **envl)
+{
+	if (!ft_strcmp(path, "."))
+		*ret = chdir(find_env_var("PWD", envl)->value);
+	else
+		*ret = chdir(path);
+}
+
 int	msh_cd(char **args, t_list **envl)
 {
 	int		ret;
 	char	*old_path;
 	char	*path;
-	t_envl	*env_var;
 
 	path = args[0];
 	if (path != NULL)
@@ -81,44 +114,17 @@ int	msh_cd(char **args, t_list **envl)
 			return (0);
 	old_path = NULL;
 	ret = 0;
-	old_path = getcwd(NULL, 0);
-	if (old_path == NULL)
-	{
-		if (errno == ENOENT)
-		{
-			env_var = find_env_var("PWD", envl);
-			old_path = ft_strdup(env_var->value);
-		}
-		else
-		{
-			ft_putendl_fd(strerror(errno), STDERR_FILENO);
-			return (1);
-		}
-	}
+	if (set_old_path(&old_path, envl))
+		return (1);
 	if (path == NULL || (ft_strcmp(path, "~") == 0))
 	{
 		if (cd_home(&old_path, &ret, envl))
 			return (1);
 	}
 	else
-	{
-		if (!ft_strcmp(path, "."))
-		{
-			env_var = find_env_var("PWD", envl);
-			ret = chdir(env_var->value);
-		}
-		else
-			ret = chdir(path);
-	}
+		chdir_to_path(&ret, path, envl);
 	if (ret != -1)
-	{
-		path = getcwd(NULL, 0);
-		mod_env_var("PWD", path, envl);
-		if (!getenv("OLDPWD"))
-			add_env_var("OLDPWD", old_path, envl);
-		else
-			mod_env_var("OLDPWD", old_path, envl);
-	}
+		mod_wd(&path, old_path, &envl);
 	else
 		if (cd_err(path, &old_path, &envl))
 			return (1);
