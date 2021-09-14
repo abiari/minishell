@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 10:37:52 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/11 13:20:03 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/13 12:10:48 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,18 +278,15 @@ char		**check_red(char **red, t_list *quotes, char *cmd)
 	i = 0;
 	while (red[++i])
 	{
-		if(i != 0)
+		spaces = space_it(red[i]);
+		j = -1;
+		tab[i] = ft_strdup(spaces[0]);
+		if (two_d_counter(spaces) > 0)
 		{
-			spaces = space_it(red[i]);
-			j = -1;
-			tab[i] = ft_strdup(spaces[0]);
-			if (two_d_counter(spaces) > 0)
-			{
-				tmp = to_join(spaces);
-				tab[0] = my_strjoin(tab[0], tmp);
-				tab[0] = my_strjoin(tab[0]," ");
-				free(tmp);
-			}
+			tmp = to_join(spaces);
+			tab[0] = my_strjoin(tab[0], tmp);
+			tab[0] = my_strjoin(tab[0]," ");
+			free(tmp);
 		}
 	}
 	tab[i] = NULL;
