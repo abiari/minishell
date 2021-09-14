@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 11:47:42 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/21 13:54:52 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/14 12:04:08 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ void	del_node(void *content)
 	((t_quotes *)content)->type = 0;
 	((t_quotes *)content)->closes = 0;
 	((t_quotes *)content)->opens = 0;
+	free(content);
+}
+
+void	delist(void *content)
+{
 	free(content);
 }
 

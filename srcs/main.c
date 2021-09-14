@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:06:25 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/11 15:42:31 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/14 13:47:38 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	free_mainlst(t_pipeline **lst)
 {
 	t_pipeline *tmp;
 	t_redirect *rd;
-	
+
 	while(*lst)
 	{
 		free_chard((*lst)->cmd);
@@ -83,6 +83,7 @@ void	msh_loop(char **line, t_list *envl)
 			free(*line);
 			*line = NULL;
 			free_mainlst(&(((t_cmd *)cmd->content)->pipes));
+			ft_lstclear(&cmd, delist);
 			if (!isatty(0))
 				exit(0);
 		}

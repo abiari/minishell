@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/11 13:51:17 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/14 12:04:20 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ int		red_finder(char *str, t_list **redi, t_list **tp);
 int		red_type(t_list **red, int id);
 void	del_node(void *content);
 void	del_node_r(void *content);
+void	delist(void *content);
 int		check_cmds_helper(char **cmds, char *cmd, t_list *tmp, int *comma);
 char	**pipe_it(char *cmd);
 int		char_counter(char *str, t_list *tmp, char c);
