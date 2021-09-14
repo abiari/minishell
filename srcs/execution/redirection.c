@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 14:10:26 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/10 11:06:48 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/14 11:47:08 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	create_file(t_pipeline *cmd)
 		if (files->type == APP_R)
 			fd = open(files->file, O_CREAT | O_APPEND | O_WRONLY, S_IRUSR
 					| S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
-		else if (files->type == IN_R)
+		else if (files->type == OUT_R)
 			fd = open(files->file, O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR
 					| S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 		else
