@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:54:07 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/11 15:20:09 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/13 16:50:40 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,9 @@ char	*expand(char *tab, t_list **envl)
 {
 	int		tmp[3];
 	char	*ret;
+	char	*pmt[2];
 	char	*key;
+	char	*ito;
 	t_envl	*var;
 	t_list	*quotes;
 
@@ -111,22 +113,37 @@ char	*expand(char *tab, t_list **envl)
 				tmp[2]++;
 			key = ft_substr(tab, tmp[0], tmp[2] - (tmp[0]));
 			var = find_env_var(key, envl);
-			ret = ft_strndup(tab, tmp[0] - 1);
+			free(key);
+			pmt[0] = ft_strndup(tab, tmp[0] - 1);
 			if (var && var->value)
-				ret = ft_strjoin(ret, var->value);
-			ret = ft_strjoin(ret, &tab[tmp[2]]);
+			{
+				pmt[1] = ft_strjoin(pmt[0], var->value);
+				ret = ft_strjoin(pmt[1], &tab[tmp[2]]);
+				free(pmt[1]);
+			}
+			else
+				ret = ft_strjoin(pmt[0], &tab[tmp[2]]);
+			free(pmt[0]);
 		}
 		else
 		{
 			tmp[2]++;
-			ret = ft_strndup(tab, tmp[0] - 1);
-			ret = ft_strjoin(ret, ft_itoa(g_vars.exit_code));
-			ret = ft_strjoin(ret, &tab[tmp[2]]);
+			pmt[0] = ft_strndup(tab, tmp[0] - 1); 
+			ito = ft_itoa(g_vars.exit_code);
+			pmt[1] = ft_strjoin(pmt[0], ito);
+			free(ito);
+			ret = ft_strjoin(pmt[1], &tab[tmp[2]]);
+			free(pmt[0]);
+			free(pmt[1]);
 		}
 		ft_lstclear(&quotes, del_node);
 		tmp[1] = quotes_finder(ret, &quotes);
 		if (dollar_finder(ret, &quotes) >= 0)
-			ret = expand(ret, envl);
+		{
+			key = ret;
+			ret = expand(key, envl);
+			free(key);
+		}
 	}
 	return (ret);
 }

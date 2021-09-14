@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 13:37:19 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/12 16:04:29 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/13 16:43:34 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ t_redirect	*red_lst(char **red, char *cmd, t_pipeline *pipe_lst, t_list **envl)
 		red_list->next = NULL;
 		lst_append_red(&(pipe_lst->redirections), red_list);
 	}
+	ft_lstclear(&reds, del_node_r);
 	return (head);
 }
 
@@ -196,6 +197,8 @@ t_list		*main_lst(char *cmd, t_list **envl)
 		return (NULL);
 	lst_append(&main_list, cmd_list);
 	ft_lstclear(&tmp, del_node);
-	// free(exp);
+	ft_lstclear(&tp, del_node_r);
+	if (exp)
+		free(exp);
 	return (main_list);
 }

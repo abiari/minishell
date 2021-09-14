@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 10:37:52 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/13 12:10:48 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/13 13:27:12 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,6 +288,7 @@ char		**check_red(char **red, t_list *quotes, char *cmd)
 			tab[0] = my_strjoin(tab[0]," ");
 			free(tmp);
 		}
+		free_chard(spaces);
 	}
 	tab[i] = NULL;
 	return (tab);
