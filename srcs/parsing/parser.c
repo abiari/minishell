@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 13:37:19 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/13 16:43:34 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/14 12:00:27 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ int		check_reds(char **pipe)
 	while (pipe[++i])
 	{
 		red = reddit(pipe[i]);
-		j = -1;
+		j = 0;
 		if (red)
 		{
 			while (red[++j])
@@ -198,7 +198,7 @@ t_list		*main_lst(char *cmd, t_list **envl)
 	lst_append(&main_list, cmd_list);
 	ft_lstclear(&tmp, del_node);
 	ft_lstclear(&tp, del_node_r);
-	if (exp)
-		free(exp);
+	// if (exp)
+	// 	free(exp);
 	return (main_list);
 }
