@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_it.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 13:43:03 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/11 13:49:40 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/12 13:41:15 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ char	**pipe_spliter(int *pipe, char *cmd)
 		{
 			tmp = fill_command(cmd, j, pipe);
 			tab[j] = tmp;
-			free(tmp);
 		}
 		tab[j] = NULL;
 		free(pipe);

@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/05 16:08:37 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/11 14:53:47 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/12 16:00:13 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,38 @@ int	cd_err(char *path, char **old_path, t_list ***envl)
 	return (0);
 }
 
+int	cd_home(char **old_path, int *ret, t_list **envl)
+{
+	t_envl	*env_var;
+	char	*home;
+
+	home = NULL;
+	env_var = find_env_var("HOME", envl);
+	if (!env_var)
+	{
+		ft_putendl_fd("msh : cd: HOME not set", 2);
+		free(*old_path);
+		g_vars.exit_code = 1;
+		return (1);
+	}
+	else
+		home = env_var->value;
+	if (home != NULL)
+		*ret = chdir(home);
+	else
+	{
+		ft_putendl_fd("msh: cd: HOME not set", 2);
+		g_vars.exit_code = 1;
+		return (g_vars.exit_code);
+	}
+	return (0);
+}
+
 int	msh_cd(char **args, t_list **envl)
 {
 	int		ret;
 	char	*old_path;
 	char	*path;
-	char	*home;
 	t_envl	*env_var;
 
 	path = args[0];
@@ -56,7 +82,6 @@ int	msh_cd(char **args, t_list **envl)
 	old_path = NULL;
 	ret = 0;
 	old_path = getcwd(NULL, 0);
-	home = NULL;
 	if (old_path == NULL)
 	{
 		if (errno == ENOENT)
@@ -72,23 +97,8 @@ int	msh_cd(char **args, t_list **envl)
 	}
 	if (path == NULL || (ft_strcmp(path, "~") == 0))
 	{
-		env_var = find_env_var("HOME", envl);
-		if (!env_var)
-		{
-			ft_putendl_fd("msh : cd: HOME not set", 2);
-			free(old_path);
+		if (cd_home(&old_path, &ret, envl))
 			return (1);
-		}
-		else
-			home = env_var->value;
-		if (home != NULL)
-			ret = chdir(home);
-		else
-		{
-			ft_putendl_fd("msh: cd: HOME not set", 2);
-			g_vars.exit_code = 1;
-			return (g_vars.exit_code);
-		}
 	}
 	else
 	{
@@ -110,9 +120,7 @@ int	msh_cd(char **args, t_list **envl)
 			mod_env_var("OLDPWD", old_path, envl);
 	}
 	else
-	{
 		if (cd_err(path, &old_path, &envl))
 			return (1);
-	}
 	return (ret);
 }
