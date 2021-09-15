@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:18:09 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/21 14:34:45 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/15 10:17:15 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,17 +58,25 @@ int	check_pipes_helper(char **c, char *cmd, t_list *t, int *p)
 {
 	int	last;
 	int	i;
+	int cmd_count;
 
 	i = -1;
 	last = last_char(p);
+	cmd_count = cmd_counter(p, cmd, 1);
 	while (c[++i])
 	{
-		if (i == cmd_counter(p, cmd, 1) - 1)
+		if (i == cmd_count - 1)
 			if (only_char(' ', c[i])
 				&& (p[last - 1] == (int)ft_strlen(cmd) - 1))
-				return (free_them(t, c, cmd_counter(p, cmd, 1), 1));
-		if (i != cmd_counter(p, cmd, 1) - 1 && only_char(' ', c[i]))
-			return (free_them(t, c, cmd_counter(p, cmd, 1), 1));
+				{
+					free(p);
+					return (free_them(t, c, cmd_count, 1));
+				}
+		if (i != cmd_count - 1 && only_char(' ', c[i]))
+		{
+			free(p);
+			return (free_them(t, c, cmd_count, 1));
+		}
 	}
 	if (p)
 		free(p);
