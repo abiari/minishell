@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 13:43:03 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/14 10:24:20 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/15 17:14:41 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,16 @@ char	**pipe_spliter(int *pipe, char *cmd)
 	{
 		i = cmd_counter(pipe, cmd, 1);
 		if (i == -1)
+		{
+			free(pipe);
 			return (NULL);
+		}
 		tab = (char **)malloc((i + 1) * sizeof(char *));
 		j = -1;
 		while (++j < i)
 		{
 			tmp = fill_command(cmd, j, pipe);
 			tab[j] = tmp;
-			//free(tmp);
 		}
 		tab[j] = NULL;
 		free(pipe);

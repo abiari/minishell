@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_it.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:54:07 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/15 09:46:04 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/15 17:17:03 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ char	*expand(char *tab, t_list **envl)
 		if (tab[tmp[2]] != '?')
 		{
 			while ((tab[tmp[2]] != ' ' && tab[tmp[2]] != '\"'
-					&& tab[tmp[2]] != '\'' && tab[tmp[2]] != '$' && tab[tmp[2]] != '=')
+					&& tab[tmp[2]] != '\'' && tab[tmp[2]] != '$' && tab[tmp[2]] != '=') //use this with is_alpha instead
 				&& tab[tmp[2]])
 				tmp[2]++;
 			key = ft_substr(tab, tmp[0], tmp[2] - (tmp[0]));

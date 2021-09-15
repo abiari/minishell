@@ -23,10 +23,9 @@ cat > file2>file3 -> fix code after heredoc removal ->fixed
 when expanding only empty variable/s send NULL -> fixed
 << stop cat -e ---> segfault -> heredoc to be reimplemented -> fixed
 for later //return values ($?) ?????? -> fixed
-========================================================================================================================================
-
 echo "" double free
-for later // red t3mar d linked list iterative a wld l97ba ra long pipelines kithungaw
+========================================================================================================================================
+ls | no error
 //exec relative path to be checked, ./file exmple
 fix _ env var in parser, to be filled with last arg of last command or last simple command   and expanded in parser
 https://pubs.opengroup.org/onlinepubs/009604499/utilities/xcu_chap02.html#tag_02_09_01_01
