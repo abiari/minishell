@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 09:43:58 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/06 11:52:02 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/15 09:29:50 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	s_d_quote(t_quotes *quotes, t_list **lst, int i, char *str)
 	if (quotes->closes == -1)
 	{
 		ft_lstclear(lst, del_node);
+		free(quotes);
 		return (-1);
 	}
 	lst_append(lst, quotes);

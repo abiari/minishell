@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:54:07 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/13 16:50:40 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/15 09:46:04 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ char	*expand(char *tab, t_list **envl)
 	if (tmp[2] == -1)
 	{
 		ft_lstclear(&quotes, del_node);
-		return (tab);
+		return (ft_strdup(tab));
 	}
 	else
 	{
@@ -142,8 +142,10 @@ char	*expand(char *tab, t_list **envl)
 		{
 			key = ret;
 			ret = expand(key, envl);
+			ft_lstclear(&quotes, del_node);
 			free(key);
 		}
+		ft_lstclear(&quotes, del_node);
 	}
 	return (ret);
 }

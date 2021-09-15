@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 13:37:19 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/14 12:00:27 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/15 09:26:47 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,24 +181,46 @@ t_list		*main_lst(char *cmd, t_list **envl)
 	main_list = NULL;
 	pipe = NULL;
 	exp = expand(cmd, envl);
-	ret = quotes_finder(cmd, &tmp);
+	ret = quotes_finder(exp, &tmp);
+	if (ret == -1)
+	{
+		ft_putstr_fd("Quotes unclosed\n", 2);
+		ft_lstclear(&tmp, del_node);
+		//ft_lstclear(&tp, del_node);
+		free(exp);
+		return (NULL);
+	}
 	ret = red_finder(exp, &tp, &tmp);
 	if (ret == -1)
+	{
+		ft_lstclear(&tmp, del_node);
+		ft_lstclear(&tp, del_node_r);
+		free(exp);
 		return (NULL);
+	}
 	pipe = pipe_it(exp);
-	if (check_pipes(pipe, exp) == 1)
+	if (check_pipes(pipe, exp) == 1 || check_reds(pipe) == 0)
+	{
+		ft_lstclear(&tmp, del_node);
+		ft_lstclear(&tp, del_node_r);
+		if (pipe)
+			free_chard(pipe);
+		free(exp);
 		return (NULL);
-	if (check_reds(pipe) == 0)
-		return (NULL);
+	}
 	cmd_list = cmd_lst(pipe, envl);
 	if (pipe)
 		free_chard(pipe);
 	if (!cmd_list && ret >= 1)
+	{
+		ft_lstclear(&tmp, del_node);
+		ft_lstclear(&tp, del_node_r);
+		free(exp);
 		return (NULL);
+	}
 	lst_append(&main_list, cmd_list);
 	ft_lstclear(&tmp, del_node);
 	ft_lstclear(&tp, del_node_r);
-	// if (exp)
-	// 	free(exp);
+	free(exp);
 	return (main_list);
 }
