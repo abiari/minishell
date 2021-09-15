@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:28:27 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/10 15:46:51 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/15 13:49:02 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	**envl_to_envp(t_list **envl)
 
 	tmp = *envl;
 	size = ft_lstsize(*envl);
-	envp = (char **)malloc(size * sizeof(char *));
+	envp = (char **)malloc(size * sizeof(char *) + 1);
 	if (!envp)
 	{
 		ft_putstr_fd(strerror(errno), 2);
@@ -79,5 +79,6 @@ char	**envl_to_envp(t_list **envl)
 		size++;
 		tmp = tmp->next;
 	}
+	envp[size] = NULL;
 	return (envp);
 }

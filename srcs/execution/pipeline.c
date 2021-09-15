@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 17:35:24 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/10 11:15:24 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/15 15:19:15 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,32 @@ void	wait_exec(void)
 			g_vars.exit_code = WEXITSTATUS(status);
 }
 
+int	files_in_pipe(t_pipeline **cmd, int *in, int *fd)
+{
+	if (((*cmd)->cmd[0][0] == '\0') && ((*cmd)->has_red == 1))
+	{
+		pipe(fd);
+		*in = fd[0];
+		close(fd[1]);
+		create_file((*cmd));
+		(*cmd) = (*cmd)->next;
+		return (1);
+	}
+	return (0);
+}
+
+void	last_pipe_node(t_pipeline *cmd, int in, int *fd, t_list **envl)
+{
+	if (cmd->cmd[0][0] != '\0')
+	{
+		spawn_last(in, fd, cmd, envl);
+		if (in != 0)
+			close(in);
+	}
+	else
+		create_file(cmd);
+}
+
 void	fork_pipes(t_pipeline *cmd, t_list **envl)
 {
 	int		in;
@@ -105,6 +131,8 @@ void	fork_pipes(t_pipeline *cmd, t_list **envl)
 	in = 0;
 	while (cmd->next != NULL)
 	{
+		if (files_in_pipe(&cmd, &in, fd))
+			continue ;
 		if (check_if_builtin(cmd, envl))
 			return ;
 		pipe(fd);
@@ -118,8 +146,6 @@ void	fork_pipes(t_pipeline *cmd, t_list **envl)
 	}
 	if (check_if_builtin(cmd, envl))
 		return ;
-	spawn_last(in, fd, cmd, envl);
-	if (in != 0)
-		close(in);
+	last_pipe_node(cmd, in, fd, envl);
 	wait_exec();
 }

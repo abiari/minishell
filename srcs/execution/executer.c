@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/07 11:43:08 by abiari            #+#    #+#             */
-/*   Updated: 2021/07/02 12:51:00 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/15 09:57:49 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	exec_builtin(char **cmd, t_list **envl)
 
 void	exec(t_pipeline *cmd, t_list **envl)
 {
-	if ((cmd->cmd[0][0] == '\0') && (cmd->has_red == 1))
+	if ((cmd->cmd[0][0] == '\0') && (cmd->has_red == 1) && !cmd->next)
 		create_file(cmd);
 	else if ((cmd->next == NULL) && is_builtin(cmd->cmd[0]) == 1
 		&& cmd->has_red == 0)
