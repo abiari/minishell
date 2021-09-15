@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:06:25 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/14 13:47:38 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/15 10:25:45 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	msh_loop(char **line, t_list *envl)
 			if (!isatty(0))
 				exit(0);
 		}
+		free(*line);
 	}
 }
 
