@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 14:10:26 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/14 11:47:08 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/16 14:23:49 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,6 @@ void	out_redirect(t_redirect *red)
 
 void	redirect(t_pipeline *cmd)
 {
-	in_redirect(cmd->redirections);
 	out_redirect(cmd->redirections);
+	in_redirect(cmd->redirections);
 }

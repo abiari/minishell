@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 15:26:14 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/10 10:34:42 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/16 14:42:39 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,18 +73,20 @@ int	heredoc_count(t_redirect *reds)
 	return (count);
 }
 
-void	heredoc_launch(t_redirect **reds_tmp, char **filename, int *reds_count)
+void	heredoc_launch(t_redirect **reds_tmp, char **filename)
 {
 	char	*tmp;
 
-	if ((*reds_tmp)->type == DOC_R)
+	while (*reds_tmp)
 	{
-		tmp = (*reds_tmp)->file;
-		*filename = heredoc_helper((*reds_tmp)->file);
-		(*reds_tmp)->file = *filename;
-		free(tmp);
-		(*reds_tmp) = (*reds_tmp)->next;
-		(*reds_count)--;
+		if ((*reds_tmp)->type == DOC_R)
+		{
+			tmp = (*reds_tmp)->file;
+			*filename = heredoc_helper((*reds_tmp)->file);
+			(*reds_tmp)->file = *filename;
+			free(tmp);
+		}
+		*reds_tmp = (*reds_tmp)->next;
 	}
 }
 
@@ -95,8 +97,6 @@ void	heredoc_spawn(t_pipeline *cmd)
 	t_redirect	*reds_tmp;
 	int			reds_count;
 
-	if (!cmd->redirections)
-		return ;
 	cmd_tmp = cmd;
 	while (cmd_tmp)
 	{
@@ -104,8 +104,8 @@ void	heredoc_spawn(t_pipeline *cmd)
 		{
 			reds_tmp = cmd_tmp->redirections;
 			reds_count = heredoc_count(cmd_tmp->redirections);
-			while (reds_tmp && reds_count)
-				heredoc_launch(&reds_tmp, &filename, &reds_count);
+			if (reds_tmp && reds_count)
+				heredoc_launch(&reds_tmp, &filename);
 		}
 		cmd_tmp = cmd_tmp->next;
 	}
