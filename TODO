@@ -24,21 +24,20 @@ when expanding only empty variable/s send NULL -> fixed
 << stop cat -e ---> segfault -> heredoc to be reimplemented -> fixed
 for later //return values ($?) ?????? -> fixed
 echo "" double free
+echo djsfdfdfkdsj >testt.txt < testt.txt -> fixed
+msh$: TheNameOfAnExistingFolder ======> FIXED
+COMMAND NOT FOUND ======> FIXED
+EXIT CODE SHOULD BE 127 NOT 126 (your output is ==> FOLDER : is a directory) -> not true ======> FIXED
+unset PATH -> ls -> echo $? => it returns 2 expected 127 ======> FIXED
+unset PATH -> ./TODO -> echo $? => it returns 13 expected 126 ======> FIXED
+unset PATH -> /libft -> echo $? => it returns 2 expected 127 ======> FIXED
+(you must check if the command contains slashes because if it does you will need to ) ======> FIXED
+ (by eel-orch)
 ========================================================================================================================================
 ls | no error
 //exec relative path to be checked, ./file exmple
 fix _ env var in parser, to be filled with last arg of last command or last simple command   and expanded in parser
 https://pubs.opengroup.org/onlinepubs/009604499/utilities/xcu_chap02.html#tag_02_09_01_01
 ---------------------
-msh$: TheNameOfAnExistingFolder
-COMMAND NOT FOUND
-EXIT CODE SHOULD BE 127 NOT 126 (your output is ==> FOLDER : is a directory)
 
-"cat << ok" doesnt exit after ctrl + c;
-echo djsfdfdfkdsj >testt.txt < testt.txt
-unset PATH -> ls -> echo $? => it returns 2 expected 127
-unset PATH -> ./TODO -> echo $? => it returns 13 expected 126
-unset PATH -> /libft -> echo $? => it returns 2 expected 127
-(you must check if the command contains slashes because if it does you will need to )
- (by eel-orch)
 

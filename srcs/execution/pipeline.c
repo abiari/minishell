@@ -6,16 +6,14 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 17:35:24 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/15 15:19:15 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/16 15:26:10 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	exec_proc(t_pipeline *cmd, t_list **envl)
+void	exit_if_dir(t_pipeline *cmd)
 {
-	char	**envp;
-
 	if (is_dir(cmd->cmd[0]))
 	{
 		ft_putstr_fd("msh: ", 2);
@@ -23,6 +21,13 @@ void	exec_proc(t_pipeline *cmd, t_list **envl)
 		ft_putstr_fd(": is a directory\n", 2);
 		exit(126);
 	}
+}
+
+void	exec_proc(t_pipeline *cmd, t_list **envl)
+{
+	char	**envp;
+
+	exit_if_dir(cmd);
 	envp = envl_to_envp(envl);
 	execve(cmd->cmd[0], (char *const *)cmd->cmd, envp);
 	ft_putstr_fd("msh: ", STDERR_FILENO);
@@ -36,7 +41,11 @@ void	exec_proc(t_pipeline *cmd, t_list **envl)
 	{
 		ft_putstr_fd(": ", 2);
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);
+		if (errno == EACCES)
+			exit(126);
 	}
+	if (!find_env_var("PATH", envl))
+		exit(127);
 	exit(errno);
 }
 
