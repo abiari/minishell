@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+         #
+#    By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/19 17:19:26 by abiari            #+#    #+#              #
-#    Updated: 2021/09/11 13:53:09 by abiari           ###   ########.fr        #
+#    Updated: 2021/09/17 18:25:49 by ael-bagh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = msh
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -lreadline -g3
+CFLAGS = -Wall -Werror -Wextra -lreadline -g3 #-fsanitize=address
 RDLFLAGS = -L ~/goinfre/.brew/opt/readline/lib\
 -I ~/goinfre/.brew/opt/readline/include
 
@@ -22,6 +22,7 @@ srcs/parsing/cmd_helper.c srcs/parsing/cmd_spliter.c\
 srcs/parsing/commas_helpers.c srcs/parsing/helpers.c srcs/parsing/parser.c\
 srcs/parsing/parser_utils.c srcs/parsing/pipe_it.c\
 srcs/parsing/quotes_helpers.c srcs/parsing/red_helper.c srcs/parsing/reddit.c\
+srcs/parsing/parser_utils2.c srcs/parsing/pipe_it_helpers.c srcs/parsing/expand_utils.c\
 srcs/parsing/space_it.c srcs/parsing/utils.c srcs/parsing/expand_it.c\
 srcs/execution/pipeline.c srcs/execution/redirection.c\
 srcs/execution/executer.c srcs/signals/sig_handlers.c srcs/builtins/msh_echo.c\

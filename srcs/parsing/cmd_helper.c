@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:18:09 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/17 10:55:41 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/17 13:42:03 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,67 +32,34 @@ int	i_init(int index, int *array, int last, char *cmd)
 		return (array[index - 1] + 1);
 }
 
-int	check_cmds_helper(char **cmds, char *cmd, t_list *tmp, int *comma)
+int	free_pipes(int *p, t_list *t, char **c, int tmp)
 {
-	int	last;
-	int	i;
-
-	i = -1;
-	last = last_char(comma);
-	while (cmds[++i])
-	{
-		if (i == cmd_counter(comma, cmd, 0) - 1)
-			if (only_char(' ', cmds[i])
-				&& (comma[last - 1] == (int)ft_strlen(cmd) - 1))
-				return (free_them(tmp, cmds, cmd_counter(comma, cmd, 0), 0));
-		if (i != cmd_counter(comma, cmd, 0) - 1 && only_char(' ', cmds[i]))
-			return (free_them(tmp, cmds, cmd_counter(comma, cmd, 0), 0));
-	}
-	if (comma)
-		free(comma);
-	ft_lstclear(&tmp, del_node);
-	return (0);
+	free(p);
+	return (free_them(t, c, tmp, 1));
 }
 
 int	check_pipes_helper(char **c, char *cmd, t_list *t, int *p)
 {
-	int	last;
-	int	i;
-	int cmd_count;
+	int	tmp[4];
 
-	last = last_char(p);
-	i = -1;
-	cmd_count = cmd_counter(p, cmd, 1);
-	while (c[++i])
+	tmp[0] = last_char(p);
+	tmp[1] = -1;
+	tmp[3] = cmd_counter(p, cmd, 1);
+	while (c[++tmp[1]])
 	{
-		if (i == cmd_count - 1)
-			if (only_char(' ', c[i])
-				|| (p[last - 1] == (int)ft_strlen(cmd) - 1))
-				{
-					free(p);
-					return (free_them(t, c, cmd_count, 1));
-				}
-		if (i != cmd_count - 1 && only_char(' ', c[i]))
+		if (tmp[1] == tmp[3] - 1)
 		{
-			free(p);
-			return (free_them(t, c, cmd_count, 1));
+			if (only_char(' ', c[tmp[1]])
+				|| (p[tmp[0] - 1] == (int)ft_strlen(cmd) - 1))
+			{
+				return (free_pipes(p, t, c, tmp[3]));
+			}
 		}
+		if (tmp[1] != tmp[3] - 1 && only_char(' ', c[tmp[1]]))
+			return (free_pipes(p, t, c, tmp[3]));
 	}
 	if (p)
 		free(p);
 	ft_lstclear(&t, del_node);
-	return (0);
-}
-
-int	check_cmds(char **cmds, char *cmd)
-{
-	int		*comma;
-	t_list	*tmp;
-
-	tmp = NULL;
-	quotes_finder(cmd, &tmp);
-	comma = commas(cmd, &tmp);
-	if (comma != NULL)
-		return (check_cmds_helper(cmds, cmd, tmp, comma));
 	return (0);
 }

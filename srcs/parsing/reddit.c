@@ -6,24 +6,16 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 10:37:52 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/13 13:27:12 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/17 17:50:42 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	red_type_check(char *str, int i)
+int	ret_count(int count, int i)
 {
-	int count;
-
-	count = 0;
-	if (str[i] == '>')
+	if (i == 0)
 	{
-		while (str[i] == '>')
-		{
-			i++;
-			count++;
-		}
 		if (count > 2)
 			return (-1);
 		if (count == 1)
@@ -31,13 +23,8 @@ int	red_type_check(char *str, int i)
 		if (count == 2)
 			return (APP_R);
 	}
-	if (str[i] == '<')
+	else
 	{
-		while (str[i] == '<')
-		{
-			i++;
-			count++;
-		}
 		if (count > 2)
 			return (-1);
 		if (count == 1)
@@ -48,18 +35,46 @@ int	red_type_check(char *str, int i)
 	return (-1);
 }
 
+int	red_type_check(char *str, int i)
+{
+	int	count;
+
+	count = 0;
+	if (str[i] == '>')
+	{
+		while (str[i] == '>')
+		{
+			i++;
+			count++;
+		}
+		return (ret_count(count, 0));
+	}
+	if (str[i] == '<')
+	{
+		while (str[i] == '<')
+		{
+			i++;
+			count++;
+		}
+		return (ret_count(count, 1));
+	}
+	return (-1);
+}
+
 int	validate_red(char *str, int i, t_list *tmp)
 {
-	int red;
+	int	red;
 
 	red = red_type_check(str, i);
 	if (red != -1)
 	{
-		if ((red == IN_R || red == OUT_R) && is_between_quotes(i, &tmp) == 0)
+		if ((red == IN_R || red == OUT_R)
+			&& is_between_quotes(i, &tmp) == 0)
 			return (1);
 		else if (red == APP_R || red == DOC_R)
 		{
-			if (is_between_quotes(i, &tmp) == 0 && is_between_quotes(i + 1, &tmp) == 0)
+			if (is_between_quotes(i, &tmp) == 0
+				&& is_between_quotes(i + 1, &tmp) == 0)
 				return (2);
 		}
 	}
@@ -133,7 +148,7 @@ int	*reds(char *str, t_list **lst)
 	return (reds);
 }
 
-int		red_finder(char *str, t_list **redi, t_list **tp)
+int	red_finder(char *str, t_list **redi, t_list **tp)
 {
 	int			i;
 	int			count;
@@ -147,7 +162,8 @@ int		red_finder(char *str, t_list **redi, t_list **tp)
 	{
 		if (str[i] == '>' || str[i] == '<')
 		{
-			if (validate_red(str, i, tmp) == 1 || validate_red(str, i, tmp) == 2)
+			if (validate_red(str, i, tmp) == 1
+				|| validate_red(str, i, tmp) == 2)
 			{
 				red = malloc(sizeof(t_red));
 				red->index = i;
@@ -160,7 +176,7 @@ int		red_finder(char *str, t_list **redi, t_list **tp)
 			}
 			else
 			{
-				ft_putstr_fd("bash: syntax error near unexpected token `>'\n", 2);
+				ft_putstr_fd("syntax error near `>'\n", 2);
 				return (-1);
 			}
 		}
@@ -170,13 +186,13 @@ int		red_finder(char *str, t_list **redi, t_list **tp)
 
 int	red_type(t_list **red, int id)
 {
-	t_list *reds;
+	t_list	*reds;
 
 	reds = *red;
 	while (reds)
 	{
-		if(((t_red*)reds->content)->id == id - 1)
-			return (((t_red*)reds->content)->type);
+		if (((t_red *)reds->content)->id == id - 1)
+			return (((t_red *)reds->content)->type);
 		reds = reds->next;
 	}
 	return (0);
@@ -207,22 +223,6 @@ char	**red_spliter(int *red_arr, char *cmd, t_list *quotes)
 	return (tab);
 }
 
-int manage_red(char **red)
-{
-	int	i;
-
-	i = 0;
-	while (red[++i])
-	{
-		if (only_char(' ', red[i]))
-		{
-			printf("bash: syntax error near unexpected token `>'\n");
-			return (0);
-		}
-	}
-	return (1);
-}
-
 char	*my_strjoin(char *s1, char const *s2)
 {
 	int		size;
@@ -240,9 +240,9 @@ char	*my_strjoin(char *s1, char const *s2)
 	return (ret);
 }
 
-char		*to_join(char **spaces)
+char	*to_join(char **spaces)
 {
-	int	i;
+	int		i;
 	char	*cmd;
 
 	i = 0;
@@ -255,25 +255,25 @@ char		*to_join(char **spaces)
 	return (cmd);
 }
 
-char		**check_red(char **red, t_list *quotes, char *cmd)
+char	**check_red(char **red, t_list *quotes, char *cmd)
 {
 	char	**tab;
 	char	**spaces;
 	char	*tmp;
 	int		i;
-	int j;
+	int		j;
 
 	j = -1;
 	i = red_counter(cmd, quotes) + 1;
 	if (!red)
-		return NULL;
+		return (NULL);
 	tab = malloc((i + 1) * sizeof(char *));
 	if (only_char(' ', red[0]) || red[0] == '\0')
 		tab[0] = ft_strdup("");
 	else
 	{
 		tab[0] = ft_strdup(red[0]);
-		tab[0] = my_strjoin(tab[0]," ");
+		tab[0] = my_strjoin(tab[0], " ");
 	}
 	i = 0;
 	while (red[++i])
@@ -285,7 +285,7 @@ char		**check_red(char **red, t_list *quotes, char *cmd)
 		{
 			tmp = to_join(spaces);
 			tab[0] = my_strjoin(tab[0], tmp);
-			tab[0] = my_strjoin(tab[0]," ");
+			tab[0] = my_strjoin(tab[0], " ");
 			free(tmp);
 		}
 		free_chard(spaces);
@@ -300,20 +300,18 @@ char	**reddit(char *cmd)
 	t_list	*tp;
 	int		*red_arr;
 	int		ret;
-	char	**red;
-	char	**ugh;
+	char	**redit[2];
 
 	tmp = NULL;
 	tp = NULL;
 	ret = quotes_finder(cmd, &tmp);
 	ret = red_finder(cmd, &tp, &tmp);
 	red_arr = reds(cmd, &tmp);
-	red = red_spliter(red_arr, cmd, tmp);
-	ugh = check_red(red, tmp, cmd);
-	if (red)
-		free_chard(red);
+	redit[0] = red_spliter(red_arr, cmd, tmp);
+	redit[1] = check_red(redit[0], tmp, cmd);
+	if (redit[0])
+		free_chard(redit[0]);
 	ft_lstclear(&tmp, del_node);
 	ft_lstclear(&tp, del_node_r);
-	return (ugh);
+	return (redit[1]);
 }
-

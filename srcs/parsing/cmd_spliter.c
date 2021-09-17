@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 11:53:48 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/09 13:39:45 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/17 12:24:15 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ int	cmd_counter(int *comma, char *cmd, int indice)
 	i = 0;
 	while (comma[i] != -2)
 		i++;
-	if (check_first_cmd(cmd, comma[0]) == -1 && indice == 0)
-		return (parse_er("bash: syntax error near unexpected token `;'", -1));
 	if (check_first_cmd(cmd, comma[0]) == -1 && indice == 1)
 		return (parse_er("bash: syntax error near unexpected token `|'", -1));
 	if (check_last_cmd(cmd, comma[i - 1]))
@@ -69,57 +67,8 @@ int	cmd_counter(int *comma, char *cmd, int indice)
 	return (i);
 }
 
-char	**cmds_spliter(int *comma, char *cmd)
+char	*quote_error(void)
 {
-	char	**tab;
-	int		i;
-	int		j;
-	char	*trash;
-
-	j = -1;
-	i = 0;
-	if (comma != NULL)
-	{
-		i = cmd_counter(comma, cmd, 0);
-		if (i == -1)
-			return (NULL);
-		tab = (char **)malloc((i + 1) * sizeof(char *));
-		j = -1;
-		while (++j < i)
-		{
-			trash = fill_command(cmd, j, comma);
-			tab[j] = ft_strdup(trash);
-			free(trash);
-		}
-		tab[j] = NULL;
-		free(comma);
-	}
-	else
-	{
-		tab = (char **)malloc((2) * sizeof(char *));
-		tab[0] = ft_strdup(cmd);
-		tab[1] = NULL;
-	}
-	return (tab);
-}
-
-char	**split_cmds(char *cmd)
-{
-	t_list	*tmp;
-	int		*comma;
-	int		ret;
-	char	**tab;
-
-	tmp = NULL;
-	comma = NULL;
-	ret = quotes_finder(cmd, &tmp);
-	if (ret == -1)
-	{
-		ft_putstr_fd("Multiple lines command\n", 1);
-		return (NULL);
-	}
-	comma = commas(cmd, &tmp);
-	tab = cmds_spliter(comma, cmd);
-	ft_lstclear(&tmp, del_node);
-	return (tab);
+	ft_putstr_fd("Error: Quote not closed\n", 2);
+	return (NULL);
 }

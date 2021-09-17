@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 11:47:42 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/14 12:04:08 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/17 13:43:58 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,30 +48,4 @@ void	ft_free(char **tab, int n)
 		free(tab[i++]);
 	free(tab);
 	tab = NULL;
-}
-
-int	only_char(char c, char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] != c)
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-int	free_them(t_list *tmp, char **cmds, int i, int indice)
-{
-	ft_lstclear(&tmp, del_node);
-	(void)i;
-	(void)cmds;
-	//ft_free(cmds, i);
-	if (indice == 0)
-		return (parse_er("bash: syntax error near unexpected token `;'", 1));
-	else
-		return (parse_er("bash: syntax error near unexpected token `|'", 1));
 }

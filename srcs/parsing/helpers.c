@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:20:17 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/06/17 20:48:12 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/17 13:42:49 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	is_between_quotes(int i, t_list **lst)
 	return (0);
 }
 
-int		is_valid_quote(int	i, t_list **lst)
+int	is_valid_quote(int	i, t_list **lst)
 {
 	t_list	*tmp;
 
@@ -46,7 +46,7 @@ int		is_valid_quote(int	i, t_list **lst)
 
 char	*ft_strndup(const char *src, int n)
 {
-	int	i;
+	int		i;
 	char	*ret;
 
 	i = 0;

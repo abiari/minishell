@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/14 12:04:20 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/17 18:27:29 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,6 @@ int		red_type(t_list **red, int id);
 void	del_node(void *content);
 void	del_node_r(void *content);
 void	delist(void *content);
-int		check_cmds_helper(char **cmds, char *cmd, t_list *tmp, int *comma);
 char	**pipe_it(char *cmd);
 int		char_counter(char *str, t_list *tmp, char c);
 void	char_array(int *array, char *str, t_list *tmp, char c);
@@ -171,13 +170,17 @@ char	*fill_command(char *cmd, int index, int *comma);
 int		check_first_cmd(char *cmd, int first_comma);
 int		cmd_counter(int *comma, char *cmd, int indice);
 void	ft_free(char **tab, int n);
-char	**cmds_spliter(int *comma, char *cmd);
-char	**split_cmds(char *cmd);
 int		only_char(char c, char *str);
-int		check_cmds(char **cmds, char *cmd);
 int		check_pipes_helper(char **cmds, char *cmd, t_list *tmp, int *pipe);
 char	**parse_line(char *line);
 int		parse_er(char *err, int ret);
+char	*quote_error(void);
 t_list	*main_lst(char *cmd, t_list **envl);
+char	**pipe_spliter(int *pipe, char *cmd);
+int		free_pipes(int *p, t_list *t, char **c, int tmp);
+int		only_char(char c, char *str);
+int		free_them(t_list *tmp, char **cmds, int i, int indice);
+int		is_gucci(char c, int i);
+int		dollar_finder(char *str, t_list **quotes);
 
 #endif

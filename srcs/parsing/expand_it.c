@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:54:07 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/16 12:23:40 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/17 18:24:27 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	is_gucci(char c, int i)
 {
-	if(i == 0)
+	if (i == 0)
 	{
-		if(ft_isalpha(c) || c == '_')
+		if (ft_isalpha(c) || c == '_')
 			return (1);
 		return (0);
 	}
@@ -34,7 +34,6 @@ int	dollar_finder(char *str, t_list **quotes)
 	{
 		if (str[i] == '$' && (is_between_quotes(i, quotes) != S_QUOTE)
 			&& (str[i + 1] != '\0' && str[i + 1] != ' ' && str[i + 1] != '\"'))
-			// && (str[i + 1] != '='))
 			return (i);
 		i++;
 	}
@@ -58,21 +57,11 @@ char	*join_one(char *str, char c)
 	return (ret);
 }
 
-char	*magic_touch(char *str)
+char	*ret_touch(char *str, t_list *tmp)
 {
-	int		i;
-	t_list	*tmp;
 	char	*ret_str;
+	int		i;
 
-	tmp = NULL;
-	i = quotes_finder(str, &tmp);
-	if (i == -1)
-	{
-		ft_putstr_fd("Error: Quote not closed\n", 2);
-		return (NULL);
-	}
-	if (i == 0)
-		return (str);
 	i = -1;
 	ret_str = ft_strdup("");
 	while (str[++i])
@@ -87,78 +76,22 @@ char	*magic_touch(char *str)
 		else
 			ret_str = join_one(ret_str, str[i]);
 	}
-	ft_lstclear(&tmp, del_node);
 	return (ret_str);
 }
 
-char	*expand(char *tab, t_list **envl)
+char	*magic_touch(char *str)
 {
-	int		tmp[4];
-	char	*ret;
-	char	*pmt[2];
-	char	*key;
-	char	*ito;
-	t_envl	*var;
-	t_list	*quotes;
+	int		i;
+	t_list	*tmp;
+	char	*ret_str;
 
-	ret = NULL;
-	quotes = NULL;
-	tmp[1] = quotes_finder(tab, &quotes);
-	tmp[0] = 0;
-	tmp[1] = 0;
-	tmp[2] = dollar_finder(tab, &quotes);
-	tmp[3] = 0;
-	if (tmp[2] == -1)
-	{
-		ft_lstclear(&quotes, del_node);
-		return (ft_strdup(tab));
-	}
-	else
-	{
-		tmp[2]++;
-		tmp[0] = tmp[2];
-		if (tab[tmp[2]] != '?')
-		{
-			while (is_gucci(tab[tmp[2]], tmp[3]) && tab[tmp[2]])
-			{
-				tmp[3]++;
-				tmp[2]++;
-			}
-			key = ft_substr(tab, tmp[0], tmp[2] - (tmp[0]));
-			var = find_env_var(key, envl);
-			free(key);
-			pmt[0] = ft_strndup(tab, tmp[0] - 1);
-			if (var && var->value)
-			{
-				pmt[1] = ft_strjoin(pmt[0], var->value);
-				ret = ft_strjoin(pmt[1], &tab[tmp[2]]);
-				free(pmt[1]);
-			}
-			else
-				ret = ft_strjoin(pmt[0], &tab[tmp[2]]);
-			free(pmt[0]);
-		}
-		else
-		{
-			tmp[2]++;
-			pmt[0] = ft_strndup(tab, tmp[0] - 1); 
-			ito = ft_itoa(g_vars.exit_code);
-			pmt[1] = ft_strjoin(pmt[0], ito);
-			free(ito);
-			ret = ft_strjoin(pmt[1], &tab[tmp[2]]);
-			free(pmt[0]);
-			free(pmt[1]);
-		}
-		ft_lstclear(&quotes, del_node);
-		tmp[1] = quotes_finder(ret, &quotes);
-		if (dollar_finder(ret, &quotes) >= 0)
-		{
-			key = ret;
-			ret = expand(key, envl);
-			ft_lstclear(&quotes, del_node);
-			free(key);
-		}
-		ft_lstclear(&quotes, del_node);
-	}
-	return (ret);
+	tmp = NULL;
+	i = quotes_finder(str, &tmp);
+	if (i == -1)
+		return (quote_error());
+	if (i == 0)
+		return (str);
+	ret_str = ret_touch(str, tmp);
+	ft_lstclear(&tmp, del_node);
+	return (ret_str);
 }

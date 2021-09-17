@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 17:56:13 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/11 16:29:30 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/17 14:22:03 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,6 @@ char	*rm_dup_spaces(char	*str, t_list **quotes)
 			free(tmp_str);
 		}
 	}
-	//ft_lstclear(&tmp, del_node);
 	return (cmd);
 }
 
@@ -191,7 +190,6 @@ char	**space_it(char *str)
 	space = NULL;
 	ret = quotes_finder(cmd, &tmp);
 	space = spaces(cmd, &tmp);
-	// ft_lstclear(&tmp, del_node);
 	tab = space_spliter(space, cmd);
 	i = -1;
 	while (tab[++i])
