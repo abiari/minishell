@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   expand_it.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:54:07 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/15 17:17:03 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/16 12:23:40 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	is_gucci(char c, int i)
+{
+	if(i == 0)
+	{
+		if(ft_isalpha(c) || c == '_')
+			return (1);
+		return (0);
+	}
+	return (ft_isalnum(c) || c == '_');
+}
 
 int	dollar_finder(char *str, t_list **quotes)
 {
@@ -82,7 +93,7 @@ char	*magic_touch(char *str)
 
 char	*expand(char *tab, t_list **envl)
 {
-	int		tmp[3];
+	int		tmp[4];
 	char	*ret;
 	char	*pmt[2];
 	char	*key;
@@ -96,6 +107,7 @@ char	*expand(char *tab, t_list **envl)
 	tmp[0] = 0;
 	tmp[1] = 0;
 	tmp[2] = dollar_finder(tab, &quotes);
+	tmp[3] = 0;
 	if (tmp[2] == -1)
 	{
 		ft_lstclear(&quotes, del_node);
@@ -107,10 +119,11 @@ char	*expand(char *tab, t_list **envl)
 		tmp[0] = tmp[2];
 		if (tab[tmp[2]] != '?')
 		{
-			while ((tab[tmp[2]] != ' ' && tab[tmp[2]] != '\"'
-					&& tab[tmp[2]] != '\'' && tab[tmp[2]] != '$' && tab[tmp[2]] != '=') //use this with is_alpha instead
-				&& tab[tmp[2]])
+			while (is_gucci(tab[tmp[2]], tmp[3]) && tab[tmp[2]])
+			{
+				tmp[3]++;
 				tmp[2]++;
+			}
 			key = ft_substr(tab, tmp[0], tmp[2] - (tmp[0]));
 			var = find_env_var(key, envl);
 			free(key);
