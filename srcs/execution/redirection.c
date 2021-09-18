@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 14:10:26 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/16 14:23:49 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/18 08:48:09 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,23 +50,34 @@ void	print_error(char *file)
 	exit(1);
 }
 
+void	infile_treat(t_redirect *red, int *doc_count, int *fd)
+{
+	*fd = open(red->file, O_RDONLY);
+	if (*fd == -1)
+		print_error(red->file);
+	if (red->type == DOC_R)
+	{
+		unlink(red->file);
+		if ((*doc_count)-- > 1)
+			close(*fd);
+	}
+}
+
 void	in_redirect(t_redirect *red)
 {
 	t_redirect	*tmp;
 	int			fd;
+	int			doc_count;
 
 	tmp = red;
 	fd = -1;
+	doc_count = heredoc_count(red);
 	while (tmp)
 	{
-		if (fd > 2 && (tmp->type == IN_R || tmp->type == DOC_R))
+		if (fd > 2 && tmp->type == IN_R)
 			close(fd);
 		if (tmp->type == IN_R || tmp->type == DOC_R)
-		{
-			fd = open(tmp->file, O_RDONLY);
-			if (fd == -1)
-				print_error(tmp->file);
-		}
+			infile_treat(tmp, &doc_count, &fd);
 		tmp = tmp->next;
 	}
 	if (fd > 2)
