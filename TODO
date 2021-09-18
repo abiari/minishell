@@ -33,9 +33,10 @@ unset PATH -> ./TODO -> echo $? => it returns 13 expected 126 ======> FIXED
 unset PATH -> /libft -> echo $? => it returns 2 expected 127 ======> FIXED
 (you must check if the command contains slashes because if it does you will need to ) ======> FIXED
  (by eel-orch)
+ls | no error ==> fixed
 ========================================================================================================================================
-ls | no error
 //exec relative path to be checked, ./file exmple
+cat << filee << fileee <file > second file name get only first character parsed
 fix _ env var in parser, to be filled with last arg of last command or last simple command   and expanded in parser
 https://pubs.opengroup.org/onlinepubs/009604499/utilities/xcu_chap02.html#tag_02_09_01_01
 ---------------------

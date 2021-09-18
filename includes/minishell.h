@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/17 18:27:29 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/18 08:26:38 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ int		check_if_builtin(t_pipeline *cmd, t_list **envl);
 void	export_err(char *str);
 void	print_env(t_list **envl);
 void	is_printable(int *prnt, char *haystack);
+int		heredoc_count(t_redirect *reds);
 int		check_key(char *arg);
 
 
