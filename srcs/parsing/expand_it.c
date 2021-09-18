@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:54:07 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/17 18:24:27 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/18 16:43:15 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	dollar_finder(char *str, t_list **quotes)
 		return (-1);
 	while (str[i])
 	{
-		if (str[i] == '$' && (is_between_quotes(i, quotes) != S_QUOTE)
+		if (str[i] == '$' && (bq(i, quotes) != S_QUOTE)
 			&& (str[i + 1] != '\0' && str[i + 1] != ' ' && str[i + 1] != '\"'))
 			return (i);
 		i++;

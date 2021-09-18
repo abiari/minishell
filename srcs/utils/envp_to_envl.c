@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp_to_envl.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:28:27 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/15 13:49:02 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/17 11:53:24 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,6 @@ char	**envl_to_envp(t_list **envl)
 		size++;
 		tmp = tmp->next;
 	}
-	envp[size] = NULL;
+	envp[size - 1] = NULL;
 	return (envp);
 }

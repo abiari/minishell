@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 11:46:06 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/06 11:51:53 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/18 16:43:15 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	char_counter(char *str, t_list *tmp, char c)
 	count = 0;
 	while (str[++i])
 	{
-		if (str[i] == c && is_between_quotes(i, &tmp) == 0)
+		if (str[i] == c && bq(i, &tmp) == 0)
 			count++;
 	}
 	return (count);
@@ -36,7 +36,7 @@ void	char_array(int *array, char *str, t_list *tmp, char c)
 	count = 0;
 	while (str[++i])
 	{
-		if (str[i] == c && is_between_quotes(i, &tmp) == 0)
+		if (str[i] == c && bq(i, &tmp) == 0)
 		{
 			array[count] = i;
 			count++;

@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:06:25 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/15 10:25:45 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/18 15:04:41 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,9 @@ void	free_chard(char **str)
 {
 	int	i;
 
-	i = 0;
-	while(str[i])
-	{
+	i = -1;
+	while(str[++i])
 		free(str[i]);
-		i++;
-	}
 	free(str[i]);
 	free(str);
 	str = NULL;

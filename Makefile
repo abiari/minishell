@@ -6,7 +6,7 @@
 #    By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/19 17:19:26 by abiari            #+#    #+#              #
-#    Updated: 2021/09/17 18:25:49 by ael-bagh         ###   ########.fr        #
+#    Updated: 2021/09/18 17:50:40 by ael-bagh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,8 @@ srcs/utils/env_utils.c srcs/utils/envp_to_envl.c srcs/utils/lst_append.c\
 srcs/parsing/cmd_helper.c srcs/parsing/cmd_spliter.c\
 srcs/parsing/commas_helpers.c srcs/parsing/helpers.c srcs/parsing/parser.c\
 srcs/parsing/parser_utils.c srcs/parsing/pipe_it.c\
+srcs/parsing/space_it_norm.c srcs/parsing/parser_norm.c srcs/parsing/parser_norm2.c\
+srcs/parsing/reddit_norm.c srcs/parsing/reddit_norm2.c srcs/parsing/my_join.c\
 srcs/parsing/quotes_helpers.c srcs/parsing/red_helper.c srcs/parsing/reddit.c\
 srcs/parsing/parser_utils2.c srcs/parsing/pipe_it_helpers.c srcs/parsing/expand_utils.c\
 srcs/parsing/space_it.c srcs/parsing/utils.c srcs/parsing/expand_it.c\

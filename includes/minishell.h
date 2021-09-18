@@ -6,7 +6,7 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 18:14:34 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/17 18:27:29 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/18 17:54:59 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ int		i_init(int index, int *comma, int last, char *cmd);
 int		free_them(t_list *tmp, char **cmds, int i, int indice);
 int		quote_ends(int type, int i, char *str);
 int		quotes_finder(char *str, t_list **lst);
-int		is_between_quotes(int i, t_list **lst);
+int		bq(int i, t_list **lst);
 int		*commas(char *str, t_list **lst);
 int		check_last_cmd(char *cmd, int last_comma);
 char	*fill_command(char *cmd, int index, int *comma);
@@ -182,5 +182,20 @@ int		only_char(char c, char *str);
 int		free_them(t_list *tmp, char **cmds, int i, int indice);
 int		is_gucci(char c, int i);
 int		dollar_finder(char *str, t_list **quotes);
+int		red_counter(char *str, t_list *tmp);
+void	red_array(int *array, char *str, t_list *tmp);
+int		validate_red(char *str, int i, t_list *tmp);
+int		red_type_check(char *str, int i);
+int		ret_count(int count, int i);
+char	*my_strjoin(char *s1, char const *s2);
+char	*to_join(char **spaces);
+int		*reds(char *str, t_list **lst);
+void	spaces_array(int *spaces, char *str, t_list *tmp, char c);
+int		spaces_count(char *str, t_list *tmp, char c);
+char	*between_valid_spaces(char *cmd, int index, int	*space);
+int		check_reds(char **pipe);
+t_cmd	*cmd_lst(char **pipelist, t_list **envl);
+t_redirect	*red_lst(char **red, char *cmd, t_pipeline *pipe_lst, t_list **envl);
+int		check_pipes(char **pipe, char *cmd);
 
 #endif

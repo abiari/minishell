@@ -6,83 +6,11 @@
 /*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 17:56:13 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/17 14:22:03 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/18 16:51:07 by ael-bagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	spaces_array(int *spaces,char *str, t_list *tmp, char c)
-{
-	int	i;
-	int	count;
-
-	i = -1;
-	count = 0;
-	while (str[++i])
-	{
-		if (str[i] == c && is_between_quotes(i, &tmp) == 0)
-		{
-			while (str[i] == c && is_between_quotes(i, &tmp) == 0)
-				i++;
-			spaces[count] = i;
-			count++;
-		}
-	}
-	spaces[count] = -2;
-}
-
-int	spaces_count(char *str, t_list *tmp, char c)
-{
-	int	i;
-	int	count;
-
-	i = -1;
-	count = 0;
-	while (str[++i])
-	{
-		if (str[i] == c && is_between_quotes(i, &tmp) == 0)
-		{
-			while (str[i] == c && is_between_quotes(i, &tmp) == 0)
-				i++;
-			count++;
-		}
-	}
-	return (count);
-}
-
-char	*between_valid_spaces(char *cmd, int index, int	*space)
-{
-	int		i;
-	int		j;
-	int		len;
-	int		last;
-	char	*tmp;
-
-	last = last_char(space);
-	i = 0;
-	len = 0;
-	if (index != last - 1)
-	{
-		len = space[index + 1] - space[index] - 1;
-		i = space[index];
-	}
-	else
-	{
-		len = ft_strlen(cmd) - space[index];
-		i = space[index];	
-	}
-	tmp = (char *)malloc((len + 1) * sizeof(char));
-	j = 0;
-	while (j < len)
-	{
-		tmp[j] = cmd[i];
-		i++;
-		j++;
-	}
-	tmp[len] = '\0';
-	return (tmp);
-}
 
 int	*spaces(char *str, t_list **lst)
 {
@@ -137,68 +65,67 @@ char	**space_spliter(int *space, char *cmd)
 	return (tab);
 }
 
-char	*rm_dup_spaces(char	*str, t_list **quotes)
+int	c_k(char c)
 {
-	t_list	*tmp;
-	char	*lol;
-	char	*tmp_str;
-	char	*cmd;
-	int		i;
-	int		start;
-	int		end;
+	if (c && c != ' ')
+		return (1);
+	return (0);
+}
 
-	tmp = *quotes;
-	i = 0;
-	cmd = ft_strdup("");
-	tmp_str = NULL;
-	while (str[i])
+char	*rm_dup_spaces(char	*s, t_list **q)
+{
+	char	*lol[3];
+	int		i[3];
+
+	i[0] = 0;
+	lol[2] = ft_strdup("");
+	lol[1] = NULL;
+	while (s[i[0]])
 	{
-		while (str[i] && str[i] == ' ' && is_between_quotes(i, &tmp) == 0)
-			i++;
-		start = i;
-		while (str[i] && ((str[i] != ' ') || (str[i] == ' ' && is_between_quotes(i, &tmp) != 0)))
-			i++;
-		end = i;
-		if (start != end)
+		while (s[i[0]] && s[i[0]] == ' ' && bq(i[0], q) == 0)
+			i[0]++;
+		i[1] = i[0];
+		while (c_k(s[i[0]]) || (s[i[0]] == ' ' && bq(i[0], q) != 0))
+			i[0]++;
+		i[2] = i[0];
+		if (i[1] != i[2])
 		{
-			tmp_str = ft_strjoin(cmd, " ");
-			free(cmd);
-			lol = ft_substr(str, start, end - start);
-			cmd = ft_strjoin(tmp_str, lol);
-			free(lol);
-			free(tmp_str);
+			lol[1] = ft_strjoin(lol[2], " ");
+			free(lol[2]);
+			lol[0] = ft_substr(s, i[1], i[2] - i[1]);
+			lol[2] = ft_strjoin(lol[1], lol[0]);
+			free(lol[0]);
+			free(lol[1]);
 		}
 	}
-	return (cmd);
+	return (lol[2]);
 }
 
 char	**space_it(char *str)
 {
 	t_list	*tmp;
 	int		*space;
-	int		ret;
 	char	**tab;
-	char	*cmd;
-	int		i;
-	char	*tmp2;
-	
+	char	*cmd[2];
+	int		i[2];
+
 	tmp = NULL;
-	ret = quotes_finder(str, &tmp);
-	cmd = rm_dup_spaces(str, &tmp);
+	i[1] = quotes_finder(str, &tmp);
+	cmd[0] = rm_dup_spaces(str, &tmp);
 	ft_lstclear(&tmp, del_node);
 	tmp = NULL;
 	space = NULL;
-	ret = quotes_finder(cmd, &tmp);
-	space = spaces(cmd, &tmp);
-	tab = space_spliter(space, cmd);
-	i = -1;
-	while (tab[++i])
+	i[1] = quotes_finder(cmd[0], &tmp);
+	space = spaces(cmd[0], &tmp);
+	tab = space_spliter(space, cmd[0]);
+	i[0] = -1;
+	while (tab[++i[0]])
 	{
-		tmp2 = tab[i];
-		tab[i] = magic_touch(tab[i]);
-		if (ft_strchr(tmp2, '\"') || ft_strchr(tmp2, '\''))
-			free(tmp2);
+		cmd[1] = tab[i[0]];
+		tab[i[0]] = magic_touch(tab[i[0]]);
+		if (ft_strchr(cmd[1], '\"') || ft_strchr(cmd[1], '\''))
+			free(cmd[1]);
 	}
-	free(cmd);
+	free(cmd[0]);
 	return (tab);
 }
