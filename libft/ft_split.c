@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 20:40:42 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/10 16:10:34 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/19 11:51:23 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ int	ft_fill(char **tab, char const *str, int *nbword, int c)
 	char	*tmp;
 	int		sv;
 
-	wlen = 0;
-	sv = 0;
+	ft_reset(&wlen, &sv);
 	while (str[wlen] != c && str[wlen] != '\0')
 		wlen++;
-	if (!(tmp = (char *)malloc((wlen + 1) * sizeof(char))))
+	tmp = (char *)malloc((wlen + 1) * sizeof(char));
+	if (!tmp)
 	{
 		ft_free_it(tab, *nbword);
 		*nbword = 0;
@@ -60,10 +60,12 @@ int	ft_fill(char **tab, char const *str, int *nbword, int c)
 	return (wlen);
 }
 
-void	reset(int *i, int *j)
+void	alloc_tab(char ***tab, int *i, int *nb_wrds)
 {
+	*tab = (char **)malloc((*nb_wrds + 1) * sizeof(char *));
+	*tab[*nb_wrds] = 0;
 	*i = 0;
-	*j = 0;
+	*nb_wrds = 0;
 }
 
 char	**ft_split(char const *str, char c)
@@ -72,7 +74,7 @@ char	**ft_split(char const *str, char c)
 	char	**tab;
 	int		number_words;
 
-	reset(&i, &number_words);
+	ft_reset(&i, &number_words);
 	if (!str)
 		return (NULL);
 	while (str[i] != '\0')
@@ -82,9 +84,7 @@ char	**ft_split(char const *str, char c)
 		else
 			i++;
 	}
-	tab = (char **)malloc((number_words + 1) * sizeof(char *));
-	tab[number_words] = 0;
-	reset(&i, &number_words);
+	alloc_tab(&tab, &i, &number_words);
 	while (str[i] != '\0')
 	{
 		if (str[i] != c)
