@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+         #
+#    By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/19 17:19:26 by abiari            #+#    #+#              #
-#    Updated: 2021/09/18 17:50:40 by ael-bagh         ###   ########.fr        #
+#    Updated: 2021/09/19 08:58:55 by abiari           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = msh
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -lreadline -g3 #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -lreadline -g3
 RDLFLAGS = -L ~/goinfre/.brew/opt/readline/lib\
 -I ~/goinfre/.brew/opt/readline/include
 
@@ -31,7 +31,7 @@ srcs/execution/executer.c srcs/signals/sig_handlers.c srcs/builtins/msh_echo.c\
 srcs/builtins/msh_env.c srcs/builtins/msh_exit.c srcs/builtins/msh_export.c\
 srcs/builtins/msh_unset.c srcs/utils/ft_ll_itoa.c srcs/utils/heredoc.c\
 srcs/utils/rand_gen.c srcs/utils/delete_env_var.c srcs/execution/exec_utils.c\
-srcs/builtins/export_utils.c
+srcs/builtins/export_utils.c srcs/execution/pipeline_utils.c srcs/utils/builtins_utils.c
 
 all: $(NAME)
 

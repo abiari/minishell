@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_norm2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 17:49:31 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/18 17:49:53 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/18 19:23:03 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,6 @@ t_redirect	*red_lst(char **red, char *cmd, t_pipeline *pipe_lst, t_list **envl)
 		lst_append_red(&(pipe_lst->redirections), red_list);
 	}
 	ft_lstclear(&reds, del_node_r);
+	ft_lstclear(&quotes, del_node);
 	return (head);
 }

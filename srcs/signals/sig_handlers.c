@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 15:08:56 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/10 15:51:48 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/18 18:57:13 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ void	process(int sign_num)
 	{
 		if (sign_num == SIGQUIT)
 		{
-			ft_putstr_fd("Quit: 3\n", 1);
+			ft_putstr_fd("Quit: 3\n", 2);
 			g_vars.exit_code = 131;
 		}
 		else if (sign_num == SIGINT)
 		{
-			ft_putchar_fd('\n', 1);
+			ft_putchar_fd('\n', 2);
 			g_vars.exit_code = 130;
 		}
 	}
@@ -51,7 +51,7 @@ void	process(int sign_num)
 
 void	sig_handler(int sign_num)
 {
-	if ((sign_num == SIGINT || sign_num == SIGQUIT) && g_vars.pid != 0)
+	if (g_vars.pid != 0)
 		process(sign_num);
 	else
 		handle_prompt(sign_num);

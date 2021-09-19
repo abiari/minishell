@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 14:10:26 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/18 08:48:09 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/19 08:56:44 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,13 @@ void	create_file(t_pipeline *cmd)
 		else
 			fd = open(files->file, O_RDONLY);
 		if (fd < 0)
-		{
-			ft_putstr_fd(strerror(errno), 2);
-			write(2, "\n", 1);
-			exit(errno);
-		}
+			print_error(files->file);
+		if (files->type == DOC_R)
+			unlink(files->file);
 		close(fd);
 		files_dup = files;
 		files = files->next;
 	}
-}
-
-void	print_error(char *file)
-{
-	ft_putstr_fd("msh: ", 2);
-	ft_putstr_fd(file, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putendl_fd(strerror(errno), 2);
-	exit(1);
 }
 
 void	infile_treat(t_redirect *red, int *doc_count, int *fd)

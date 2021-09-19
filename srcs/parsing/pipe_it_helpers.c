@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_it_helpers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 14:17:37 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/17 18:29:12 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/18 19:14:18 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,10 @@ char	**pipe_spliter(int *pipe, char *cmd)
 	{
 		i = cmd_counter(pipe, cmd, 1);
 		if (i == -1)
+		{
 			tab = pp_spliter2(pipe);
+			return (tab);
+		}
 		tab = pp_spliter4(pipe, cmd, i);
 	}
 	else
