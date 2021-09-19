@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 20:40:42 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/19 11:51:23 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/19 11:53:29 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	ft_fill(char **tab, char const *str, int *nbword, int c)
 void	alloc_tab(char ***tab, int *i, int *nb_wrds)
 {
 	*tab = (char **)malloc((*nb_wrds + 1) * sizeof(char *));
-	*tab[*nb_wrds] = 0;
+	(*tab)[*nb_wrds] = 0;
 	*i = 0;
 	*nb_wrds = 0;
 }
