@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reddit_norm2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-bagh <ael-bagh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 16:32:55 by ael-bagh          #+#    #+#             */
-/*   Updated: 2021/09/18 16:32:56 by ael-bagh         ###   ########.fr       */
+/*   Updated: 2021/09/19 11:32:01 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,6 @@ int	red_finder(char *str, t_list **redi, t_list **tp)
 					i[0]++;
 				lst_append(redi, red);
 			}
-			else
-				return (norm_err());
 		}
 	}
 	return (i[1]);

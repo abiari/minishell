@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 17:35:24 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/19 08:44:59 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/19 11:23:52 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	spawn_last(int in, int *fd, t_pipeline *cmd, t_list **envl)
 
 void	last_pipe_node(t_pipeline *cmd, int in, int *fd, t_list **envl)
 {
-	if (cmd->cmd[0][0] != '\0')
+	if (cmd->cmd[0] != NULL)
 	{
 		spawn_last(in, fd, cmd, envl);
 		if (in != 0)

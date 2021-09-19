@@ -6,7 +6,7 @@
 /*   By: abiari <abiari@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 13:22:15 by abiari            #+#    #+#             */
-/*   Updated: 2021/09/11 09:48:26 by abiari           ###   ########.fr       */
+/*   Updated: 2021/09/19 11:30:31 by abiari           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	check_option(int *i, int *flag, char **args)
 {
 	int	j;
 
-	while (args[*i][0] == '-' && args[*i][1] == 'n')
+	while (args[*i] && args[*i][0] == '-' && args[*i][1] == 'n')
 	{
 		j = 2;
 		while (args[*i][j])
